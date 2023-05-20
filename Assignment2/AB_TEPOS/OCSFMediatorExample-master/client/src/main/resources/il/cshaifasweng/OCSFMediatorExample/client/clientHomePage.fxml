@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.cshaifasweng.OCSFMediatorExample.client.ClientHomePage">
+   <children>
+      <Text layoutX="24.0" layoutY="58.0" strokeType="OUTSIDE" strokeWidth="0.0" text="clientHomePage" wrappingWidth="314.4183349609375">
+         <font>
+            <Font size="41.0" />
+         </font>
+      </Text>
+      <Button fx:id="showStList" layoutX="207.0" layoutY="162.0" mnemonicParsing="false" onAction="#showStList" prefHeight="76.0" prefWidth="186.0" text="Show Students list">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Button>
+   </children>
+</AnchorPane>

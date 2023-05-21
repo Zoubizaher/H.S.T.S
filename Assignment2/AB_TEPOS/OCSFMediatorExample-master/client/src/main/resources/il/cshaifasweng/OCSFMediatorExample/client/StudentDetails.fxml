@@ -7,24 +7,10 @@
 <?import javafx.scene.control.Label?>
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.cshaifasweng.OCSFMediatorExample.client.StudentDetails">
-    <Label fx:id="studentNameLabel" layoutX="50.0" layoutY="20.0" />
+    <Label fx:id="studentNameLabel" layoutX="50.0" layoutY="20.0" style="-fx-font-size: 20px; -fx-text-fill: red; -fx-font-weight: bold;" />
     <TableView fx:id="studentTable" layoutX="50.0" layoutY="50.0" prefHeight="300.0" prefWidth="500.0">
         <columns>
-            <TableColumn fx:id="courseIdColumn" prefWidth="100.0" text="Course ID">
-                <cellValueFactory>
-                    <PropertyValueFactory property="courseId"/>
-                </cellValueFactory>
-            </TableColumn>
-            <TableColumn fx:id="courseNameColumn" prefWidth="200.0" text="Course Name">
-                <cellValueFactory>
-                    <PropertyValueFactory property="courseName"/>
-                </cellValueFactory>
-            </TableColumn>
-            <TableColumn fx:id="gradeColumn" prefWidth="100.0" text="Grade">
-                <cellValueFactory>
-                    <PropertyValueFactory property="grade"/>
-                </cellValueFactory>
-            </TableColumn>
         </columns>
     </TableView>
 </AnchorPane>
+

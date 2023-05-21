@@ -1,19 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.cell.PropertyValueFactory?>
-<?import javafx.scene.control.Button?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.cshaifasweng.OCSFMediatorExample.client.StudentsListTable">
+<AnchorPane prefHeight="401.0" prefWidth="349.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.cshaifasweng.OCSFMediatorExample.client.StudentsListTable">
     <children>
         <TableView fx:id="studentTable" layoutY="24.0" prefHeight="377.0" prefWidth="601.0">
             <columns>
-                <TableColumn fx:id="idNumColumn" prefWidth="75.0" text="id_num" />
+<!--                <TableColumn fx:id="idNumColumn" prefWidth="75.0" text="id_num" />-->
                 <TableColumn fx:id="idColumn" prefWidth="75.0" text="ID" />
                 <TableColumn fx:id="firstNameColumn" prefWidth="75.0" text="First Name" />
-                <TableColumn fx:id="lastNameColumn" prefWidth="75.0" text="Last Name" />
-                <TableColumn fx:id="showColumn" prefWidth="75.0" text="Show" />
+                <TableColumn fx:id="lastNameColumn" prefWidth="95.60003662109375" text="Last Name" />
             </columns>
         </TableView>
     </children>

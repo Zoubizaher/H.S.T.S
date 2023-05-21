@@ -33,6 +33,7 @@ public class PrimaryController {
 
 			Stage currentStage = App.getStage();
 			Scene scene = new Scene(newScene);
+			currentStage.setTitle("Client Home Page");
 			currentStage.setScene(scene);
 		} catch (IOException e) {
 			e.printStackTrace();

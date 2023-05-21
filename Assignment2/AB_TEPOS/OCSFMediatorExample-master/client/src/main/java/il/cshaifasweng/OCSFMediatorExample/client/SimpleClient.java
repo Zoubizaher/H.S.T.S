@@ -23,11 +23,9 @@ public class SimpleClient extends AbstractClient {
 			EventBus.getDefault().post(new WarningEvent((Warning) msg));
 		}
 		if (msg instanceof List<?>) {
-			System.out.print("Receiving the list");
 			studentList = (List<Student>) msg;
 			EventBus.getDefault().post(studentList);
 		} else {
-			System.out.print("Receiving the number");
 			System.out.print(msg);
 		}
 	}

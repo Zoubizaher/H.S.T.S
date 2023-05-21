@@ -19,17 +19,9 @@ public class App
     {
         try{
             ConnectToDatabase.initializeDatabase();
-            List<Student> studentList = ConnectToDatabase.getAllStudents();
-            System.out.print("\n\nPRINTINGT\n\n\n" );
-            for (Student student : studentList){
-                System.out.print(student.getStudentName());
-                List<Course> courses = student.getCourses();
-                for (Course course : courses){
-                    System.out.println(course.getCourse_name());
-                }
-            }
             server = new SimpleServer(3000);
             server.listen();
+            System.out.print("Listening");
         }catch (IOException e){
             e.printStackTrace();
         }

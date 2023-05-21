@@ -38,7 +38,7 @@ public class StudentsListTable {
     private TableColumn<Student, Object> lastNameColumn;
 
     public void initialize() {
-        idNumColumn.setCellValueFactory(cellData -> new ReadOnlyObjectWrapper<>(cellData.getValue().getNumID()));
+//        idNumColumn.setCellValueFactory(cellData -> new ReadOnlyObjectWrapper<>(cellData.getValue().getNumID()));
         idColumn.setCellValueFactory(cellData -> new ReadOnlyObjectWrapper<>(cellData.getValue().getID()));
         firstNameColumn.setCellValueFactory(cellData -> new ReadOnlyObjectWrapper<>(cellData.getValue().getFirstName()));
         lastNameColumn.setCellValueFactory(cellData -> new ReadOnlyObjectWrapper<>(cellData.getValue().getLastName()));
@@ -52,31 +52,17 @@ public class StudentsListTable {
                     Student selectedStudent = getTableRow().getItem();
                     if (selectedStudent != null) {
                         try {
-
-                            System.out.print(selectedStudent.getStudentName());
-
                             FXMLLoader loader = new FXMLLoader(getClass().getResource("StudentDetails.fxml"));
-                            System.out.print("Stuck1");
                             Parent root = loader.load();
-                            System.out.print("Stuck2");
-                            System.out.print(selectedStudent.getStudentName());
-                            for(Course course : selectedStudent.getCourses()){
-                                System.out.print(course.getCourse_name());
-                            }
-                            System.out.print("\n\nPRINTING THE MAPS\n\n\n");
-                            for (Map.Entry<String, Integer> entry : selectedStudent.getGradesMap().entrySet()){
-                                System.out.print(entry.getKey());
-                            }
                             // Get the controller of the next FXML file
                             StudentDetails nextController = loader.getController();
-                            System.out.print("Stuck3");
 
                             // Pass the student to the next controller
                             nextController.setStudent(selectedStudent);
-                            System.out.print("Stuck4");
                             // Show the new FXML file in a new window
                             Scene scene = new Scene(root);
                             Stage stage = new Stage();
+                            stage.setTitle(selectedStudent.getStudentName() + " Grades");
                             stage.setScene(scene);
                             stage.show();
                         } catch (IOException e) {

@@ -31,6 +31,7 @@ public class App extends Application {
     	client = SimpleClient.getClient();
     	client.openConnection();
         scene = new Scene(loadFXML("primary"), 640, 480);
+        stage.setTitle("High School Test System, Welcome!");
         stage.setScene(scene);
         stage.show();
     }

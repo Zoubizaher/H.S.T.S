@@ -20,6 +20,8 @@ import java.util.Objects;
 
 public class ConnectToDatabase {
     private static Session session;
+
+    private static List<Student> students;
     private static SessionFactory getSessionFactory() throws HibernateException {
         Configuration configuration = new Configuration();
         // Add ALL of your entities here. You can also try adding a whole package.
@@ -38,16 +40,19 @@ public class ConnectToDatabase {
         return data;
     }
 
-    public static List<Student> getAllStudents(){
-        System.out.print("Getting ALL STUDENTS");
+    private static List<Grade> getAllGrades() throws Exception {
         CriteriaBuilder builder = session.getCriteriaBuilder();
-        System.out.print("\nStuck1\n");
+        CriteriaQuery<Grade> query = builder.createQuery(Grade.class);
+        query.from(Grade.class);
+        List<Grade> data = session.createQuery(query).getResultList();
+        return data;
+    }
+
+    public static List<Student> getAllStudents(){
+        CriteriaBuilder builder = session.getCriteriaBuilder();
         CriteriaQuery<Student> query = builder.createQuery(Student.class);
-        System.out.print("\nStuck2\n");
         query.from(Student.class);
-        System.out.print("\nStuck3\n");
         List<Student> data = session.createQuery(query).getResultList();
-        System.out.print("Reeturning ALL STUDENTS");
         return data;
     }
     public static void save_all(Session session) throws Exception {
@@ -191,22 +196,24 @@ public class ConnectToDatabase {
         return grades;
     }
 
-    public static void updateGrade(Session session, String student_name, String course_name, int new_grade) throws Exception {
-        Course course = null;
-        for(Course co : getAllCourses()){
-            if(co.getCourse_name() == course_name){
-                course = co;
+    public static void updateGrade(int Grade_ID, int new_grade) throws Exception {
+        List<Grade> grades = getAllGrades();
+        for(Grade grade : grades){
+            if (grade.getId() == Grade_ID){
+                grade.updateGrade(new_grade);
+                session.beginTransaction();
+                session.save(grade);
+                session.flush();
+                session.getTransaction().commit();
                 break;
             }
         }
-        for(Student student : getAllStudents()){
-            if (Objects.equals(student_name, student.getStudentName())){
-                if(course!=null)
-                    student.updateGrade(course, new_grade);
-            }
-        }
-        save_all(session);
     }
+
+    public static List<Student> getStudents() {
+        return students;
+    }
+
     public static Session initializeDatabase() throws IOException
     {
         try {
@@ -214,6 +221,7 @@ public class ConnectToDatabase {
             session = sessionFactory.openSession();
             session.beginTransaction();
 //            CreateData();
+            students = getAllStudents();
             session.getTransaction().commit();
             return session;
         } catch (Exception exception) {

@@ -26,18 +26,10 @@ public class ClientHomePage {
 
 
             // Wait for the subscriber to receive the student list
-            Thread.sleep(1000); // Add a delay to ensure the subscriber receives the list (adjust the duration as needed)
+            Thread.sleep(500); // Add a delay to ensure the subscriber receives the list (adjust the duration as needed)
 
             // Get the student list from the subscriber
             List<Student> studentList = subscriber.getStudentList();
-            System.out.println("\nLoading the StudentList2222");
-            System.out.println("\nLoading the StudentLi4432423st2222");
-            for (Student student : studentList) {
-                System.out.print("PRINTING111");
-                System.out.println(student.getStudentName());
-                // ... Handle other student properties
-            }
-            System.out.println("\nFINISH Loading the StudentList2222");
             EventBus.getDefault().unregister(subscriber);
             LoadFXML("StudentsListTable.fxml", studentList);
 

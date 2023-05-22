@@ -3,10 +3,10 @@ package il.cshaifasweng.OCSFMediatorExample.client;
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
-import java.util.Map;
 import java.util.ResourceBundle;
 
-import il.cshaifasweng.OCSFMediatorExample.client.Grade;
+import il.cshaifasweng.OCSFMediatorExample.entities.Grade;
+import il.cshaifasweng.OCSFMediatorExample.entities.Student;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
@@ -15,7 +15,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
 public class StudentDetails implements Initializable {

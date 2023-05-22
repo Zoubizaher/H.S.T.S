@@ -1,11 +1,6 @@
 package il.cshaifasweng.OCSFMediatorExample.server;
-import il.cshaifasweng.OCSFMediatorExample.client.Course;
-import il.cshaifasweng.OCSFMediatorExample.client.Student;
 
 import java.io.IOException;
-import java.util.List;
-import org.hibernate.Session;
-import static il.cshaifasweng.OCSFMediatorExample.server.ConnectToDatabase.EndConnection;
 
 /**
  * Hello world!

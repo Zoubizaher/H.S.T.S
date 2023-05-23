@@ -1,8 +1,8 @@
 package il.cshaifasweng.OCSFMediatorExample.server;
 
-import il.cshaifasweng.OCSFMediatorExample.client.Course;
-import il.cshaifasweng.OCSFMediatorExample.client.Grade;
-import il.cshaifasweng.OCSFMediatorExample.client.Student;
+import il.cshaifasweng.OCSFMediatorExample.entities.Course;
+import il.cshaifasweng.OCSFMediatorExample.entities.Grade;
+import il.cshaifasweng.OCSFMediatorExample.entities.Student;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -16,7 +16,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 public class ConnectToDatabase {
     private static Session session;

@@ -1,6 +1,7 @@
 package il.cshaifasweng.OCSFMediatorExample.client;
 
 
+import il.cshaifasweng.OCSFMediatorExample.entities.Student;
 import org.greenrobot.eventbus.Subscribe;
 import java.util.List;
 

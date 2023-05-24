@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="server" />
+        <module name="client" />
+        <module name="server (1)" />
+        <module name="entities" />
+        <module name="entities (1)" />
+        <module name="client (1)" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="client" target="13" />
+      <module name="client (1)" target="15" />
+      <module name="entities" target="17" />
+      <module name="entities (1)" target="15" />
+      <module name="OCSFMediatorExample" target="17" />
+      <module name="OCSFMediatorExample (1)" target="15" />
+      <module name="server" target="17" />
+      <module name="server (1)" target="15" />
+    </bytecodeTargetLevel>
+  </component>
+</project>

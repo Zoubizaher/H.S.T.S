@@ -219,7 +219,7 @@ public class ConnectToDatabase {
             SessionFactory sessionFactory = getSessionFactory();
             session = sessionFactory.openSession();
             session.beginTransaction();
-//            CreateData();
+           // CreateData();
             students = getAllStudents();
             session.getTransaction().commit();
             return session;

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/HSTS.iml" filepath="$PROJECT_DIR$/.idea/HSTS.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Assignment2/AB_TEPOS/OCSFMediatorExample-master/OCSFMediatorExample.iml" filepath="$PROJECT_DIR$/Assignment2/AB_TEPOS/OCSFMediatorExample-master/OCSFMediatorExample.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Assignment2/OCSFMediator/OCSFMediatorExample (1).iml" filepath="$PROJECT_DIR$/Assignment2/OCSFMediator/OCSFMediatorExample (1).iml" />
+      <module fileurl="file://$PROJECT_DIR$/Assignment2/AB_TEPOS/OCSFMediatorExample-master/client/client.iml" filepath="$PROJECT_DIR$/Assignment2/AB_TEPOS/OCSFMediatorExample-master/client/client.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Assignment2/OCSFMediator/client/client (1).iml" filepath="$PROJECT_DIR$/Assignment2/OCSFMediator/client/client (1).iml" />
+      <module fileurl="file://$PROJECT_DIR$/Assignment2/AB_TEPOS/OCSFMediatorExample-master/entities/entities.iml" filepath="$PROJECT_DIR$/Assignment2/AB_TEPOS/OCSFMediatorExample-master/entities/entities.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Assignment2/OCSFMediator/entities/entities (1).iml" filepath="$PROJECT_DIR$/Assignment2/OCSFMediator/entities/entities (1).iml" />
+      <module fileurl="file://$PROJECT_DIR$/Assignment2/AB_TEPOS/OCSFMediatorExample-master/server/server.iml" filepath="$PROJECT_DIR$/Assignment2/AB_TEPOS/OCSFMediatorExample-master/server/server.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Assignment2/OCSFMediator/server/server (1).iml" filepath="$PROJECT_DIR$/Assignment2/OCSFMediator/server/server (1).iml" />
+    </modules>
+  </component>
+</project>

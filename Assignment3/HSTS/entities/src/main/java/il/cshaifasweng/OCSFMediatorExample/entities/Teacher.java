@@ -5,18 +5,22 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 @Entity
-@Table(name = "Teachers")
+//@Table(name = "Teachers")
 public class Teacher extends User implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id_num;
 
-//    @OneToMany(cascade = CascadeType.ALL, mappedBy = "teacher", fetch = FetchType.EAGER)
-    @Transient
+    @OneToMany(mappedBy = "teacher",cascade = CascadeType.ALL, fetch = FetchType.EAGER )
+
     private List<Course> courses = new ArrayList<>();
 
     public Teacher(String id, String first, String last, String username, String role, String mail, String password){
         super(id, first, last, username, role, mail,password);
+    }
+
+    public Teacher() {
+        super();
     }
 
     public void AddCourse(Course course){this.courses.add(course);}

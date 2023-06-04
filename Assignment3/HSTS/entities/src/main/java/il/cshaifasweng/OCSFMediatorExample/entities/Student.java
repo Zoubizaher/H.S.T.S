@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 @Entity
-@Table(name = "Students")
+//@Table(name = "Students")
 public class Student extends User implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,6 +26,10 @@ public class Student extends User implements Serializable {
     public Student(String id, String first, String last, String username, String role, String mail, String password){
         super(id, first, last, username, role, mail, password);
     }
+
+    /*public Student() {
+        super();}*/
+
     public Student() {
         super("Unknown", "Unknown", "Unknown", "Unknown", "Unknown", "Unknown", "Unknown");
     }

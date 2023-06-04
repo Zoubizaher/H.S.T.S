@@ -2,6 +2,7 @@ package il.cshaifasweng.OCSFMediatorExample.client;
 
 import java.io.IOException;
 
+import il.cshaifasweng.OCSFMediatorExample.entities.MsgToLogIn;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -17,7 +18,7 @@ import org.greenrobot.eventbus.EventBus;
 
 public class HomePageController {
 	private EventBus eventBus;
-	private StudentListSubscriber subscriber;
+	//private StudentListSubscriber subscriber;
 	@FXML
 	private TextField usernameField;
 
@@ -36,7 +37,7 @@ public class HomePageController {
 		}
 	}
 
-	@FXML
+	/*@FXML
 	void ClientProfileLoad(ActionEvent event) {
 		try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("clientHomePage.fxml"));
@@ -49,7 +50,7 @@ public class HomePageController {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-	}
+	}*/
 
 	private void showAlert(String title, String message) {
 		// Display an alert dialog to the user
@@ -59,19 +60,22 @@ public class HomePageController {
 		alert.showAndWait();
 	}
 
-	public void logginin(ActionEvent actionEvent) {
+	public void logginin(ActionEvent actionEvent) {// the username for entity is id_num
 		try {
-			String messageToSend = "#LogInAttempt," + usernameField.getText() + "@" + passwordField.getText();
-			StringSubscriber subscriber = new StringSubscriber();
-			EventBus.getDefault().register(subscriber);
-			SimpleClient.getClient().sendToServer(messageToSend);
-			Thread.sleep(500);
-			String recievedMSG = subscriber.getReceivedMSG();
+			MsgToLogIn msg = new MsgToLogIn("#LogInAttempt",passwordField.getText(),usernameField.getText() ) ;
+			//StringSubscriber subscriber = new StringSubscriber();
+			//EventBus.getDefault().register(subscriber);
+			//SimpleClient.getClient().sendToServer(messageToSend);
+			//Thread.sleep(500);
+			//String recievedMSG = subscriber.getReceivedMSG();
+			SimpleClient.getClient().sendToServer(msg);
 		} catch (IOException e) {
 			showAlert("Error", "Failed to Get Login message!" + e.getMessage());
 			e.printStackTrace();
-		} catch (InterruptedException e) {
+		} /*catch (InterruptedException e) {
 			throw new RuntimeException(e);
-		}
+		}*/
 	}
+
+
 }

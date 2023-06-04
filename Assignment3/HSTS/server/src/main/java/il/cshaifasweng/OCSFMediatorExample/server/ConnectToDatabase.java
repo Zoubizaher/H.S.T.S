@@ -19,6 +19,7 @@ public class ConnectToDatabase {
     private static Session session;
 
     private static List<Student> students;
+    private static List<Teacher> teachers;
     private static SessionFactory getSessionFactory() throws HibernateException {
         Configuration configuration = new Configuration();
         // Add ALL of your entities here. You can also try adding a whole package.
@@ -55,6 +56,14 @@ public class ConnectToDatabase {
         CriteriaQuery<Student> query = builder.createQuery(Student.class);
         query.from(Student.class);
         List<Student> data = session.createQuery(query).getResultList();
+        return data;
+    }
+
+    public static List<Teacher> getAllTeachers(){
+        CriteriaBuilder builder = session.getCriteriaBuilder();
+        CriteriaQuery<Teacher> query = builder.createQuery(Teacher.class);
+        query.from(Teacher.class);
+        List<Teacher> data = session.createQuery(query).getResultList();
         return data;
     }
     public static void save_all(Session session) throws Exception {
@@ -144,7 +153,7 @@ public class ConnectToDatabase {
         Course c5 = CreateCourse("3211-29", "Computer Graphics", t3);
 
         Add_Course(s1, c1);
-        set_courseGrade(s1, c1, 90);
+        set_courseGrade(s1, c1, 90);// i think we need to put all grades = null
         Add_Course(s1, c2);
         set_courseGrade(s1, c2, 78);
         Add_Course(s1, c5);
@@ -254,6 +263,7 @@ public class ConnectToDatabase {
             session.beginTransaction();
             CreateData();
             students = getAllStudents();
+            teachers=getAllTeachers();
             session.getTransaction().commit();
             return session;
         } catch (Exception exception) {

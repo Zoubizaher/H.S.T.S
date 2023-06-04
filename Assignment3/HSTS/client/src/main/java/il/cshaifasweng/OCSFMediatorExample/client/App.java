@@ -5,8 +5,6 @@ import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -22,11 +20,12 @@ public class App extends Application {
     private static Scene scene;
     private SimpleClient client;
 
-    private static Stage primaryStage;
+    private static Stage HomePageStage;
 
     @Override
     public void start(Stage stage) throws IOException {
-        primaryStage = stage;
+        HomePageStage = stage;
+        //EventBus.getDefault().register(this);
     	client = SimpleClient.getClient();
     	client.openConnection();
         scene = new Scene(loadFXML("HomePage"), 640, 480);
@@ -49,6 +48,7 @@ public class App extends Application {
     @Override
 	public void stop() throws Exception {
 		// TODO Auto-generated method stub
+        EventBus.getDefault().unregister(this);
 		super.stop();
 	}
 
@@ -58,7 +58,7 @@ public class App extends Application {
     }
 
     public static Stage getStage(){
-        return primaryStage;
+        return HomePageStage;
     }
 
 	public static void main(String[] args) {

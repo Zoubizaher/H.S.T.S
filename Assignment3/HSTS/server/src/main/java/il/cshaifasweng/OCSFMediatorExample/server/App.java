@@ -16,7 +16,7 @@ public class App
             ConnectToDatabase.initializeDatabase();
             server = new SimpleServer(3000);
             server.listen();
-            System.out.print("Listening");
+            System.out.print("Listening \n");
         }catch (IOException e){
             e.printStackTrace();
         }

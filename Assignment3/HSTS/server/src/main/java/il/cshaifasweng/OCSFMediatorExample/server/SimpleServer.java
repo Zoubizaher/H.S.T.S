@@ -26,29 +26,31 @@ public class SimpleServer extends AbstractServer {
 
 	@Override
 	protected void handleMessageFromClient(Object msg, ConnectionToClient client) throws Exception {
-		//String msgString = msg.toString();
+		//String request = msg.toString();
 		MsgToLogIn message = (MsgToLogIn) msg;
-		String request = message.getRequest();
+		//String request = message.getRequest();
 		/*
 		the first if , else if , i dont know where we use it, for login look at the 3rd else if
 		 */
-		if (request.startsWith("#GetStudents")) {
+		if (message.getRequest().startsWith("#GetStudents")) {
 			List<Student> studentList = ConnectToDatabase.getStudents();
 			try {
 				client.sendToClient(studentList);
 			}catch (IOException e){
 				e.printStackTrace();
 			}
-		} else if(request.startsWith("#UpdateGrade=")){
+		} /*else if(message.getRequest().startsWith("#UpdateGrade=")){
 			String[] numbers = request.split("=");
 			String[] numbers2 = numbers[1].split(",");
 			ConnectToDatabase.updateGrade(Integer.parseInt(numbers2[0]) , Integer.parseInt(numbers2[1]));
-		}
+		}*/
 
-        else if(request.startsWith("#LogInAttempt")){  // login attempt
+        else if( message.getRequest().equals("#LogInAttempt")){  // login attempt
+			       System.out.print("hey user  \n");
 				String userName= message.getUsername();
 				String password= message.getPassword();
-			CriteriaBuilder builder = session.getCriteriaBuilder();
+			System.out.print("user: "+userName+" pass: "+password);
+		/*	CriteriaBuilder builder = session.getCriteriaBuilder();
 			CriteriaQuery<User> query = builder.createQuery(User.class);
 			Root<User> root= query.from(User.class);
 			// this give me user where id_num=userName
@@ -65,7 +67,7 @@ public class SimpleServer extends AbstractServer {
 
 			else {
 				System.out.print("hey user  ");
-			}
+			}*/
 
 			}
 

@@ -3,6 +3,7 @@ package il.cshaifasweng.OCSFMediatorExample.client;
 import java.io.IOException;
 
 import il.cshaifasweng.OCSFMediatorExample.entities.MsgToLogIn;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -15,6 +16,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 public class HomePageController {
 	private EventBus eventBus;
@@ -60,14 +62,21 @@ public class HomePageController {
 		alert.showAndWait();
 	}
 
+	/*@Subscribe
+	public void onLogInEvent(LogInEvent message) {
+
+		Platform.runLater(() -> { // there is a possible that event can sent by another thread, here we ensure it sent by javafx thrad
+
+		});
+	}*/
+
 	public void logginin(ActionEvent actionEvent) {// the username for entity is id_num
+ 			//EventBus.getDefault().register(this);
 		try {
+			//String string= new String("#LogInAttempt");
 			MsgToLogIn msg = new MsgToLogIn("#LogInAttempt",passwordField.getText(),usernameField.getText() ) ;
-			//StringSubscriber subscriber = new StringSubscriber();
-			//EventBus.getDefault().register(subscriber);
-			//SimpleClient.getClient().sendToServer(messageToSend);
-			//Thread.sleep(500);
-			//String recievedMSG = subscriber.getReceivedMSG();
+
+			//Thread.sleep(500)
 			SimpleClient.getClient().sendToServer(msg);
 		} catch (IOException e) {
 			showAlert("Error", "Failed to Get Login message!" + e.getMessage());

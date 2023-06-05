@@ -66,6 +66,9 @@ public class ConnectToDatabase {
         CriteriaQuery<User> query = builder.createQuery(User.class);
         query.from(User.class);
         List<User> data = session.createQuery(query).getResultList();
+        if (data.isEmpty()) {
+            return null;
+        }
         return data;
     }
 
@@ -276,6 +279,9 @@ public class ConnectToDatabase {
             session = sessionFactory.openSession();
             session.beginTransaction();
 //            CreateData();
+            if(getAllUsers()==null){
+                CreateData();
+            }
             users = getAllUsers();
             students = getAllStudents();
             teachers = getAllTeachers();

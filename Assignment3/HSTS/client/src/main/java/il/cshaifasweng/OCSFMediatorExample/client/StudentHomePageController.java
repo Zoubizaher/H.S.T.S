@@ -9,7 +9,8 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class StudentHomePageController {
+public class StudentHomePageController { //pay attention, till now you didnt register your class to eventbus i think
+    //we will need it.....
     private User user;
 
     public void showDetails(ActionEvent actionEvent) {

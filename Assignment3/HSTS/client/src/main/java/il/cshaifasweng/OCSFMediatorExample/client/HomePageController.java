@@ -88,6 +88,21 @@ public class HomePageController {
 				});
 			} else if (user.getRole().equals("teacher")) {// PART OF ZAHER
 				System.out.print("\nteacher!!\n");
+				Platform.runLater(() -> {
+					FXMLLoader loader = new FXMLLoader(getClass().getResource("TeacherHomePage.fxml"));
+					try {
+						AnchorPane newScene = loader.load();
+						Stage currentStage = App.getStage();
+						Scene scene = new Scene(newScene);  // Set the loaded AnchorPane as the root of the scene
+						currentStage.setTitle(user.getFullName() + " Home Page");
+						currentStage.setScene(scene);
+						TeacherHomePageController controller = loader.getController();
+						controller.setUser(user);
+						currentStage.show();
+					} catch (IOException e) {
+						throw new RuntimeException(e);
+					}
+				});
 			} else if (user.getRole().equals("manager")) {
 				System.out.print("\nmanager!!\n");
 			}

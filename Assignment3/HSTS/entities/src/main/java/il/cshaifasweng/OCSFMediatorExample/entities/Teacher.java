@@ -7,9 +7,9 @@ import java.util.List;
 @Entity
 //@Table(name = "Teachers")
 public class Teacher extends User implements Serializable {
-    @Id
+  /*  @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id_num;
+    private int id_num;*/  // no need for id because its son class . user already have
 
     @OneToMany(mappedBy = "teacher",cascade = CascadeType.ALL, fetch = FetchType.EAGER )
 

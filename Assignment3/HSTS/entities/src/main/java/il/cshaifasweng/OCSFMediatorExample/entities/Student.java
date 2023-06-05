@@ -10,9 +10,9 @@ import java.util.Map;
 @Entity
 //@Table(name = "Students")
 public class Student extends User implements Serializable {
-    @Id
+   /* @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id_num;
+    private int id_num;*/ //no need for id because its son class . user already have
 
     @ManyToMany(mappedBy = "students", fetch = FetchType.LAZY)
     private List<Course> courses = new ArrayList<>();
@@ -76,7 +76,7 @@ public class Student extends User implements Serializable {
         return this.grades;
     }
 
-    public int getNumID(){return this.id_num;}
+    //public int getNumID(){return this.id_num;}
 //    public String getID(){return this.id;}
 //    public String getFirstName(){return this.first;}
 //    public String getLastName(){return this.last;}

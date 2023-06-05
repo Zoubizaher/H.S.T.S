@@ -102,7 +102,8 @@ public class SimpleServer extends AbstractServer {
 					System.out.println("WRONG PASSWORD");
 					client.sendToClient(message);
 				}
-			} else {
+			}//here count<0 which means wrong_username
+			else {
 				message.setLogInFlag("WrongUsername");
 				// User with the given username doesn't exist
 				System.out.println("Username doesn't exist");

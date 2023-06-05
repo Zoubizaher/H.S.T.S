@@ -92,16 +92,14 @@ public class HomePageController {
 				System.out.print("\nmanager!!\n");
 			}
 
-		} else if (message.getMessage().getLogInFlag().equals("WrongPassword")){
+		} else if (message.getMessage().getLogInFlag().equals("WrongPassword")){ // here i think we need to show alert!
 			System.out.print("Wrong Password");
 		} else if(message.getMessage().getLogInFlag().equals("WrongUsername")){
 			System.out.print("Wrong Username");
 		} else {
 			System.out.print(message.getMessage().getLogInFlag());
 		}
-//		Platform.runLater(() -> { // there is a possible that event can sent by another thread, here we ensure it sent by javafx thrad
-//
-//		});
+
 	}
 
 	public void logginin(ActionEvent actionEvent) {// the username for entity is id_num

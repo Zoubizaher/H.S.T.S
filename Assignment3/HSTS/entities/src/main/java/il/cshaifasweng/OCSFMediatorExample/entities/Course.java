@@ -15,20 +15,15 @@ public class Course implements Serializable {
     @Column(name = "Course_Name")
     private String course_name;
 
-//    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-//    @JoinTable(
-//            name = "Teacher_Course",
-//            joinColumns = @JoinColumn(name = "course_id"),
-//            inverseJoinColumns = @JoinColumn(name = "id_num")
-//    )
-    @Transient
-    private Teacher teacher;
+  @ManyToOne
+  @JoinColumn(name = "teacher_id")
+  private Teacher teacher;
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name = "course_student",
             joinColumns = @JoinColumn(name = "course_id"),
-            inverseJoinColumns = @JoinColumn(name = "FirstName")
+            inverseJoinColumns = @JoinColumn(name = "id_num")
     )
     private List<Student> students= new ArrayList<>();
     public Course(String id, String name, Teacher teacher) {

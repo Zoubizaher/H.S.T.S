@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/Assignment3.iml" filepath="$PROJECT_DIR$/.idea/Assignment3.iml" />
+      <module fileurl="file://$PROJECT_DIR$/HSTS/OCSFMediatorExample.iml" filepath="$PROJECT_DIR$/HSTS/OCSFMediatorExample.iml" />
+      <module fileurl="file://$PROJECT_DIR$/HSTS/client/client.iml" filepath="$PROJECT_DIR$/HSTS/client/client.iml" />
+      <module fileurl="file://$PROJECT_DIR$/HSTS/entities/entities.iml" filepath="$PROJECT_DIR$/HSTS/entities/entities.iml" />
+      <module fileurl="file://$PROJECT_DIR$/HSTS/server/server.iml" filepath="$PROJECT_DIR$/HSTS/server/server.iml" />
+    </modules>
+  </component>
+</project>

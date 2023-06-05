@@ -2,6 +2,8 @@ package il.cshaifasweng.OCSFMediatorExample.client;
 
 import java.io.IOException;
 
+import il.cshaifasweng.OCSFMediatorExample.entities.MsgToLogIn;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -14,10 +16,11 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 public class HomePageController {
 	private EventBus eventBus;
-	private StudentListSubscriber subscriber;
+	//private StudentListSubscriber subscriber;
 	@FXML
 	private TextField usernameField;
 
@@ -36,7 +39,7 @@ public class HomePageController {
 		}
 	}
 
-	@FXML
+	/*@FXML
 	void ClientProfileLoad(ActionEvent event) {
 		try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("clientHomePage.fxml"));
@@ -49,7 +52,7 @@ public class HomePageController {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-	}
+	}*/
 
 	private void showAlert(String title, String message) {
 		// Display an alert dialog to the user
@@ -59,19 +62,29 @@ public class HomePageController {
 		alert.showAndWait();
 	}
 
-	public void logginin(ActionEvent actionEvent) {
+	/*@Subscribe
+	public void onLogInEvent(LogInEvent message) {
+
+		Platform.runLater(() -> { // there is a possible that event can sent by another thread, here we ensure it sent by javafx thrad
+
+		});
+	}*/
+
+	public void logginin(ActionEvent actionEvent) {// the username for entity is id_num
+ 			//EventBus.getDefault().register(this);
 		try {
-			String messageToSend = "#LogInAttempt," + usernameField.getText() + "@" + passwordField.getText();
-			StringSubscriber subscriber = new StringSubscriber();
-			EventBus.getDefault().register(subscriber);
-			SimpleClient.getClient().sendToServer(messageToSend);
-			Thread.sleep(500);
-			String recievedMSG = subscriber.getReceivedMSG();
+			//String string= new String("#LogInAttempt");
+			MsgToLogIn msg = new MsgToLogIn("#LogInAttempt",passwordField.getText(),usernameField.getText() ) ;
+
+			//Thread.sleep(500)
+			SimpleClient.getClient().sendToServer(msg);
 		} catch (IOException e) {
 			showAlert("Error", "Failed to Get Login message!" + e.getMessage());
 			e.printStackTrace();
-		} catch (InterruptedException e) {
+		} /*catch (InterruptedException e) {
 			throw new RuntimeException(e);
-		}
+		}*/
 	}
+
+
 }

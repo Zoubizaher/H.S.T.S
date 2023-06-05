@@ -29,7 +29,7 @@ public class App extends Application {
         //EventBus.getDefault().register(this);
     	client = SimpleClient.getClient();
     	client.openConnection();
-        scene = new Scene(loadFXML("HomePage"), 640, 480);
+        scene = new Scene(loadFXML("HomePage"));
         stage.setTitle("High School Test System, Welcome!");
         stage.setScene(scene);
         stage.show();

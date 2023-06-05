@@ -3,6 +3,7 @@ package il.cshaifasweng.OCSFMediatorExample.client;
 import java.io.IOException;
 
 import il.cshaifasweng.OCSFMediatorExample.entities.MsgToLogIn;
+import il.cshaifasweng.OCSFMediatorExample.entities.User;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -39,7 +40,7 @@ public class HomePageController {
 		}
 	}
 
-	/*@FXML
+    /*@FXML
 	void ClientProfileLoad(ActionEvent event) {
 		try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("clientHomePage.fxml"));
@@ -64,16 +65,32 @@ public class HomePageController {
 
 	@Subscribe
 	public void onLogInEvent(LogInEvent message) {
-		System.out.print("LOG IN Successfully to ");
-		System.out.print(message.getMessage().getUser().getUsername()+ "\n");
-		System.out.print("\nUser Role is: " + message.getMessage().getUser().getRole());
+		System.out.print("LOG IN Recieved\n");
+		if(message.getMessage().getLogInFlag().equals("Successfully")){
+			User user = message.getMessage().getUser();
+			System.out.print("Login successfully to: "+message.getMessage().getUser().getUsername()+ "\n");
+			if(user.getRole().equals("student")){ // PART OF FAISAL
+				System.out.print("\nStudent!!\n");
+			} else if (user.getRole().equals("teacher")) {// PART OF ZAHER
+				System.out.print("\nteacher!!\n");
+			} else if (user.getRole().equals("manager")) {
+				System.out.print("\nmanager!!\n");
+			}
+
+		} else if (message.getMessage().getLogInFlag().equals("WrongPassword")){
+			System.out.print("Wrong Password");
+		} else if(message.getMessage().getLogInFlag().equals("WrongUsername")){
+			System.out.print("Wrong Username");
+		} else {
+			System.out.print(message.getMessage().getLogInFlag());
+		}
 //		Platform.runLater(() -> { // there is a possible that event can sent by another thread, here we ensure it sent by javafx thrad
 //
 //		});
 	}
 
 	public void logginin(ActionEvent actionEvent) {// the username for entity is id_num
- 			//EventBus.getDefault().register(this);
+		//EventBus.getDefault().register(this);
 		try {
 			//String string= new String("#LogInAttempt");
 			MsgToLogIn msg = new MsgToLogIn("#LogInAttempt",passwordField.getText(),usernameField.getText() ) ;

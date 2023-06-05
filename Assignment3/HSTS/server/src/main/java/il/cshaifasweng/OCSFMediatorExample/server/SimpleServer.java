@@ -49,6 +49,7 @@ public class SimpleServer extends AbstractServer {
 		else if (message.getRequest().equals("#LogInAttempt")) {
 			String userName = message.getUsername();
 			String password = message.getPassword();
+			message.setRequest("#LogInReply");
 			CriteriaBuilder builder = session.getCriteriaBuilder();
 			CriteriaQuery<Long> query = builder.createQuery(Long.class);
 			Root<User> root = query.from(User.class);
@@ -92,16 +93,20 @@ public class SimpleServer extends AbstractServer {
 					// Now you have the User object, you can perform further actions
 					System.out.println("Logged in user: " + user.getFirst() + " " + user.getLast() + "\n");
 					message.setUser(user);
-					message.setRequest("#LogInReply");
+					message.setLogInFlag("Successfully");
 					LogInEvent logInEvent = new LogInEvent(message);
 					client.sendToClient(message);
 				} else {
 					// Password is not identical
+					message.setLogInFlag("WrongPassword");
 					System.out.println("WRONG PASSWORD");
+					client.sendToClient(message);
 				}
 			} else {
+				message.setLogInFlag("WrongUsername");
 				// User with the given username doesn't exist
 				System.out.println("Username doesn't exist");
+				client.sendToClient(message);
 			}
 		}
 

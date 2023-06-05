@@ -7,6 +7,7 @@ public class MsgToLogIn implements Serializable {
     String password;
     String username;
 
+    String LogInFlag;
     private User user = null;
 
     public MsgToLogIn(String request, String password, String username) {
@@ -34,7 +35,10 @@ public class MsgToLogIn implements Serializable {
     public void setUser(User user){
         this.user = user;
     }
-
+    public void setLogInFlag(String bool){
+        this.LogInFlag = bool;
+    }
+    public String getLogInFlag(){return this.LogInFlag;}
     public User getUser(){return this.user;}
     public String getRequest() {
         return request;

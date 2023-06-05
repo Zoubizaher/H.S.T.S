@@ -66,6 +66,7 @@ public class HomePageController {
 	public void onLogInEvent(LogInEvent message) {
 		System.out.print("LOG IN Successfully to ");
 		System.out.print(message.getMessage().getUser().getUsername()+ "\n");
+		System.out.print("\nUser Role is: " + message.getMessage().getUser().getRole());
 //		Platform.runLater(() -> { // there is a possible that event can sent by another thread, here we ensure it sent by javafx thrad
 //
 //		});

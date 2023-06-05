@@ -4,15 +4,21 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Text?>
 
-
+<?import javafx.scene.control.TextField?>
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="480.0" prefWidth="362.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.cshaifasweng.OCSFMediatorExample.client.StudentDetails">
    <children>
-      <TextArea layoutX="71.0" layoutY="65.0" prefHeight="324.0" prefWidth="220.0" />
+      <TextField fx:id="firstNameField" layoutX="71.0" layoutY="65.0" prefHeight="30.0" prefWidth="220.0" />
       <Text fx:id="first" layoutX="104.0" layoutY="104.0" strokeType="OUTSIDE" strokeWidth="0.0" text="First name" wrappingWidth="153.16246032714844" />
-      <Text fx:id="username" layoutX="104.0" layoutY="223.0" strokeType="OUTSIDE" strokeWidth="0.0" text="username" wrappingWidth="153.16246032714844" />
+      <TextField fx:id="usernameField" layoutX="71.0" layoutY="223.0" prefHeight="30.0" prefWidth="220.0" />
+      <Text fx:id="username" layoutX="104.0" layoutY="223.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Username" wrappingWidth="153.16246032714844" />
+      <TextField fx:id="idField" layoutX="71.0" layoutY="187.0" prefHeight="30.0" prefWidth="220.0" />
       <Text fx:id="id" layoutX="104.0" layoutY="187.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ID" wrappingWidth="153.16246032714844" />
-      <Text fx:id="mail" layoutX="104.0" layoutY="153.0" strokeType="OUTSIDE" strokeWidth="0.0" text="mail" wrappingWidth="153.16246032714844" />
+      <TextField fx:id="mailField" layoutX="71.0" layoutY="153.0" prefHeight="30.0" prefWidth="220.0" />
+      <Text fx:id="mail" layoutX="104.0" layoutY="153.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Mail" wrappingWidth="153.16246032714844" />
+      <TextField fx:id="passwordField" layoutX="71.0" layoutY="253.0" prefHeight="30.0" prefWidth="220.0" />
       <Text fx:id="password" layoutX="104.0" layoutY="253.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Password" wrappingWidth="153.16246032714844" />
+      <TextField fx:id="lastNameField" layoutX="71.0" layoutY="130.0" prefHeight="30.0" prefWidth="220.0" />
       <Text fx:id="last" layoutX="104.0" layoutY="130.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Last name" wrappingWidth="153.16246032714844" />
    </children>
 </AnchorPane>
+

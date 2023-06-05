@@ -53,4 +53,6 @@ public class User  implements Serializable {
     public String getMail(){return this.mail;}
 
     public String getPassword(){return this.password;}
+
+    public String getFullName() {return (this.first + " " + this.last);}
 }

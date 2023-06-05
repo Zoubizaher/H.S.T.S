@@ -64,13 +64,28 @@ public class HomePageController {
 	}
 
 	@Subscribe
-	public void onLogInEvent(LogInEvent message) {
+	public void onLogInEvent(LogInEvent message) throws IOException {
 		System.out.print("LOG IN Recieved\n");
 		if(message.getMessage().getLogInFlag().equals("Successfully")){
 			User user = message.getMessage().getUser();
 			System.out.print("Login successfully to: "+message.getMessage().getUser().getUsername()+ "\n");
 			if(user.getRole().equals("student")){ // PART OF FAISAL
 				System.out.print("\nStudent!!\n");
+				Platform.runLater(() -> {
+					FXMLLoader loader = new FXMLLoader(getClass().getResource("StudentHomePage.fxml"));
+					try {
+						AnchorPane newScene = loader.load();
+						Stage currentStage = App.getStage();
+						Scene scene = new Scene(newScene);  // Set the loaded AnchorPane as the root of the scene
+						currentStage.setTitle(user.getFullName() + " Home Page");
+						currentStage.setScene(scene);
+						StudentHomePageController controller = loader.getController();
+						controller.setUser(user);
+						currentStage.show();
+					} catch (IOException e) {
+						throw new RuntimeException(e);
+					}
+				});
 			} else if (user.getRole().equals("teacher")) {// PART OF ZAHER
 				System.out.print("\nteacher!!\n");
 			} else if (user.getRole().equals("manager")) {

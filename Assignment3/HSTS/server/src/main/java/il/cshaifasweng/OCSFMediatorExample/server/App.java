@@ -1,5 +1,7 @@
 package il.cshaifasweng.OCSFMediatorExample.server;
 
+import org.hibernate.Session;
+
 import java.io.IOException;
 
 /**
@@ -9,14 +11,14 @@ import java.io.IOException;
 public class App 
 {
     private static SimpleServer server;
-
+    private static Session session;
     public static void main( String[] args ) throws IOException
     {
         try{
-            ConnectToDatabase.initializeDatabase();
-            server = new SimpleServer(3000);
+            session = ConnectToDatabase.initializeDatabase();
+            server = new SimpleServer(3000, session);
             server.listen();
-            System.out.print("Listening \n");
+            System.out.print("\nListening \n");
         }catch (IOException e){
             e.printStackTrace();
         }

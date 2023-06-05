@@ -51,4 +51,6 @@ public class User  implements Serializable {
     public String getLast(){return this.last;}
     public String getRole(){return this.role;}
     public String getMail(){return this.mail;}
+
+    public String getPassword(){return this.password;}
 }

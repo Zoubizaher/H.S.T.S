@@ -20,6 +20,8 @@ public class ConnectToDatabase {
 
     private static List<Student> students;
     private static List<Teacher> teachers;
+
+    private static List<User> users;
     private static SessionFactory getSessionFactory() throws HibernateException {
         Configuration configuration = new Configuration();
         // Add ALL of your entities here. You can also try adding a whole package.
@@ -56,6 +58,14 @@ public class ConnectToDatabase {
         CriteriaQuery<Student> query = builder.createQuery(Student.class);
         query.from(Student.class);
         List<Student> data = session.createQuery(query).getResultList();
+        return data;
+    }
+
+    public static List<User> getAllUsers(){
+        CriteriaBuilder builder = session.getCriteriaBuilder();
+        CriteriaQuery<User> query = builder.createQuery(User.class);
+        query.from(User.class);
+        List<User> data = session.createQuery(query).getResultList();
         return data;
     }
 
@@ -255,15 +265,20 @@ public class ConnectToDatabase {
         return students;
     }
 
+    public static List<User> getUsers() {
+        return users;
+    }
+
     public static Session initializeDatabase() throws IOException
     {
         try {
             SessionFactory sessionFactory = getSessionFactory();
             session = sessionFactory.openSession();
             session.beginTransaction();
-            CreateData();
+//            CreateData();
+            users = getAllUsers();
             students = getAllStudents();
-            teachers=getAllTeachers();
+            teachers = getAllTeachers();
             session.getTransaction().commit();
             return session;
         } catch (Exception exception) {

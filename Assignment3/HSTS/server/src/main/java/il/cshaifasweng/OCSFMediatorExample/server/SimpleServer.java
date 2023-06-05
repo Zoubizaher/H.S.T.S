@@ -1,5 +1,6 @@
 package il.cshaifasweng.OCSFMediatorExample.server;
 
+import il.cshaifasweng.OCSFMediatorExample.client.LogInEvent;
 import il.cshaifasweng.OCSFMediatorExample.entities.MsgToLogIn;
 import il.cshaifasweng.OCSFMediatorExample.entities.Student;
 import il.cshaifasweng.OCSFMediatorExample.entities.User;
@@ -11,6 +12,7 @@ import java.util.List;
 
 import org.hibernate.Session;
 
+import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
@@ -19,7 +21,7 @@ import javax.persistence.criteria.Root;
 public class SimpleServer extends AbstractServer {
 	private Session session;
 
-	public SimpleServer(int port) {
+	public SimpleServer(int port, Session session) {
 		super(port);
 		this.session = session;
 	}
@@ -36,7 +38,7 @@ public class SimpleServer extends AbstractServer {
 			List<Student> studentList = ConnectToDatabase.getStudents();
 			try {
 				client.sendToClient(studentList);
-			}catch (IOException e){
+			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		} /*else if(message.getRequest().startsWith("#UpdateGrade=")){
@@ -44,34 +46,65 @@ public class SimpleServer extends AbstractServer {
 			String[] numbers2 = numbers[1].split(",");
 			ConnectToDatabase.updateGrade(Integer.parseInt(numbers2[0]) , Integer.parseInt(numbers2[1]));
 		}*/
+		else if (message.getRequest().equals("#LogInAttempt")) {
+			String userName = message.getUsername();
+			String password = message.getPassword();
+			CriteriaBuilder builder = session.getCriteriaBuilder();
+			CriteriaQuery<Long> query = builder.createQuery(Long.class);
+			Root<User> root = query.from(User.class);
 
-        else if( message.getRequest().equals("#LogInAttempt")){  // login attempt
-			       System.out.print("hey user  \n");
-				String userName= message.getUsername();
-				String password= message.getPassword();
-			System.out.print("user: "+userName+" pass: "+password);
-		/*	CriteriaBuilder builder = session.getCriteriaBuilder();
-			CriteriaQuery<User> query = builder.createQuery(User.class);
-			Root<User> root= query.from(User.class);
-			// this give me user where id_num=userName
-			Predicate userCondition = (Predicate) query.where(builder.equal(root.get("id_num"), userName));
-			// this give me user where Password = password
-			Predicate passwordCondition = (Predicate) query.where(builder.equal(root.get("Password"), password));
-			// this two sentence give me the both condition
-			Predicate combinedCondition = builder.and(userCondition,passwordCondition);
-			query.where(combinedCondition);
-			// now in the date should be OR one user or nothing
-			List<User> data = session.createQuery(query).getResultList();
-			if ( data.isEmpty())// there is no such user
-			{   System.out.print("NO FUCKING USER ");                      }
+			// Select count(*) from User where Username = userName
+			query.select(builder.count(root)).where(builder.equal(root.get("username"), userName));
 
-			else {
-				System.out.print("hey user  ");
-			}*/
+			TypedQuery<Long> typedQuery = session.createQuery(query);
+			Long count = typedQuery.getSingleResult();
 
+			if (count > 0) {
+				// User with the given username exists
+				System.out.println("Username exists");
+
+				// Now, check if the password is identical
+				CriteriaQuery<Long> passwordQuery = builder.createQuery(Long.class);
+				Root<User> passwordRoot = passwordQuery.from(User.class);
+
+				// Select count(*) from User where Username = userName and Password = password
+				passwordQuery.select(builder.count(passwordRoot))
+						.where(builder.and(
+								builder.equal(passwordRoot.get("username"), userName),
+								builder.equal(passwordRoot.get("password"), password)
+						));
+
+				TypedQuery<Long> passwordTypedQuery = session.createQuery(passwordQuery);
+				Long passwordCount = passwordTypedQuery.getSingleResult();
+
+				if (passwordCount > 0) {
+					// Password is identical
+					System.out.println("\nLogIn successfully\n");
+					// Create User object and save the user
+					CriteriaQuery<User> userQuery = builder.createQuery(User.class);
+					Root<User> userRoot = userQuery.from(User.class);
+					userQuery.select(userRoot)
+							.where(builder.equal(userRoot.get("username"), userName));
+
+					TypedQuery<User> userTypedQuery = session.createQuery(userQuery);
+					User user = userTypedQuery.getSingleResult();
+
+					// Now you have the User object, you can perform further actions
+					System.out.println("Logged in user: " + user.getFirst() + " " + user.getLast() + "\n");
+					message.setUser(user);
+					message.setRequest("#LogInReply");
+					LogInEvent logInEvent = new LogInEvent(message);
+					client.sendToClient(message);
+				} else {
+					// Password is not identical
+					System.out.println("WRONG PASSWORD");
+				}
+			} else {
+				// User with the given username doesn't exist
+				System.out.println("Username doesn't exist");
 			}
-
 		}
 
 
+	}
 }

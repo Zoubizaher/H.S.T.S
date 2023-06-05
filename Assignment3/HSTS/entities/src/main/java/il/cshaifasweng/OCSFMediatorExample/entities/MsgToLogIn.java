@@ -7,8 +7,9 @@ public class MsgToLogIn implements Serializable {
     String password;
     String username;
 
-    public MsgToLogIn(String request, String password, String username) {
+    private User user = null;
 
+    public MsgToLogIn(String request, String password, String username) {
         this.request = request;
         this.password = password;
         this.username = username;
@@ -30,6 +31,11 @@ public class MsgToLogIn implements Serializable {
         this.username = username;
     }
 
+    public void setUser(User user){
+        this.user = user;
+    }
+
+    public User getUser(){return this.user;}
     public String getRequest() {
         return request;
     }

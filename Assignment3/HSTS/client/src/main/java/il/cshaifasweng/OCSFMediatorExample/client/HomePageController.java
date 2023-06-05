@@ -62,13 +62,14 @@ public class HomePageController {
 		alert.showAndWait();
 	}
 
-	/*@Subscribe
+	@Subscribe
 	public void onLogInEvent(LogInEvent message) {
-
-		Platform.runLater(() -> { // there is a possible that event can sent by another thread, here we ensure it sent by javafx thrad
-
-		});
-	}*/
+		System.out.print("LOG IN Successfully to ");
+		System.out.print(message.getMessage().getUser().getUsername()+ "\n");
+//		Platform.runLater(() -> { // there is a possible that event can sent by another thread, here we ensure it sent by javafx thrad
+//
+//		});
+	}
 
 	public void logginin(ActionEvent actionEvent) {// the username for entity is id_num
  			//EventBus.getDefault().register(this);
@@ -84,6 +85,11 @@ public class HomePageController {
 		} /*catch (InterruptedException e) {
 			throw new RuntimeException(e);
 		}*/
+	}
+
+	@FXML
+	void initialize(){
+		EventBus.getDefault().register(this);
 	}
 
 

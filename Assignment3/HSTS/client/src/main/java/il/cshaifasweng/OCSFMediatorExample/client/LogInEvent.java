@@ -1,5 +1,6 @@
 package il.cshaifasweng.OCSFMediatorExample.client;
 import il.cshaifasweng.OCSFMediatorExample.entities.MsgToLogIn;
+import org.greenrobot.eventbus.Subscribe;
 public class LogInEvent {
 
     private MsgToLogIn message;
@@ -8,7 +9,7 @@ public class LogInEvent {
         return message;
     }
 
-        public LogInEvent(MsgToLogIn message) {
+    public LogInEvent(MsgToLogIn message) {
         this.message = message;
     }
 }

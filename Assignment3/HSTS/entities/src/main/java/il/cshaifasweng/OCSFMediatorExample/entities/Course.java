@@ -23,7 +23,7 @@ public class Course implements Serializable {
     @JoinTable(
             name = "course_student",
             joinColumns = @JoinColumn(name = "course_id"),
-            inverseJoinColumns = @JoinColumn(name = "id_num")
+            inverseJoinColumns = @JoinColumn(name = "Username")
     )
     private List<Student> students= new ArrayList<>();
     public Course(String id, String name, Teacher teacher) {

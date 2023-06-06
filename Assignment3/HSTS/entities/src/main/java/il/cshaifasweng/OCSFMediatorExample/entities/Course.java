@@ -18,9 +18,9 @@ public class Course implements Serializable {
     @Column(name = "Course_Name")
     private String course_name;
 
-  @ManyToOne
-  @JoinColumn(name = "teacher_id")
-  private Teacher teacher;
+    @ManyToOne
+    @JoinColumn(name = "teacher_id")
+    private Teacher teacher;
 
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @Fetch(FetchMode.SUBSELECT)
@@ -36,7 +36,7 @@ public class Course implements Serializable {
     @JoinTable(
             name = "question_course",
             joinColumns = @JoinColumn(name = "course_id"),
-            inverseJoinColumns = @JoinColumn(name = "Question_Num")
+            inverseJoinColumns = @JoinColumn(name = "id_num")
     )
     private List<Question> questions = new ArrayList<>();
 

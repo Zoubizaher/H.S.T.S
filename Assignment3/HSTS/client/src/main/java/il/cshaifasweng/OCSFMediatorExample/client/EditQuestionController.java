@@ -1,9 +1,6 @@
 package il.cshaifasweng.OCSFMediatorExample.client;
 
-import il.cshaifasweng.OCSFMediatorExample.entities.Course;
-import il.cshaifasweng.OCSFMediatorExample.entities.MsgToLogIn;
-import il.cshaifasweng.OCSFMediatorExample.entities.Question;
-import il.cshaifasweng.OCSFMediatorExample.entities.Teacher;
+import il.cshaifasweng.OCSFMediatorExample.entities.*;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -42,7 +39,7 @@ public class EditQuestionController {
         question.setAnswerC(optionC.getText());
         question.setAnswerD(optionD.getText());
         question.setCorrectAnswer(optionCorrect.getText());
-        MsgToLogIn msg = new MsgToLogIn("#UpdateQuestion", question) ;
+        QuestionMsg msg = new QuestionMsg("#UpdateQuestion", question);
         SimpleClient.getClient().sendToServer(msg);
         addQuestionController.updateLIST();
     }

@@ -38,6 +38,8 @@ import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.Callback;
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -73,7 +75,10 @@ public class AddQuestionController{
     public void updateLIST() {
         questionTable.refresh();
     }
-
+    @FXML
+    void initialize(){
+        EventBus.getDefault().register(this);
+    }
     public void initializee() {
         System.out.print("INITIALIZING");
         TableColumn<Question, Integer> questionNumCol = new TableColumn<>("Question_num");
@@ -110,7 +115,7 @@ public class AddQuestionController{
         for (Course course : teacher.getCourses()){
             System.out.print("Course: " + course.getCourse_name());
             for(Question question : course.getQuestions()){
-                System.out.print("Question: " + question.getQuestionText());
+                System.out.print("\nQuestion: " + question.getQuestionText());
                 for(Question question1 : questions){
                     if(question1.getQuestionText().equals(question.getQuestionText())){
                     }else{
@@ -209,17 +214,23 @@ public class AddQuestionController{
                 }
             }
         }
-        questionTable.getItems().add(question);
-        MsgToLogIn msg1 = new MsgToLogIn("#AddQuestion", question);
+        QuestionMsg msg1 = new QuestionMsg("#AddQuestion", question, choosenCourses);
         SimpleClient.getClient().sendToServer(msg1);
+    }
+    @Subscribe
+    public void onReceivingQuestionEvent(ReceivingQuestionEvent message){
+        System.out.print("message returning question");
         A.setText("");
         B.setText("");
         C.setText("");
         D.setText("");
         QuestionText.setText("");
         AnswerChar.setText("");
+        Question q = message.getMessage().getQuestion();
+        System.out.print(q.getQuestionText());
+        questionTable.getItems().add(q);
+        questionTable.refresh();
     }
-
     public void setTeacher(Teacher teacher) {
         this.teacher = teacher;
     }

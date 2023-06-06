@@ -5,6 +5,7 @@ import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -26,7 +27,7 @@ public class App extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         HomePageStage = stage;
-        //EventBus.getDefault().register(this);
+        EventBus.getDefault().register(this);
     	client = SimpleClient.getClient();
     	client.openConnection();
         scene = new Scene(loadFXML("HomePage"));
@@ -44,13 +45,22 @@ public class App extends Application {
         return fxmlLoader.load();
     }
 
-  /*  @Subscribe
-    public void onMessageEvent(LogInEvent message) {
+    @Subscribe
+    public void onErrorEvent(ErrorMsgEvent event) {
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm:ss");
 
         Platform.runLater(() -> { // there is a possible that event can sent by another thread, here we ensure it sent by javafx thrad
-
+            Alert alert = new Alert(Alert.AlertType.INFORMATION,
+                    String.format("Message: \nData: %s\nTimestamp: %s\n",
+                            event.getErrorMsg(),
+                            event.getTimeStamp().format(dtf))
+            );
+            alert.setTitle("Error!");
+            alert.setHeaderText("Error:");
+            alert.show();
         });
-    }*/
+    }
+
 
 
 

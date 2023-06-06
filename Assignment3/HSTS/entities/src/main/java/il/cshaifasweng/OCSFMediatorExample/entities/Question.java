@@ -41,6 +41,11 @@ public class Question implements Serializable {
         this.answerD = answers.get(3);
         this.correctAnswer = correctAnswer;
     }
+
+    public Question() {
+
+    }
+
     public void setCourses(List<Course> courses){this.courses = courses;}
     public String getQuestionText() {
         return questionText;

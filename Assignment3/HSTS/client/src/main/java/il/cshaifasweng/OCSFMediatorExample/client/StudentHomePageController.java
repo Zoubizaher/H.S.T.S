@@ -1,5 +1,6 @@
 package il.cshaifasweng.OCSFMediatorExample.client;
 
+import il.cshaifasweng.OCSFMediatorExample.entities.Student;
 import il.cshaifasweng.OCSFMediatorExample.entities.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
@@ -45,13 +46,15 @@ public class StudentHomePageController { //pay attention, till now you didnt reg
     }
 
     public void showGrades(ActionEvent actionEvent) {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("TakeExamStudent.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("StudentGrades.fxml"));
         try {
             AnchorPane newScene = loader.load();
             Stage currentStage = App.getStage();
             Scene scene = new Scene(newScene);  // Set the loaded AnchorPane as the root of the scene
-            currentStage.setTitle(user.getFullName() + " Take Exam");
+            currentStage.setTitle(user.getFullName() + " Grades");
             currentStage.setScene(scene);
+            StudentGradesController controller = loader.getController();
+            controller.setStudent((Student) user);
             currentStage.show();
         } catch (IOException e) {
             throw new RuntimeException(e);

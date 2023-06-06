@@ -10,6 +10,10 @@ public class MsgToLogIn implements Serializable {
     String LogInFlag;
     private User user = null;
 
+    private Question question;
+
+    private int Question_num;
+
     public MsgToLogIn(String request, String password, String username) {
         this.request = request;
         this.password = password;
@@ -18,6 +22,11 @@ public class MsgToLogIn implements Serializable {
 
     public MsgToLogIn(String request) {
         this.request = request;
+    }
+
+    public MsgToLogIn(String hashtag, Question question) {
+        this.request = hashtag;
+        this.question = question;
     }
 
     public void setRequest(String request) {
@@ -50,5 +59,14 @@ public class MsgToLogIn implements Serializable {
 
     public String getUsername() {
         return username;
+    }
+
+    public Question getQuestion(){return this.question;}
+
+    public void setQuestion_num(int question_num) {
+        Question_num = question_num;
+    }
+    public int getQuestion_num(){
+        return this.Question_num;
     }
 }

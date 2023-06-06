@@ -11,8 +11,7 @@ public class Teacher extends User implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id_num;*/  // no need for id because its son class . user already have
 
-    @OneToMany(mappedBy = "teacher",cascade = CascadeType.ALL, fetch = FetchType.EAGER )
-
+    @OneToMany(mappedBy = "teacher",cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Course> courses = new ArrayList<>();
 
     public Teacher(String id, String first, String last, String username, String role, String mail, String password){
@@ -25,4 +24,6 @@ public class Teacher extends User implements Serializable {
 
     public void AddCourse(Course course){this.courses.add(course);}
     public void SetCourses(List<Course> courses){this.courses=courses;}
+
+    public List<Course> getCourses(){return this.courses;}
 }

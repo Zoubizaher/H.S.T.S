@@ -1,5 +1,8 @@
 package il.cshaifasweng.OCSFMediatorExample.entities;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -19,13 +22,25 @@ public class Course implements Serializable {
   @JoinColumn(name = "teacher_id")
   private Teacher teacher;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @Fetch(FetchMode.SUBSELECT)
     @JoinTable(
             name = "course_student",
             joinColumns = @JoinColumn(name = "course_id"),
             inverseJoinColumns = @JoinColumn(name = "Username")
     )
     private List<Student> students= new ArrayList<>();
+
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @Fetch(FetchMode.SUBSELECT)
+    @JoinTable(
+            name = "question_course",
+            joinColumns = @JoinColumn(name = "course_id"),
+            inverseJoinColumns = @JoinColumn(name = "Question_Num")
+    )
+    private List<Question> questions = new ArrayList<>();
+
+
     public Course(String id, String name, Teacher teacher) {
         super();
         this.id = id;
@@ -47,4 +62,10 @@ public class Course implements Serializable {
     public String getCourse_name(){
         return this.course_name;
     }
+
+    public void addQuestion(Question question){this.questions.add(question);}
+    public List<Question> getQuestions(){return this.questions;}
+    public String getId(){return this.id;}
+
+    public List<Student> getStudents() {return this.students;}
 }

@@ -1,5 +1,8 @@
 package il.cshaifasweng.OCSFMediatorExample.entities;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -14,13 +17,14 @@ public class Student extends User implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id_num;*/ //no need for id because its son class . user already have
 
-    @ManyToMany(mappedBy = "students", fetch = FetchType.LAZY)
+    @ManyToMany(mappedBy = "students", fetch = FetchType.EAGER)
+    @Fetch(FetchMode.SUBSELECT)
     private List<Course> courses = new ArrayList<>();
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "student", fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "student", fetch = FetchType.EAGER)
     private List<Grade> grades = new ArrayList<>();
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "student", fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "student", fetch = FetchType.EAGER)
     @MapKeyJoinColumn(name = "Course_ID")
     private Map<Course, Grade> gradesMap = new HashMap<>();
     public Student(String id, String first, String last, String username, String role, String mail, String password){

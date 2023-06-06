@@ -31,6 +31,8 @@ public class HomePageController {
 	@FXML
 	private ImageView eye;
 
+
+
 	@FXML
 	void sendWarning(ActionEvent event) {
 		try {
@@ -65,6 +67,7 @@ public class HomePageController {
 
 	@Subscribe
 	public void onLogInEvent(LogInEvent message) throws IOException {
+		User UserToSend =message.getMessage().getUser();
 		System.out.print("LOG IN Recieved\n");
 		if(message.getMessage().getLogInFlag().equals("Successfully")){
 			User user = message.getMessage().getUser();
@@ -92,12 +95,16 @@ public class HomePageController {
 					FXMLLoader loader = new FXMLLoader(getClass().getResource("TeacherHomePage.fxml"));
 					try {
 						AnchorPane newScene = loader.load();
+						TeacherHomePageController controller = loader.getController();
+						System.out.println("UserToSend: " + UserToSend.getFullName());
+						controller.setUser(UserToSend);
+						controller.initializee();
 						Stage currentStage = App.getStage();
 						Scene scene = new Scene(newScene);  // Set the loaded AnchorPane as the root of the scene
 						currentStage.setTitle(user.getFullName() + " Home Page");
 						currentStage.setScene(scene);
-						TeacherHomePageController controller = loader.getController();
-						controller.setUser(user);
+						//TeacherHomePageController controller = loader.getController();
+						//controller.setUser(user);
 						currentStage.show();
 					} catch (IOException e) {
 						throw new RuntimeException(e);

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.Blend?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane prefHeight="584.0" prefWidth="821.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.cshaifasweng.OCSFMediatorExample.client.AddQuestionController">
+   <children>
+      <HBox layoutX="-1.0" prefHeight="331.0" prefWidth="806.0">
+         <children>
+            <TableView prefHeight="331.0" prefWidth="806.0">
+              <columns>
+                <TableColumn prefWidth="90.4000244140625" text="Question_num" />
+                <TableColumn prefWidth="61.5999755859375" text="Question" />
+                  <TableColumn prefWidth="116.00006103515625" text="A" />
+                  <TableColumn prefWidth="88.79998779296875" text="B" />
+                  <TableColumn prefWidth="81.5999755859375" text="C" />
+                  <TableColumn prefWidth="84.800048828125" text="D" />
+                  <TableColumn prefWidth="112.0" text="Answer" />
+              </columns>
+            </TableView>
+         </children>
+      </HBox>
+      <HBox layoutY="343.0" prefHeight="100.0" prefWidth="805.0">
+         <children>
+            <TextField prefHeight="74.0" prefWidth="142.0" />
+            <TextField layoutX="10.0" layoutY="10.0" prefHeight="73.0" prefWidth="144.0" />
+            <TextField layoutX="160.0" layoutY="10.0" prefHeight="72.0" prefWidth="145.0" />
+            <TextField layoutX="309.0" layoutY="10.0" prefHeight="72.0" prefWidth="150.0" />
+            <TextField layoutX="459.0" layoutY="10.0" prefHeight="72.0" prefWidth="150.0" />
+            <TextField layoutX="608.0" layoutY="10.0" prefHeight="70.0" prefWidth="76.0" />
+         </children>
+      </HBox>
+      <VBox layoutY="466.0" prefHeight="112.0" prefWidth="118.0">
+         <children>
+            <Button mnemonicParsing="false" prefHeight="54.0" prefWidth="118.0" text="AddQuestion" />
+            <Button layoutX="10.0" layoutY="10.0" mnemonicParsing="false" prefHeight="54.0" prefWidth="118.0" text="EditSelected" />
+         </children>
+      </VBox>
+      <Label alignment="CENTER" layoutX="-1.0" layoutY="424.0" prefHeight="37.0" prefWidth="142.0" text="Question is : ">
+         <font>
+            <Font name="System Bold Italic" size="18.0" />
+         </font>
+      </Label>
+      <Label alignment="CENTER" layoutX="143.0" layoutY="424.0" prefHeight="37.0" prefWidth="142.0" text="A" textAlignment="CENTER">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+      <Label alignment="CENTER" layoutX="285.0" layoutY="424.0" prefHeight="37.0" prefWidth="142.0" text="B">
+         <font>
+            <Font size="24.0" />
+         </font>
+         <effect>
+            <Blend />
+         </effect>
+      </Label>
+      <Label alignment="CENTER" layoutX="427.0" layoutY="424.0" prefHeight="37.0" prefWidth="142.0" text="C">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+      <Label alignment="CENTER" layoutX="581.0" layoutY="424.0" prefHeight="37.0" prefWidth="142.0" text="D">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+      <Label alignment="CENTER" layoutX="732.0" layoutY="424.0" prefHeight="38.0" prefWidth="82.0" text="ANSWER">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>

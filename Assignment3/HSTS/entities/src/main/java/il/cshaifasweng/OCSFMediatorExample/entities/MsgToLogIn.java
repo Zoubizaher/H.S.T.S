@@ -1,5 +1,6 @@
 package il.cshaifasweng.OCSFMediatorExample.entities;
 import java.io.Serializable;
+import java.util.List;
 
 public class MsgToLogIn implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -10,9 +11,6 @@ public class MsgToLogIn implements Serializable {
     String LogInFlag;
     private User user = null;
 
-    private Question question;
-
-    private int Question_num;
 
     public MsgToLogIn(String request, String password, String username) {
         this.request = request;
@@ -23,12 +21,6 @@ public class MsgToLogIn implements Serializable {
     public MsgToLogIn(String request) {
         this.request = request;
     }
-
-    public MsgToLogIn(String hashtag, Question question) {
-        this.request = hashtag;
-        this.question = question;
-    }
-
     public void setRequest(String request) {
         this.request = request;
     }
@@ -59,14 +51,5 @@ public class MsgToLogIn implements Serializable {
 
     public String getUsername() {
         return username;
-    }
-
-    public Question getQuestion(){return this.question;}
-
-    public void setQuestion_num(int question_num) {
-        Question_num = question_num;
-    }
-    public int getQuestion_num(){
-        return this.Question_num;
     }
 }

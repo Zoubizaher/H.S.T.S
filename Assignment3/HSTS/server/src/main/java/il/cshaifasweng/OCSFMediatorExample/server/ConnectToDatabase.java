@@ -264,9 +264,10 @@ public class ConnectToDatabase {
             }
         }
     }
-    public static void AddQuestion(Question question) throws Exception {
+    public static QuestionMsg AddQuestion(Question question, List<Course> courses) throws Exception {
         System.out.print("\nADDING QUESTION\n");
         session.beginTransaction();
+        question.setCourses(courses);
         session.save(question);
         session.flush();
         session.getTransaction().commit();
@@ -274,15 +275,17 @@ public class ConnectToDatabase {
         for (Course course : question.getCourses()) {
             Hibernate.initialize(course.getQuestions());
             Hibernate.initialize(course.getStudents());
-            for (Question question1 : course.getQuestions()) {
-                System.out.print(question1.getQuestionText() + "\n");
+            for (Question question2 : course.getQuestions()) {
+                System.out.print(question.getQuestionText() + "\n");
             }
         }
-
         session.beginTransaction();
         save_all(session);
+        QuestionMsg msg = new QuestionMsg("#ReturningQuestion",question);
+        System.out.print("THE NUMBER OF THE EXAM IS: " + question.getIdNum());
         session.flush();
         session.getTransaction().commit();
+        return msg;
     }
 
 

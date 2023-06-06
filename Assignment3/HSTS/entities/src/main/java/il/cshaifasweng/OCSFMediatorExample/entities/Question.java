@@ -10,7 +10,6 @@ import java.util.List;
 public class Question implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "Question_Num")
     private int id_num;
 
     @Column(name = "Question_text")
@@ -42,7 +41,6 @@ public class Question implements Serializable {
         this.answerD = answers.get(3);
         this.correctAnswer = correctAnswer;
     }
-
     public void setCourses(List<Course> courses){this.courses = courses;}
     public String getQuestionText() {
         return questionText;
@@ -98,7 +96,6 @@ public class Question implements Serializable {
     public void setAnswerB(String answer){this.answerB = answer;}
     public void setAnswerC(String answer){this.answerC = answer;}
     public void setAnswerD(String answer){this.answerD = answer;}
-    public void setId_num(int id){this.id_num = id;}
     public List<Course> getCourses(){return this.courses;}
     public void AddCourse(Course course){this.courses.add(course);}
 }

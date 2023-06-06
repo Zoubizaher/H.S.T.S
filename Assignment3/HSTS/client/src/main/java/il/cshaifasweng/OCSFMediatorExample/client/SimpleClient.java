@@ -1,6 +1,7 @@
 package il.cshaifasweng.OCSFMediatorExample.client;
 
 import il.cshaifasweng.OCSFMediatorExample.entities.MsgToLogIn;
+import il.cshaifasweng.OCSFMediatorExample.entities.QuestionMsg;
 import il.cshaifasweng.OCSFMediatorExample.entities.Student;
 import org.greenrobot.eventbus.EventBus;
 
@@ -20,13 +21,22 @@ public class SimpleClient extends AbstractClient {
 	@Override
 	protected void handleMessageFromServer(Object msg) {
 		System.out.print("Receiving a message");
-		MsgToLogIn message = (MsgToLogIn) msg;
-		if (msg instanceof List<?>) {
+		if (msg instanceof MsgToLogIn) {
+			MsgToLogIn message = (MsgToLogIn) msg;
+			if (message.getRequest().equals("#LogInReply")) {
+				EventBus.getDefault().post(new LogInEvent(message));
+			}
+		} else if (msg instanceof QuestionMsg) {
+			QuestionMsg message2 = (QuestionMsg) msg;
+			System.out.print("POSTING QUESTION1");
+			if (message2.getRequest().equals("#ReturningQuestion")) {
+				System.out.print("POSTING QUESTION2");
+				EventBus.getDefault().post(new ReceivingQuestionEvent(message2));
+			}
+		} else if (msg instanceof List<?>) {
 			studentList = (List<Student>) msg;
 			EventBus.getDefault().post(studentList);
-		} else if (message.getRequest().equals("#LogInReply")) {
-			EventBus.getDefault().post(new LogInEvent(message));
-		} else {
+		}else {
 			System.out.print("UNKOWN MESSAGE TYPE");
 		}
 	}

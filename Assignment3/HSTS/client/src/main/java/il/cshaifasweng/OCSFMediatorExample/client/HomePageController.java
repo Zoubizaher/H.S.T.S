@@ -13,7 +13,6 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import org.greenrobot.eventbus.EventBus;
@@ -116,8 +115,12 @@ public class HomePageController {
 
 		} else if (message.getMessage().getLogInFlag().equals("WrongPassword")){ // here i think we need to show alert!
 			System.out.print("Wrong Password");
-		} else if(message.getMessage().getLogInFlag().equals("WrongUsername")){
+			EventBus.getDefault().post(new ErrorMsgEvent("Wrong Password"));
+
+		}
+		else if(message.getMessage().getLogInFlag().equals("WrongUsername")){
 			System.out.print("Wrong Username");
+			EventBus.getDefault().post(new ErrorMsgEvent("Wrong Username"));
 		} else {
 			System.out.print(message.getMessage().getLogInFlag());
 		}

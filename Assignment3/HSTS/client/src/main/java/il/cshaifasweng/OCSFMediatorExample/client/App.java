@@ -61,6 +61,7 @@ public class App extends Application {
 	public void stop() throws Exception {
 		// TODO Auto-generated method stub
         EventBus.getDefault().unregister(this);
+        Platform.exit();
 		super.stop();
 	}
 

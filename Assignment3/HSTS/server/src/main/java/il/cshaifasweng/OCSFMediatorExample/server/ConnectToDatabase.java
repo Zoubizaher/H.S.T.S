@@ -1,6 +1,7 @@
 package il.cshaifasweng.OCSFMediatorExample.server;
 
 import il.cshaifasweng.OCSFMediatorExample.entities.*;
+import org.hibernate.Hibernate;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -263,6 +264,27 @@ public class ConnectToDatabase {
             }
         }
     }
+    public static void AddQuestion(Question question) throws Exception {
+        System.out.print("\nADDING QUESTION\n");
+        session.beginTransaction();
+        session.save(question);
+        session.flush();
+        session.getTransaction().commit();
+        Hibernate.initialize(question);
+        for (Course course : question.getCourses()) {
+            Hibernate.initialize(course.getQuestions());
+            Hibernate.initialize(course.getStudents());
+            for (Question question1 : course.getQuestions()) {
+                System.out.print(question1.getQuestionText() + "\n");
+            }
+        }
+
+        session.beginTransaction();
+        save_all(session);
+        session.flush();
+        session.getTransaction().commit();
+    }
+
 
     public static List<Student> getStudents() {
         return students;
@@ -299,5 +321,12 @@ public class ConnectToDatabase {
     public static void EndConnection(){
         session.getTransaction().commit(); // Save everything.
         session.close();
+    }
+
+    public static void updateQuestion(Question question) {
+        session.beginTransaction();
+        session.save(question);
+        session.flush();
+        session.getTransaction().commit();
     }
 }

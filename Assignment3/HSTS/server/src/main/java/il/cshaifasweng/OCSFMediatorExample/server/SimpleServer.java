@@ -110,7 +110,12 @@ public class SimpleServer extends AbstractServer {
 				client.sendToClient(message);
 			}
 		}
-
+		else if (message.getRequest().equals("#AddQuestion")){
+			ConnectToDatabase.AddQuestion(message.getQuestion());
+		}
+		else if (message.getRequest().equals("#UpdateQuestion")){
+			ConnectToDatabase.updateQuestion(message.getQuestion());
+		}
 
 	}
 }

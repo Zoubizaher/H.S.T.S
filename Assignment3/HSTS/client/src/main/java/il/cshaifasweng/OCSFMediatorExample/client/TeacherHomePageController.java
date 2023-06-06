@@ -1,5 +1,8 @@
 package il.cshaifasweng.OCSFMediatorExample.client;
 
+import il.cshaifasweng.OCSFMediatorExample.entities.Course;
+import il.cshaifasweng.OCSFMediatorExample.entities.Question;
+import il.cshaifasweng.OCSFMediatorExample.entities.Teacher;
 import il.cshaifasweng.OCSFMediatorExample.entities.User;
 
 
@@ -46,25 +49,34 @@ public class TeacherHomePageController {
         //EventBus.getDefault().register(this);
 
         welcomeLabel.setText("Welcome "+ user.getFullName());
-}
+    }
 
 
-public void AddQuestion (ActionEvent actionEvent ){ // i chose to load another stage
-    Platform.runLater(() -> {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("AddQuestion.fxml"));
-        try {
-            AnchorPane newScene = loader.load();
-            Stage currentStage = new Stage();
-            Scene scene = new Scene(newScene);  // Set the loaded AnchorPane as the root of the scene
-            currentStage.setTitle("Add Question SharedPlatform");
-            currentStage.setScene(scene);
-            AddQuestionController controller = loader.getController();
-            //controller.setUser(user);
-           // controller.initializee();
-            currentStage.show();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        } });
+    public void AddQuestion (ActionEvent actionEvent ){ // i chose to load another stage
+        Platform.runLater(() -> {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("AddQuestion.fxml"));
+            try {
+                AnchorPane newScene = loader.load();
+                Stage currentStage = new Stage();
+                Scene scene = new Scene(newScene);  // Set the loaded AnchorPane as the root of the scene
+                currentStage.setTitle("Add Question SharedPlatform");
+                currentStage.setScene(scene);
+                AddQuestionController controller = loader.getController();
+                Teacher teacher = (Teacher) user;
+                System.out.print("PRINTING COURSES:");
+                for(Course course : teacher.getCourses()){
+                    System.out.print(course.getCourse_name());
+                    for(Question question : course.getQuestions()){
+                        System.out.print("\nQ: " + question.getQuestionText() + "\n");
+                    }
+                }
+                controller.setTeacher(teacher);
+                controller.initializee();
+                currentStage.show();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
     }
 
 

@@ -14,6 +14,9 @@ public class Teacher extends User implements Serializable {
     @OneToMany(mappedBy = "teacher",cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Course> courses = new ArrayList<>();
 
+    @OneToMany(mappedBy = "teacherQuestionList",cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<Question> TeacherQuestionsList = new ArrayList<>();
+
     public Teacher(String id, String first, String last, String username, String role, String mail, String password){
         super(id, first, last, username, role, mail,password);
     }
@@ -24,6 +27,17 @@ public class Teacher extends User implements Serializable {
 
     public void AddCourse(Course course){this.courses.add(course);}
     public void SetCourses(List<Course> courses){this.courses=courses;}
+
+    public List<Question> getTeacherQuestionsList() {
+        return TeacherQuestionsList;
+    }
+
+    public void setTeacherQuestionsList(List<Question> teacherQuestionsList) {
+        TeacherQuestionsList = teacherQuestionsList;
+    }
+    public void AddQuestion(Question question){
+        this.TeacherQuestionsList.add(question);
+    }
 
     public List<Course> getCourses(){return this.courses;}
 }

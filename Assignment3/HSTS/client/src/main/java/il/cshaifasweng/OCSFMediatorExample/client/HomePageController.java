@@ -109,7 +109,7 @@ public class HomePageController {
 						throw new RuntimeException(e);
 					}
 				});
-			} else if (user.getRole().equals("manager")) {
+			} else if (user.getRole().equals("manager")) { //  this ToDo
 				System.out.print("\nmanager!!\n");
 			}
 

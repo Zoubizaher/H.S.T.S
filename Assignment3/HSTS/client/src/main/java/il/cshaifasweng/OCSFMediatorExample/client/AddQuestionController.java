@@ -15,27 +15,15 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
+import java.util.*;
+
 import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
 import javafx.scene.control.TableCell;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
-import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.control.cell.TextFieldTableCell;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import org.greenrobot.eventbus.EventBus;
@@ -43,7 +31,7 @@ import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 import java.util.List;
-public class AddQuestionController{
+public class AddQuestionController implements Initializable{
     private Teacher teacher;
     @FXML
     private TextField QuestionText;
@@ -75,15 +63,18 @@ public class AddQuestionController{
     public void updateLIST() {
         questionTable.refresh();
     }
-    @FXML
+    /*@FXML
     void initialize(){
         EventBus.getDefault().register(this);
-    }
+        //System.out.print("\n CHECK REF: "+ teacher.getFullName());
+
+    }*/
     public void initializee() {
-        System.out.print("INITIALIZING");
+       System.out.print("INITIALIZING");
+        ObservableList<Question> QuestionsForTeacher = FXCollections.observableArrayList();
         TableColumn<Question, Integer> questionNumCol = new TableColumn<>("Question_num");
         TableColumn<Question, String> questionCol = new TableColumn<>("Question");
-        TableColumn<Question, String> aCol = new TableColumn<>("A");
+        TableColumn<Question, String> aCol = new TableColumn<>("A");//manual set-> the header label is set to "A",
         TableColumn<Question, String> bCol = new TableColumn<>("B");
         TableColumn<Question, String> cCol = new TableColumn<>("C");
         TableColumn<Question, String> dCol = new TableColumn<>("D");
@@ -98,33 +89,31 @@ public class AddQuestionController{
         dCol.setCellValueFactory(new PropertyValueFactory<>("answerD"));
         answerCol.setCellValueFactory(new PropertyValueFactory<>("correctAnswer"));
 
-        // Make the option columns editable as text fields
+     /*   // Make the option columns editable as text fields
         aCol.setCellFactory(TextFieldTableCell.forTableColumn());
         bCol.setCellFactory(TextFieldTableCell.forTableColumn());
         cCol.setCellFactory(TextFieldTableCell.forTableColumn());
-        dCol.setCellFactory(TextFieldTableCell.forTableColumn());
+        dCol.setCellFactory(TextFieldTableCell.forTableColumn());*/ //=> NO need for this !
 
         // Add the columns to the table
+
         questionTable.getColumns().addAll(
                 questionNumCol, questionCol, aCol, bCol, cCol, dCol, answerCol
         );
-        for (Course course : teacher.getCourses()) {
-            CheckBox checkBox = new CheckBox(course.getCourse_name());
-            coursesVBox.getChildren().add(checkBox);
-        }
-        for (Course course : teacher.getCourses()){
-            System.out.print("Course: " + course.getCourse_name());
-            for(Question question : course.getQuestions()){
+
+
+            for(Question question : teacher.getTeacherQuestionsList()){
                 System.out.print("\nQuestion: " + question.getQuestionText());
-                for(Question question1 : questions){
-                    if(question1.getQuestionText().equals(question.getQuestionText())){
-                    }else{
-                        questions.add(question);
-                        questionTable.getItems().add(question);
-                    }
-                }
+
+
+                        QuestionsForTeacher.add(question);
+
+
+
             }
-        }
+
+        questionTable.setItems(QuestionsForTeacher);// this should show the questions
+
         // Create the edit column
         editCol = new TableColumn<>("Edit");
 
@@ -185,26 +174,26 @@ public class AddQuestionController{
     }
     public void AddQuestion(ActionEvent actionEvent) throws IOException {
         ObservableList<CheckBox> selectedCheckboxes = FXCollections.observableArrayList();
-        String Questiontxt;
-        List<Course> choosenCourses = new ArrayList<>();
+        String QuestionTxt;
+       // List<Course> choosenCourses = new ArrayList<>();
         List<String> answers = new ArrayList<>();
         String correctAnswer;
-        for (Node node : coursesVBox.getChildren()) {
+      /*  for (Node node : coursesVBox.getChildren()) {//==> Also no need
             if (node instanceof CheckBox) {
                 CheckBox checkBox = (CheckBox) node;
                 if (checkBox.isSelected()) {
                     selectedCheckboxes.add(checkBox);
                 }
             }
-        }
+        }*/
         answers.add(A.getText());
         answers.add(B.getText());
         answers.add(C.getText());
         answers.add(D.getText());
-        Questiontxt = QuestionText.getText();
+        QuestionTxt = QuestionText.getText();
         correctAnswer = AnswerChar.getText();
-        Question question = new Question(Questiontxt, answers, correctAnswer);
-        for (CheckBox checkBox : selectedCheckboxes) {
+        Question question = new Question(QuestionTxt, answers, correctAnswer);
+     /*   for (CheckBox checkBox : selectedCheckboxes) {
             String courseName = checkBox.getText();
             for(Course course : teacher.getCourses()){
                 if(course.getCourse_name().equals(courseName)){
@@ -213,8 +202,8 @@ public class AddQuestionController{
                     question.AddCourse(course);
                 }
             }
-        }
-        QuestionMsg msg1 = new QuestionMsg("#AddQuestion", question, choosenCourses);
+        }*/
+        QuestionMsg msg1 = new QuestionMsg("#AddQuestion", question, teacher);
         SimpleClient.getClient().sendToServer(msg1);
     }
     @Subscribe
@@ -233,5 +222,41 @@ public class AddQuestionController{
     }
     public void setTeacher(Teacher teacher) {
         this.teacher = teacher;
+    }
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        EventBus.getDefault().register(this);
+      //  System.out.print("\n CHECK REF: "+ teacher.getFullName());
+     /*   System.out.print("INITIALIZING");
+        TableColumn<Question, Integer> questionNumCol = new TableColumn<>("Question_num");
+        TableColumn<Question, String> questionCol = new TableColumn<>("Question");
+        TableColumn<Question, String> aCol = new TableColumn<>("A");//manual set-> the header label is set to "A",
+        TableColumn<Question, String> bCol = new TableColumn<>("B");
+        TableColumn<Question, String> cCol = new TableColumn<>("C");
+        TableColumn<Question, String> dCol = new TableColumn<>("D");
+        TableColumn<Question, String> answerCol = new TableColumn<>("Answer");
+
+        // Define property value factories for each column
+        questionNumCol.setCellValueFactory(new PropertyValueFactory<>("IdNum"));
+        questionCol.setCellValueFactory(new PropertyValueFactory<>("questionText"));
+        aCol.setCellValueFactory(new PropertyValueFactory<>("answerA"));
+        bCol.setCellValueFactory(new PropertyValueFactory<>("answerB"));
+        cCol.setCellValueFactory(new PropertyValueFactory<>("answerC"));
+        dCol.setCellValueFactory(new PropertyValueFactory<>("answerD"));
+        answerCol.setCellValueFactory(new PropertyValueFactory<>("correctAnswer"));
+
+        // Make the option columns editable as text fields
+        aCol.setCellFactory(TextFieldTableCell.forTableColumn());
+        bCol.setCellFactory(TextFieldTableCell.forTableColumn());
+        cCol.setCellFactory(TextFieldTableCell.forTableColumn());
+        dCol.setCellFactory(TextFieldTableCell.forTableColumn());
+
+        // Add the columns to the table
+
+        questionTable.getColumns().addAll(
+                questionNumCol, questionCol, aCol, bCol, cCol, dCol, answerCol
+        );
+        questionTable.refresh();*/
     }
 }

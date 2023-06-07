@@ -26,12 +26,18 @@ public class Question implements Serializable {
     @Column(name = "Answer")
     private String correctAnswer;
 
-    @ManyToMany(mappedBy = "questions", fetch = FetchType.EAGER)
-    private List<Course> courses = new ArrayList<>();
+  /*  @ManyToMany(mappedBy = "questions", fetch = FetchType.EAGER)
+    private List<Course> courses = new ArrayList<>();*/
+
+
 
     @ElementCollection
     @OrderColumn(name = "answer_order")
     private List<String> answers;
+
+    @ManyToOne
+    @JoinColumn(name = "teacher_id")
+    private Teacher teacher;
     public Question(String questionText, List<String> answers, String correctAnswer) {
         this.questionText = questionText;
         this.answers = answers;
@@ -46,7 +52,7 @@ public class Question implements Serializable {
 
     }
 
-    public void setCourses(List<Course> courses){this.courses = courses;}
+  //  public void setCourses(List<Course> courses){this.courses = courses;}
     public String getQuestionText() {
         return questionText;
     }
@@ -91,6 +97,14 @@ public class Question implements Serializable {
         return answerC;
     }
 
+    public Teacher getTeacher() {
+        return teacher;
+    }
+
+    public void setTeacher(Teacher teacher) {
+        this.teacher = teacher;
+    }
+
     public String getAnswerD() {
         return answerD;
     }
@@ -101,7 +115,7 @@ public class Question implements Serializable {
     public void setAnswerB(String answer){this.answerB = answer;}
     public void setAnswerC(String answer){this.answerC = answer;}
     public void setAnswerD(String answer){this.answerD = answer;}
-    public List<Course> getCourses(){return this.courses;}
-    public void AddCourse(Course course){this.courses.add(course);}
+ //   public List<Course> getCourses(){return this.courses;}
+   // public void AddCourse(Course course){this.courses.add(course);}
 }
 

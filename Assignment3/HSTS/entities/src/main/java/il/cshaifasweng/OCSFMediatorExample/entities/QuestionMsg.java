@@ -7,20 +7,20 @@ public class QuestionMsg implements Serializable{
     String request;
     private Question question;
 
-    private List<Course> courses_of_question;
+    private Teacher TeacherWhoCreate;
 
     private int Question_num;
 
-    public QuestionMsg(String hashtag, Question question, List<Course> courses) {
+    public QuestionMsg(String hashtag, Question question, Teacher teacher) {
         this.request = hashtag;
         this.question = question;
-        this.courses_of_question = courses;
+        this.TeacherWhoCreate = teacher;
     }
     public QuestionMsg(String hashtag, Question question) {
         this.request = hashtag;
         this.question = question;
     }
-    public List<Course> getCourses_of_question(){return this.courses_of_question;}
+   // public List<Course> getCourses_of_question(){return this.courses_of_question;}
     public void setQuestion_num(int question_num) {
         Question_num = question_num;
     }
@@ -31,4 +31,8 @@ public class QuestionMsg implements Serializable{
     public Question getQuestion(){return this.question;}
 
     public Object getRequest() {return this.request;}
+
+    public Teacher getTeacherWhoCreate() {
+        return TeacherWhoCreate;
+    }
 }

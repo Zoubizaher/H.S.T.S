@@ -7,6 +7,7 @@ import il.cshaifasweng.OCSFMediatorExample.entities.User;
 
 
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import javafx.application.Platform;
@@ -62,13 +63,13 @@ public class TeacherHomePageController {
                 Scene scene = new Scene(newScene);  // Set the loaded AnchorPane as the root of the scene
                 AddQuestionController controller = loader.getController();
                 Teacher teacher = (Teacher) user;
-
-                    for(Question question : teacher.getTeacherQuestionsList()){
-                        if(teacher.getTeacherQuestionsList().isEmpty())
+              /*  List<Question> questionList=teacher.getTeacherQuestionsList();
+                    for(Question question : questionList){
+                        if(questionList.isEmpty())
                         { System.out.print("\nSystem check Q.list is empty : "); }
                           else
                         {System.out.print("\nSystem check for Q.list: " + question.getQuestionText() + "\n");}
-                    }
+                    }*/
 
                 controller.setTeacher(teacher);
                 controller.initializee();

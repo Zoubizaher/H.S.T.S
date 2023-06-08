@@ -101,16 +101,17 @@ public class AddQuestionController implements Initializable{
                 questionNumCol, questionCol, aCol, bCol, cCol, dCol, answerCol
         );
 
+              List<Question> questionList=teacher.getTeacherQuestionsList();
+                        if(questionList.isEmpty())
+                        { System.out.print("\nSystem check Q.list is empty : "); }
+                        else {
+                    for(Question question : questionList){
 
-            for(Question question : teacher.getTeacherQuestionsList()){
-                System.out.print("\nQuestion: " + question.getQuestionText());
+                        {System.out.print("\nSystem check for Q.list: " + question.getQuestionText() + "\n");}
 
 
                         QuestionsForTeacher.add(question);
-
-
-
-            }
+                    }}
 
         questionTable.setItems(QuestionsForTeacher);// this should show the questions
 

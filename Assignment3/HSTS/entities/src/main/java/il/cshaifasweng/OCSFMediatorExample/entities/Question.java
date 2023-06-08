@@ -38,7 +38,7 @@ public class Question implements Serializable {
     @ManyToOne
     @JoinColumn(name = "teacher_id")
     private Teacher teacher;
-    public Question(String questionText, List<String> answers, String correctAnswer) {
+    public Question(String questionText, List<String> answers, String correctAnswer,Teacher teacher) {
         this.questionText = questionText;
         this.answers = answers;
         this.answerA = answers.get(0);
@@ -46,6 +46,7 @@ public class Question implements Serializable {
         this.answerC = answers.get(2);
         this.answerD = answers.get(3);
         this.correctAnswer = correctAnswer;
+        this.teacher=teacher;
     }
 
     public Question() {
@@ -81,9 +82,9 @@ public class Question implements Serializable {
         return answers.get(index);
     }
 
-    public int getQuestionNum() {
+   /* public int getQuestionNum() {
         return id_num;
-    }
+    }*/
 
     public String getAnswerA() {
         return answerA;
@@ -101,9 +102,10 @@ public class Question implements Serializable {
         return teacher;
     }
 
-    public void setTeacher(Teacher teacher) {
+   /* public void setTeacher(Teacher teacher) {
         this.teacher = teacher;
-    }
+    }*/
+
 
     public String getAnswerD() {
         return answerD;

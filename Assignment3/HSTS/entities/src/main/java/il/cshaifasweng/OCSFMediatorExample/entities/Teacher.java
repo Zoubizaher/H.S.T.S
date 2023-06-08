@@ -17,12 +17,13 @@ public class Teacher extends User implements Serializable {
     @OneToMany(mappedBy = "teacher",cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Course> courses = new ArrayList<>();
 
-    @OneToMany(mappedBy = "teacherQuestionList",cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @Fetch(FetchMode.SUBSELECT)
-    private List<Question> TeacherQuestionsList = new ArrayList<>();
+    @OneToMany(mappedBy = "teacher",cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    //@Fetch(FetchMode.SUBSELECT)
+    private List<Question> TeacherQuestionsList  = new ArrayList<>();
 
     public Teacher(String id, String first, String last, String username, String role, String mail, String password){
         super(id, first, last, username, role, mail,password);
+       // this.TeacherQuestionsList=new ArrayList<>();
     }
 
     public Teacher() {

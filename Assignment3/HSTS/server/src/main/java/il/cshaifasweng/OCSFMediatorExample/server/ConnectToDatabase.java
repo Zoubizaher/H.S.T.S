@@ -266,16 +266,22 @@ public class ConnectToDatabase {
     }
     public static QuestionMsg AddQuestion(Question question, Teacher teacher) throws Exception {
         System.out.print("\nADDING QUESTION\n");
-        System.out.print("\nSYSTEM CHECK Q_num\n"+question.getIdNum());
+        //System.out.print("\nSYSTEM CHECK Q_num\n"+question.getIdNum());
         System.out.print("\nSYSTEM CHECK TEACHER\n"+question.getTeacher().getFullName());
        // teacher.AddQuestion(question);
         //question.setTeacher(teacher);
        // session= getSessionFactory().openSession();
-       // session.beginTransaction();
-       // session.save(question);// this maybe wrong todo
-        session.save(question);
+
+        session.beginTransaction();
+        Question QuestionToADD = new Question(question.getQuestionText(),question.getAnswers(),
+                question.getCorrectAnswer(),question.getTeacher());
+        session.save(QuestionToADD);
         session.flush();
+        teacher.getTeacherQuestionsList().add(QuestionToADD);
+       // session.save(teacher);
+        // session.flush();
         session.getTransaction().commit();
+
        // session.close();
         System.out.print("\nADDING QUESTION is done from server \n");//
      /*   Hibernate.initialize(question);
@@ -288,7 +294,7 @@ public class ConnectToDatabase {
         }
         session.beginTransaction();
         save_all(session);*/
-        QuestionMsg msg = new QuestionMsg("#ReturningQuestion",question);
+        QuestionMsg msg = new QuestionMsg("#ReturningQuestion",QuestionToADD,teacher);
         System.out.print("\nTHE NUMBER OF THE QUESTION IS: " + question.getIdNum());
        // session.flush();
        // session.getTransaction().commit();

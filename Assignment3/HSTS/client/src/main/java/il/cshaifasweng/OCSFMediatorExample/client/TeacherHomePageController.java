@@ -22,6 +22,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 public class TeacherHomePageController {
 
@@ -47,9 +48,14 @@ public class TeacherHomePageController {
     /*the standard fxml initialize made a bug for me - i couldnt send the user
     * */
     void initializee() {
-        //EventBus.getDefault().register(this);
+        EventBus.getDefault().register(this);
 
         welcomeLabel.setText("Welcome "+ user.getFullName());
+    }
+
+    @Subscribe
+    public void onReceivingQuestionEvent(ReceivingQuestionEvent message){
+        setUser(message.getMessage().getTeacherWhoCreate());
     }
 
 

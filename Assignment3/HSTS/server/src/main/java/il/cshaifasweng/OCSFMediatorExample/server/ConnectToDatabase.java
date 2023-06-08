@@ -266,13 +266,18 @@ public class ConnectToDatabase {
     }
     public static QuestionMsg AddQuestion(Question question, Teacher teacher) throws Exception {
         System.out.print("\nADDING QUESTION\n");
-        teacher.AddQuestion(question);
-        question.setTeacher(teacher);
-        session.beginTransaction();
+        System.out.print("\nSYSTEM CHECK Q_num\n"+question.getIdNum());
+        System.out.print("\nSYSTEM CHECK TEACHER\n"+question.getTeacher().getFullName());
+       // teacher.AddQuestion(question);
+        //question.setTeacher(teacher);
+       // session= getSessionFactory().openSession();
+       // session.beginTransaction();
+       // session.save(question);// this maybe wrong todo
         session.save(question);
-        session.save(teacher);
         session.flush();
         session.getTransaction().commit();
+       // session.close();
+        System.out.print("\nADDING QUESTION is done from server \n");//
      /*   Hibernate.initialize(question);
         for (Course course : question.getCourses()) {
             Hibernate.initialize(course.getQuestions());
@@ -313,6 +318,8 @@ public class ConnectToDatabase {
             students = getAllStudents();
             teachers = getAllTeachers();
             session.getTransaction().commit();
+          //  session.flush();
+          //  session.close();
             return session;
         } catch (Exception exception) {
             if (session != null) {

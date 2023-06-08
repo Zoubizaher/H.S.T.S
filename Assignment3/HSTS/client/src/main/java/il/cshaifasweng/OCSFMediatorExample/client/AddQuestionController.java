@@ -195,8 +195,8 @@ public class AddQuestionController implements Initializable{
         QuestionTxt = QuestionText.getText();
         correctAnswer = AnswerChar.getText();
         Question question = new Question(QuestionTxt, answers, correctAnswer,teacher);
-        System.out.print("\n SYSTEM CHECK questionNUM from add controller "+question.getIdNum());// todo remove
-        teacher.getTeacherQuestionsList().add(question);// added the course for teacher
+       // System.out.print("\n SYSTEM CHECK questionNUM from add controller "+question.getIdNum());// todo remove
+      //  teacher.getTeacherQuestionsList().add(question);// added the course for teacher
      /*   for (CheckBox checkBox : selectedCheckboxes) {
             String courseName = checkBox.getText();
             for(Course course : teacher.getCourses()){
@@ -223,6 +223,7 @@ public class AddQuestionController implements Initializable{
         System.out.print(q.getQuestionText());
         questionTable.getItems().add(q);
         questionTable.refresh();
+       // setTeacher(message.getMessage().getTeacherWhoCreate());
     }
     public void setTeacher(Teacher teacher) {
         this.teacher = teacher;

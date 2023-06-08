@@ -7,6 +7,7 @@ import il.cshaifasweng.OCSFMediatorExample.entities.User;
 
 
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import javafx.application.Platform;
@@ -53,30 +54,33 @@ public class TeacherHomePageController {
 
 
     public void AddQuestion (ActionEvent actionEvent ){ // i chose to load another stage
-        Platform.runLater(() -> {
+
+            try{
             FXMLLoader loader = new FXMLLoader(getClass().getResource("AddQuestion.fxml"));
-            try {
+
                 AnchorPane newScene = loader.load();
-                Stage currentStage = new Stage();
+              //  Stage currentStage = new Stage();
                 Scene scene = new Scene(newScene);  // Set the loaded AnchorPane as the root of the scene
-                currentStage.setTitle("Add Question SharedPlatform");
-                currentStage.setScene(scene);
                 AddQuestionController controller = loader.getController();
                 Teacher teacher = (Teacher) user;
-                System.out.print("PRINTING COURSES:");
-                for(Course course : teacher.getCourses()){
-                    System.out.print(course.getCourse_name());
-                    for(Question question : course.getQuestions()){
-                        System.out.print("\nQ: " + question.getQuestionText() + "\n");
-                    }
-                }
+              /*  List<Question> questionList=teacher.getTeacherQuestionsList();
+                    for(Question question : questionList){
+                        if(questionList.isEmpty())
+                        { System.out.print("\nSystem check Q.list is empty : "); }
+                          else
+                        {System.out.print("\nSystem check for Q.list: " + question.getQuestionText() + "\n");}
+                    }*/
+
                 controller.setTeacher(teacher);
                 controller.initializee();
+                Stage currentStage = new Stage();
+                currentStage.setTitle("Add Question SharedPlatform");
+                currentStage.setScene(scene);//*************************
                 currentStage.show();
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
-        });
+
     }
 
 

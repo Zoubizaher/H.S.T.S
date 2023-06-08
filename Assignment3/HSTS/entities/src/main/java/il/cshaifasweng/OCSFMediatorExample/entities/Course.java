@@ -30,7 +30,7 @@ public class Course implements Serializable {
             inverseJoinColumns = @JoinColumn(name = "Username")
     )
     private List<Student> students= new ArrayList<>();
-
+    /*
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @Fetch(FetchMode.SUBSELECT)
     @JoinTable(
@@ -38,7 +38,7 @@ public class Course implements Serializable {
             joinColumns = @JoinColumn(name = "course_id"),
             inverseJoinColumns = @JoinColumn(name = "id_num")
     )
-    private List<Question> questions = new ArrayList<>();
+    private List<Question> questions = new ArrayList<>();*/
 
 
     public Course(String id, String name, Teacher teacher) {
@@ -63,8 +63,8 @@ public class Course implements Serializable {
         return this.course_name;
     }
 
-    public void addQuestion(Question question){this.questions.add(question);}
-    public List<Question> getQuestions(){return this.questions;}
+   // public void addQuestion(Question question){this.questions.add(question);}
+  //  public List<Question> getQuestions(){return this.questions;}
     public String getId(){return this.id;}
 
     public List<Student> getStudents() {return this.students;}

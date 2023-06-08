@@ -103,9 +103,10 @@ public class SimpleServer extends AbstractServer {
 			QuestionMsg message2 = (QuestionMsg) msg;
 			if (message2.getRequest().equals("#AddQuestion")){
 				System.out.print(message2.getQuestion().getIdNum());
-				QuestionMsg msg1 = ConnectToDatabase.AddQuestion(message2.getQuestion(), message2.getCourses_of_question());
+				QuestionMsg msg1 = ConnectToDatabase.AddQuestion(message2.getQuestion(),
+						message2.getTeacherWhoCreate());
 				client.sendToClient(msg1);
-			}
+			} //todo
 			else if (message2.getRequest().equals("#UpdateQuestion")){
 				ConnectToDatabase.updateQuestion(message2.getQuestion());
 			}

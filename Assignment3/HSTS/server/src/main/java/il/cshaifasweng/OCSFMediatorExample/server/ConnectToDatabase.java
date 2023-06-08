@@ -264,14 +264,16 @@ public class ConnectToDatabase {
             }
         }
     }
-    public static QuestionMsg AddQuestion(Question question, List<Course> courses) throws Exception {
+    public static QuestionMsg AddQuestion(Question question, Teacher teacher) throws Exception {
         System.out.print("\nADDING QUESTION\n");
+        teacher.AddQuestion(question);
+        question.setTeacher(teacher);
         session.beginTransaction();
-        question.setCourses(courses);
         session.save(question);
+        session.save(teacher);
         session.flush();
         session.getTransaction().commit();
-        Hibernate.initialize(question);
+     /*   Hibernate.initialize(question);
         for (Course course : question.getCourses()) {
             Hibernate.initialize(course.getQuestions());
             Hibernate.initialize(course.getStudents());
@@ -280,11 +282,11 @@ public class ConnectToDatabase {
             }
         }
         session.beginTransaction();
-        save_all(session);
+        save_all(session);*/
         QuestionMsg msg = new QuestionMsg("#ReturningQuestion",question);
-        System.out.print("THE NUMBER OF THE EXAM IS: " + question.getIdNum());
-        session.flush();
-        session.getTransaction().commit();
+        System.out.print("\nTHE NUMBER OF THE QUESTION IS: " + question.getIdNum());
+       // session.flush();
+       // session.getTransaction().commit();
         return msg;
     }
 
@@ -303,10 +305,10 @@ public class ConnectToDatabase {
             SessionFactory sessionFactory = getSessionFactory();
             session = sessionFactory.openSession();
             session.beginTransaction();
-//            CreateData();
-            if(getAllUsers()==null){
+            CreateData();
+         /*   if(getAllUsers()==null){
                 CreateData();
-            }
+            }*/
             users = getAllUsers();
             students = getAllStudents();
             teachers = getAllTeachers();

@@ -101,7 +101,7 @@ public class AddQuestionController implements Initializable{
                 questionNumCol, questionCol, aCol, bCol, cCol, dCol, answerCol
         );
 
-              List<Question> questionList=teacher.getTeacherQuestionsList();
+              List<Question> questionList=teacher.getTeacherQuestionsList();// todo check
                         if(questionList.isEmpty())
                         { System.out.print("\nSystem check Q.list is empty : "); }
                         else {

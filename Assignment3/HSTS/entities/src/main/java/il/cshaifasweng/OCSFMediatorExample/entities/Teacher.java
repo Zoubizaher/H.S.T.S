@@ -45,4 +45,5 @@ public class Teacher extends User implements Serializable {
     }
 
     public List<Course> getCourses(){return this.courses;}
+    public void addQuestion(Question question){this.TeacherQuestionsList.add(question);}
 }

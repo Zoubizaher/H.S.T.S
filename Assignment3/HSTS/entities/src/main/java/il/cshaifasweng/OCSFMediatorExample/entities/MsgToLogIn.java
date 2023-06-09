@@ -11,6 +11,8 @@ public class MsgToLogIn implements Serializable {
     String LogInFlag;
     private User user = null;
 
+    private Teacher teacher;
+
 
     public MsgToLogIn(String request, String password, String username) {
         this.request = request;
@@ -52,4 +54,7 @@ public class MsgToLogIn implements Serializable {
     public String getUsername() {
         return username;
     }
+
+    public void setTeacher(Teacher teacher){this.teacher = teacher;}
+    public Teacher getTeacher(){return this.teacher;}
 }

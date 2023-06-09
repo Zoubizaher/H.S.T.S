@@ -78,7 +78,16 @@ public class SimpleServer extends AbstractServer {
 
 						TypedQuery<User> userTypedQuery = session.createQuery(userQuery);
 						User user = userTypedQuery.getSingleResult();
-
+						if(user.getRole().equals("teacher")){
+							String id = user.getId();
+							Teacher teacher = (Teacher) user;
+							List<Question> questions = ConnectToDatabase.getQuestionsByTeacher(teacher);
+							if(questions.isEmpty()){
+								System.out.print("\nEMPTY QUESTION\n");
+							}
+							teacher.setTeacherQuestionsList(questions);
+							message.setTeacher(teacher);
+						}
 						// Now you have the User object, you can perform further actions
 						System.out.println("Logged in user: " + user.getFirst() + " " + user.getLast() + "\n");
 						message.setUser(user);

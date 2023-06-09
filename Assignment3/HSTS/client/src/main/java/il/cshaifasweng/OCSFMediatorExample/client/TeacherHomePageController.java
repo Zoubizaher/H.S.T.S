@@ -40,16 +40,15 @@ public class TeacherHomePageController {
 
     private User user =new User();
 
-
+    private Teacher teacher;
     public void setUser(User user){this.user=user;}
 
-
+    public void setTeacher(Teacher teacher){this.teacher=teacher;}
 
     /*the standard fxml initialize made a bug for me - i couldnt send the user
     * */
     void initializee() {
         EventBus.getDefault().register(this);
-
         welcomeLabel.setText("Welcome "+ user.getFullName());
     }
 
@@ -60,36 +59,34 @@ public class TeacherHomePageController {
 
 
     public void AddQuestion (ActionEvent actionEvent ){ // i chose to load another stage
-
-            try{
+        try{
             FXMLLoader loader = new FXMLLoader(getClass().getResource("AddQuestion.fxml"));
-
-                AnchorPane newScene = loader.load();
-              //  Stage currentStage = new Stage();
-                Scene scene = new Scene(newScene);  // Set the loaded AnchorPane as the root of the scene
-                AddQuestionController controller = loader.getController();
-                Teacher teacher = (Teacher) user;
-              /*  List<Question> questionList=teacher.getTeacherQuestionsList();
-                    for(Question question : questionList){
-                        if(questionList.isEmpty())
-                        { System.out.print("\nSystem check Q.list is empty : "); }
-                          else
-                        {System.out.print("\nSystem check for Q.list: " + question.getQuestionText() + "\n");}
-                    }*/
-
-                controller.setTeacher(teacher);
-                controller.initializee();
-                Stage currentStage = new Stage();
-                currentStage.setTitle("Add Question SharedPlatform");
-                currentStage.setScene(scene);//*************************
-                currentStage.show();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
+            AnchorPane newScene = loader.load();
+          //  Stage currentStage = new Stage();
+            Scene scene = new Scene(newScene);  // Set the loaded AnchorPane as the root of the scene
+            AddQuestionController controller = loader.getController();
+//            Teacher teacher = (Teacher) user;
+            for(Question question : teacher.getTeacherQuestionsList()){
+                System.out.print(question.getQuestionText());
             }
+          /*  List<Question> questionList=teacher.getTeacherQuestionsList();
+                for(Question question : questionList){
+                    if(questionList.isEmpty())
+                    { System.out.print("\nSystem check Q.list is empty : "); }
+                      else
+                    {System.out.print("\nSystem check for Q.list: " + question.getQuestionText() + "\n");}
+                }*/
 
+            controller.setTeacher(teacher);
+            controller.initializee();
+            Stage currentStage = new Stage();
+            currentStage.setTitle("Add Question SharedPlatform");
+            currentStage.setScene(scene);//*************************
+            currentStage.show();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
-
-
 }
 
 

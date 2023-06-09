@@ -18,7 +18,7 @@ public class Teacher extends User implements Serializable {
     private List<Course> courses = new ArrayList<>();
 
     @OneToMany(mappedBy = "teacher",cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    //@Fetch(FetchMode.SUBSELECT)
+    @Fetch(FetchMode.SUBSELECT)
     private List<Question> TeacherQuestionsList  = new ArrayList<>();
 
     public Teacher(String id, String first, String last, String username, String role, String mail, String password){

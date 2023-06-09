@@ -7,10 +7,14 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
+import org.hibernate.query.Query;
 import org.hibernate.service.ServiceRegistry;
 
+import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Join;
+import javax.persistence.criteria.Root;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -79,6 +83,21 @@ public class ConnectToDatabase {
         query.from(Teacher.class);
         List<Teacher> data = session.createQuery(query).getResultList();
         return data;
+    }
+
+    public static List<Question> getQuestionsByTeacher(Teacher teacher) {
+        CriteriaBuilder builder = session.getCriteriaBuilder();
+        CriteriaQuery<Question> questionQuery = builder.createQuery(Question.class);
+        Root<Question> questionRoot = questionQuery.from(Question.class);
+
+        // Join the Teacher entity to filter by teacher_id
+        Join<Question, Teacher> teacherJoin = questionRoot.join("teacher");
+
+        questionQuery.select(questionRoot)
+                .where(builder.equal(teacherJoin.get("id"), teacher.getId()));
+
+        TypedQuery<Question> questionTypedQuery = session.createQuery(questionQuery);
+        return questionTypedQuery.getResultList();
     }
     public static void save_all(Session session) throws Exception {
         for(Student student : getAllStudents()){
@@ -266,38 +285,14 @@ public class ConnectToDatabase {
     }
     public static QuestionMsg AddQuestion(Question question, Teacher teacher) throws Exception {
         System.out.print("\nADDING QUESTION\n");
-        //System.out.print("\nSYSTEM CHECK Q_num\n"+question.getIdNum());
-        System.out.print("\nSYSTEM CHECK TEACHER\n"+question.getTeacher().getFullName());
-       // teacher.AddQuestion(question);
-        //question.setTeacher(teacher);
-       // session= getSessionFactory().openSession();
-
         session.beginTransaction();
         Question QuestionToADD = new Question(question.getQuestionText(),question.getAnswers(),
                 question.getCorrectAnswer(),question.getTeacher());
         session.save(QuestionToADD);
         session.flush();
         teacher.getTeacherQuestionsList().add(QuestionToADD);
-       // session.save(teacher);
-        // session.flush();
         session.getTransaction().commit();
-
-       // session.close();
-        System.out.print("\nADDING QUESTION is done from server \n");//
-     /*   Hibernate.initialize(question);
-        for (Course course : question.getCourses()) {
-            Hibernate.initialize(course.getQuestions());
-            Hibernate.initialize(course.getStudents());
-            for (Question question2 : course.getQuestions()) {
-                System.out.print(question.getQuestionText() + "\n");
-            }
-        }
-        session.beginTransaction();
-        save_all(session);*/
         QuestionMsg msg = new QuestionMsg("#ReturningQuestion",QuestionToADD,teacher);
-        System.out.print("\nTHE NUMBER OF THE QUESTION IS: " + question.getIdNum());
-       // session.flush();
-       // session.getTransaction().commit();
         return msg;
     }
 
@@ -317,15 +312,10 @@ public class ConnectToDatabase {
             session = sessionFactory.openSession();
             session.beginTransaction();
             CreateData();
-         /*   if(getAllUsers()==null){
-                CreateData();
-            }*/
             users = getAllUsers();
             students = getAllStudents();
             teachers = getAllTeachers();
             session.getTransaction().commit();
-          //  session.flush();
-          //  session.close();
             return session;
         } catch (Exception exception) {
             if (session != null) {

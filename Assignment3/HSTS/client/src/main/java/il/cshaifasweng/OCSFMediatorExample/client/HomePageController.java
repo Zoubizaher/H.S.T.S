@@ -97,6 +97,7 @@ public class HomePageController {
 						TeacherHomePageController controller = loader.getController();
 						System.out.println("UserToSend: " + UserToSend.getFullName());
 						controller.setUser(UserToSend);
+						controller.setTeacher(message.getMessage().getTeacher());
 						controller.initializee();
 						Stage currentStage = App.getStage();
 						Scene scene = new Scene(newScene);  // Set the loaded AnchorPane as the root of the scene

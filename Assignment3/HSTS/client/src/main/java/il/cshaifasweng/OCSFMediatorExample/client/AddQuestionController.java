@@ -101,17 +101,15 @@ public class AddQuestionController implements Initializable{
                 questionNumCol, questionCol, aCol, bCol, cCol, dCol, answerCol
         );
 
-              List<Question> questionList=teacher.getTeacherQuestionsList();// todo check
-                        if(questionList.isEmpty())
-                        { System.out.print("\nSystem check Q.list is empty : "); }
-                        else {
-                    for(Question question : questionList){
-
-                        {System.out.print("\nSystem check for Q.list: " + question.getQuestionText() + "\n");}
-
-
-                        QuestionsForTeacher.add(question);
-                    }}
+        List<Question> questionList=teacher.getTeacherQuestionsList();// todo check
+        if(questionList.isEmpty()){
+            System.out.print("\nSystem check Q.list is empty : ");
+        }else {
+            for(Question question : questionList){
+                {System.out.print("\nSystem check for Q.list: " + question.getQuestionText() + "\n");}
+                QuestionsForTeacher.add(question);
+            }
+        }
 
         questionTable.setItems(QuestionsForTeacher);// this should show the questions
 
@@ -207,6 +205,7 @@ public class AddQuestionController implements Initializable{
                 }
             }
         }*/
+//        teacher.addQuestion(question);
         QuestionMsg msg1 = new QuestionMsg("#AddQuestion", question, teacher);
         SimpleClient.getClient().sendToServer(msg1);
     }
@@ -220,6 +219,7 @@ public class AddQuestionController implements Initializable{
         QuestionText.setText("");
         AnswerChar.setText("");
         Question q = message.getMessage().getQuestion();
+        teacher.addQuestion(q);
         System.out.print(q.getQuestionText());
         questionTable.getItems().add(q);
         questionTable.refresh();

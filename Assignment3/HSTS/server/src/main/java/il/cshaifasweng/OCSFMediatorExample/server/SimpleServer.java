@@ -78,7 +78,7 @@ public class SimpleServer extends AbstractServer {
 
 						TypedQuery<User> userTypedQuery = session.createQuery(userQuery);
 						User user = userTypedQuery.getSingleResult();
-						if(user.getRole().equals("teacher")){
+						if(user.getRole().equals("teacher")){ // we add this to update  question list
 							String id = user.getId();
 							Teacher teacher = (Teacher) user;
 							List<Question> questions = ConnectToDatabase.getQuestionsByTeacher(teacher);
@@ -116,9 +116,9 @@ public class SimpleServer extends AbstractServer {
 						message2.getTeacherWhoCreate());
 				client.sendToClient(msg1);
 			} //todo
-			else if (message2.getRequest().equals("#UpdateQuestion")){
+			/*else if (message2.getRequest().equals("#UpdateQuestion")){
 				ConnectToDatabase.updateQuestion(message2.getQuestion());
-			}
+			}*/ //==> no need for this because edit question is just like add question
 		} else if (msg instanceof MsgExamCreation) {
 			MsgExamCreation message = (MsgExamCreation) msg;
 			if(message.getRequest().equals("#NewExam")){

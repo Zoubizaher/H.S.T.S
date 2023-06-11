@@ -5,12 +5,16 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
+import java.awt.event.WindowEvent;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class EditQuestionController {
     AddQuestionController addQuestionController;
@@ -33,15 +37,24 @@ public class EditQuestionController {
     @FXML
     private TextField optionCorrect;
     public void UpdateQuestion(ActionEvent actionEvent) throws IOException {
-        question.setQuestionText(textQ.getText());
-        question.setAnswerA(optionA.getText());
-        question.setAnswerB(optionB.getText());
-        question.setAnswerC(optionC.getText());
-        question.setAnswerD(optionD.getText());
-        question.setCorrectAnswer(optionCorrect.getText());
-        QuestionMsg msg = new QuestionMsg("#UpdateQuestion", question);
+        String QuestionTxt;
+        List<String> answers = new ArrayList<>();
+        String correctAnswer;
+        QuestionTxt= textQ.getText();
+        answers.add(optionA.getText());
+        answers.add(optionB.getText());
+        answers.add(optionC.getText());
+        answers.add(optionD.getText());
+        correctAnswer=optionCorrect.getText();
+        Question questionToEdit = new Question (QuestionTxt,answers,correctAnswer,addQuestionController.getTeacher());
+        QuestionMsg msg = new QuestionMsg("#AddQuestion", questionToEdit,addQuestionController.getTeacher());
         SimpleClient.getClient().sendToServer(msg);
         addQuestionController.updateLIST();
+        // now wee need to close the scene
+        Node sourceNode = (Node) actionEvent.getSource();
+        Stage currentStage = (Stage) sourceNode.getScene().getWindow();
+        currentStage.close();
+
     }
 
     public void setQuestion(Question question){this.question = question;}

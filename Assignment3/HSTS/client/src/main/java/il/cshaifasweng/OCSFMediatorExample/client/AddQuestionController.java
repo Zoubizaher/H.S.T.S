@@ -229,6 +229,10 @@ public class AddQuestionController implements Initializable{
         this.teacher = teacher;
     }
 
+    public Teacher getTeacher() {
+        return teacher;
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         EventBus.getDefault().register(this);

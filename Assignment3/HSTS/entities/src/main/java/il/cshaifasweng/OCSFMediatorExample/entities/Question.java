@@ -1,5 +1,8 @@
 package il.cshaifasweng.OCSFMediatorExample.entities;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -38,6 +41,14 @@ public class Question implements Serializable {
     @ManyToOne
     @JoinColumn(name = "teacher_id")
     private Teacher teacher;
+    @ManyToMany(mappedBy = "questions")
+    @Fetch(FetchMode.SUBSELECT)
+    private List<Exam> exams = new ArrayList<>();
+    @Transient
+    private boolean isSelected;
+
+    @Transient
+    private int points;
     public Question(String questionText, List<String> answers, String correctAnswer,Teacher teacher) {
         this.questionText = questionText;
         this.answers = answers;
@@ -119,5 +130,30 @@ public class Question implements Serializable {
     public void setAnswerD(String answer){this.answerD = answer;}
  //   public List<Course> getCourses(){return this.courses;}
    // public void AddCourse(Course course){this.courses.add(course);}
+     public boolean isSelected() {
+         return isSelected;
+     }
+
+    public void setSelected(boolean selected) {
+        isSelected = selected;
+    }
+
+    public void setPoints(int points) {
+        this.points = points;
+    }
+    public int getPoints() {
+        return this.points;
+    }
+
+    public List<Exam> getExams() {
+        return exams;
+    }
+
+    public void setExams(List<Exam> exams) {
+        this.exams = exams;
+    }
+
+    public void addExam(Exam exam){this.exams.add(exam);}
+
 }
 

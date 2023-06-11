@@ -41,7 +41,7 @@ public class Question implements Serializable {
     @ManyToOne
     @JoinColumn(name = "teacher_id")
     private Teacher teacher;
-    @ManyToMany(mappedBy = "questions")
+    @ManyToMany(mappedBy = "questions", fetch = FetchType.EAGER)
     @Fetch(FetchMode.SUBSELECT)
     private List<Exam> exams = new ArrayList<>();
     @Transient

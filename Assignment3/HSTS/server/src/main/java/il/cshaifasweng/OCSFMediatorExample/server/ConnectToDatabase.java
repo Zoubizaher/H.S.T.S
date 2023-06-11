@@ -295,7 +295,17 @@ public class ConnectToDatabase {
         QuestionMsg msg = new QuestionMsg("#ReturningQuestion",QuestionToADD,teacher);
         return msg;
     }
-
+    public static Exam addExam(Exam exam) throws Exception {
+        System.out.print("\nADDING Exam\n");
+        session.beginTransaction();
+        Exam ExamToADD = new Exam(exam.getTeacher(), exam.getCourse(), exam.getQuestions(), exam.getTime());
+        session.save(ExamToADD);
+//        save_all(session);
+        session.flush();
+        session.getTransaction().commit();
+        System.out.print("Returning");
+        return ExamToADD;
+    }
 
     public static List<Student> getStudents() {
         return students;

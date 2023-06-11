@@ -243,6 +243,9 @@ public class CreateExamController implements Initializable{
                     // Handle the selected course as needed
                     System.out.println("Selected Course: " + selectedCourse.getCourse_name());
                     //Create the exam and send it to the server.
+                    Exam exam = new Exam(teacher,selectedCourse,questions, time);
+                    MsgExamCreation msg = new MsgExamCreation("#NewExam", exam);
+                    SimpleClient.getClient().sendToServer(msg);
                 } else {
                     System.out.println("No course selected.");
                 }
@@ -252,8 +255,8 @@ public class CreateExamController implements Initializable{
         }
     }
     @Subscribe
-    public void onReceivingQuestionEvent(ReceivingQuestionEvent message){
-
+    public void onReceivingExam(CreateExamEvent message){
+        System.out.print("\nGot the exam, the exam id = " + message.getMessage().getExam().getId_num());
     }
     public void setTeacher(Teacher teacher) {
         this.teacher = teacher;

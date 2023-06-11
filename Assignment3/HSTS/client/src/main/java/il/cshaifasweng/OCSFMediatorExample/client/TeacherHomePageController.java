@@ -58,30 +58,37 @@ public class TeacherHomePageController {
     }
 
 
-    public void AddQuestion (ActionEvent actionEvent ){ // i chose to load another stage
+    public void AddQuestion (ActionEvent actionEvent ){
         try{
             FXMLLoader loader = new FXMLLoader(getClass().getResource("AddQuestion.fxml"));
             AnchorPane newScene = loader.load();
-          //  Stage currentStage = new Stage();
-            Scene scene = new Scene(newScene);  // Set the loaded AnchorPane as the root of the scene
+            Scene scene = new Scene(newScene);
             AddQuestionController controller = loader.getController();
-//            Teacher teacher = (Teacher) user;
             for(Question question : teacher.getTeacherQuestionsList()){
                 System.out.print(question.getQuestionText());
             }
-          /*  List<Question> questionList=teacher.getTeacherQuestionsList();
-                for(Question question : questionList){
-                    if(questionList.isEmpty())
-                    { System.out.print("\nSystem check Q.list is empty : "); }
-                      else
-                    {System.out.print("\nSystem check for Q.list: " + question.getQuestionText() + "\n");}
-                }*/
-
             controller.setTeacher(teacher);
             controller.initializee();
             Stage currentStage = new Stage();
             currentStage.setTitle("Add Question SharedPlatform");
-            currentStage.setScene(scene);//*************************
+            currentStage.setScene(scene);
+            currentStage.show();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void create_exam(ActionEvent actionEvent) {
+        try{
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("CreateExam.fxml"));
+            AnchorPane newScene = loader.load();
+            Scene scene = new Scene(newScene);
+            CreateExamController controller = loader.getController();
+            controller.setTeacher(teacher);
+            controller.initializee();
+            Stage currentStage = new Stage();
+            currentStage.setTitle("Create a new exam");
+            currentStage.setScene(scene);
             currentStage.show();
         } catch (IOException e) {
             throw new RuntimeException(e);

@@ -21,6 +21,9 @@ public class Teacher extends User implements Serializable {
     @Fetch(FetchMode.SUBSELECT)
     private List<Question> TeacherQuestionsList  = new ArrayList<>();
 
+    @OneToMany(mappedBy = "teacher", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @Fetch(FetchMode.SUBSELECT)
+    private List<Exam> exams = new ArrayList<>();
     public Teacher(String id, String first, String last, String username, String role, String mail, String password){
         super(id, first, last, username, role, mail,password);
        // this.TeacherQuestionsList=new ArrayList<>();
@@ -46,4 +49,15 @@ public class Teacher extends User implements Serializable {
 
     public List<Course> getCourses(){return this.courses;}
     public void addQuestion(Question question){this.TeacherQuestionsList.add(question);}
+    public List<Exam> getExams() {
+        return exams;
+    }
+
+    public void setExams(List<Exam> exams) {
+        this.exams = exams;
+    }
+
+    public void addExam(Exam exam){
+        this.exams.add(exam);
+    }
 }

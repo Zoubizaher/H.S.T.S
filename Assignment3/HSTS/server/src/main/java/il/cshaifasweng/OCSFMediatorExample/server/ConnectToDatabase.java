@@ -311,7 +311,10 @@ public class ConnectToDatabase {
             SessionFactory sessionFactory = getSessionFactory();
             session = sessionFactory.openSession();
             session.beginTransaction();
-            CreateData();
+            users = getAllUsers();
+            if(users == null){
+                CreateData();
+            }
             users = getAllUsers();
             students = getAllStudents();
             teachers = getAllTeachers();

@@ -11,7 +11,7 @@
       <HBox layoutX="49.0" layoutY="150.0" prefHeight="100.0" prefWidth="412.0" spacing="8.0">
          <children>
             <Button fx:id="addQuestionButton" mnemonicParsing="false" onAction="#AddQuestion" prefHeight="26.0" prefWidth="103.0" text="addQuestion" />
-            <Button layoutX="10.0" layoutY="10.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="79.0" text="Button" />
+            <Button fx:id="create_exam" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#create_exam" prefHeight="26.0" prefWidth="127.0" text="Create Exam" />
             <Button layoutX="90.0" layoutY="10.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="79.0" text="Button" />
             <Button layoutX="170.0" layoutY="10.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="79.0" text="Button" />
          </children>

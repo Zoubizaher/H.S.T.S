@@ -344,10 +344,10 @@ public class ConnectToDatabase {
         session.close();
     }
 
-    public static void updateQuestion(Question question) {
+  /*  public static void updateQuestion(Question question) {
         session.beginTransaction();
         session.save(question);
         session.flush();
         session.getTransaction().commit();
-    }
+    }*///==> so also no need for this
 }

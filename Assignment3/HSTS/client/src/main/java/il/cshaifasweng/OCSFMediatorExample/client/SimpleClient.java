@@ -1,5 +1,6 @@
 package il.cshaifasweng.OCSFMediatorExample.client;
 
+import il.cshaifasweng.OCSFMediatorExample.entities.MsgExamCreation;
 import il.cshaifasweng.OCSFMediatorExample.entities.MsgToLogIn;
 import il.cshaifasweng.OCSFMediatorExample.entities.QuestionMsg;
 import il.cshaifasweng.OCSFMediatorExample.entities.Student;
@@ -36,6 +37,11 @@ public class SimpleClient extends AbstractClient {
 		} else if (msg instanceof List<?>) {
 			studentList = (List<Student>) msg;
 			EventBus.getDefault().post(studentList);
+		}else if (msg instanceof MsgExamCreation) {
+			MsgExamCreation message = (MsgExamCreation) msg;
+			if(message.getRequest().equals("#NewExam")){
+				EventBus.getDefault().post(new CreateExamEvent(message));
+			}
 		}else {
 			System.out.print("UNKOWN MESSAGE TYPE");
 		}

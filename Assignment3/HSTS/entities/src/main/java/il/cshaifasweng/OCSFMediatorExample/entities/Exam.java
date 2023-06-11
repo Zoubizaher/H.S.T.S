@@ -10,11 +10,13 @@ import java.util.List;
 
 @Entity
 @Table(name = "Exams")
-public class Exam {
+public class Exam implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id_num;
 
+    @Column(name = "Time")
+    int time;
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "teacher_id")
     private Teacher teacher;
@@ -34,10 +36,11 @@ public class Exam {
     private List<Question> questions = new ArrayList<>();
 
 
-    public Exam(Teacher teacher, Course course, List<Question> questions){
+    public Exam(Teacher teacher, Course course, List<Question> questions, int time){
         this.course = course;
         this.teacher = teacher;
         this.questions = questions;
+        this.time = time;
         course.addExam(this);
         teacher.addExam(this);
         for(Question question:questions){
@@ -67,5 +70,13 @@ public class Exam {
 
     public void setQuestions(List<Question> questions) {
         this.questions = questions;
+    }
+
+    public int getId_num() {
+        return id_num;
+    }
+
+    public int getTime() {
+        return time;
     }
 }

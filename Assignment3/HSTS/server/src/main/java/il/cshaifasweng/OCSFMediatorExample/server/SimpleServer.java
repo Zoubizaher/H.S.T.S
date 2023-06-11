@@ -119,7 +119,13 @@ public class SimpleServer extends AbstractServer {
 			else if (message2.getRequest().equals("#UpdateQuestion")){
 				ConnectToDatabase.updateQuestion(message2.getQuestion());
 			}
-		} else {
+		} else if (msg instanceof MsgExamCreation) {
+			MsgExamCreation message = (MsgExamCreation) msg;
+			if(message.getRequest().equals("#NewExam")){
+				Exam exam = ConnectToDatabase.addExam(message.getExam());
+				MsgExamCreation msg1 = new MsgExamCreation("#ExamCreationDone", exam);
+				client.sendToClient(msg1);
+			}
 
 		}
 

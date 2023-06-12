@@ -1,39 +1,28 @@
 package il.cshaifasweng.OCSFMediatorExample.client;
+
 import il.cshaifasweng.OCSFMediatorExample.entities.*;
 import javafx.application.Platform;
-import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.VBox;
-
-import java.io.IOException;
-import java.net.URL;
-import java.util.*;
-
 import javafx.stage.Stage;
-import javafx.util.Callback;
 import javafx.util.StringConverter;
 import javafx.util.converter.IntegerStringConverter;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
+import java.io.IOException;
+import java.net.URL;
+import java.util.*;
 
-public class CreateExamController implements Initializable{
+public class EditExamController implements Initializable {
+    private ShowExamsController PreviousController;
     private Teacher teacher;
-
     @FXML
     private AnchorPane rootPane;
     @FXML
@@ -41,17 +30,16 @@ public class CreateExamController implements Initializable{
     @FXML
     private TextField time_minutes;
     @FXML
+    private ChoiceBox<Course> courseChoiceBox;
+    @FXML
     private TextField teacher_discription;
     @FXML
     private TextField student_discription;
-    @FXML
-    private ChoiceBox<Course> courseChoiceBox;
     private List<Question> questions = new ArrayList<>();
-    public void updateLIST() {
-        questionTable.refresh();
-    }
 
     private List<Question> selectedQuestions = new ArrayList<>();
+
+    private Exam exam;
     public void initializee() {
         List<Course> teacherCourses = teacher.getCourses();
         ObservableList<Course> courseList = FXCollections.observableArrayList(teacherCourses);
@@ -75,23 +63,29 @@ public class CreateExamController implements Initializable{
                 c -> c.getControlNewText().matches("\\d*") ? c : null);
         time_minutes.setTextFormatter(formatter);
         ObservableList<Question> questionsForTeacher = FXCollections.observableArrayList();
-
         List<Question> questionList = teacher.getTeacherQuestionsList();
         if (!questionList.isEmpty()) {
             questionsForTeacher.addAll(questionList);
             questions.addAll(questionList);
         }
-        for(Question question : questionsForTeacher){
-            question.setPoints(0);
-            question.setSelected(false);
+        for(Question question : exam.getQuestions()){
+            for(Question question1 : questions){
+                if(question1.getIdNum() == question.getIdNum()){
+                    question1.setSelected(true);
+                    question1.setPoints(exam.getQuestionPoints().get(question));
+                    selectedQuestions.add(question1);
+                }
+            }
         }
+        courseChoiceBox.setValue(exam.getCourse());
+        time_minutes.setText(Integer.toString(exam.getTime()));
         questionTable.setItems(questionsForTeacher);
+        teacher_discription.setText(exam.getDescription_Teacher());
+        student_discription.setText(exam.getDescription_Student());
     }
 
-
-
     @FXML
-    public void AddExam(ActionEvent actionEvent) throws IOException {
+    public void UpdateExam(ActionEvent actionEvent) throws IOException {
         Map<Question, Integer> question_grade = new HashMap<>();
         int sum=0;
         int points;
@@ -137,29 +131,27 @@ public class CreateExamController implements Initializable{
                     Exam exam = new Exam(teacher,selectedCourse,selectedQuestions, time, questionPoints,dis1,dis2);
                     teacher.removeExam(exam);
                     selectedCourse.removeExam(exam);
-                    MsgExamCreation msg = new MsgExamCreation("#NewExam", exam);
+                    MsgExamCreation msg = new MsgExamCreation("#EditExam", exam);
                     SimpleClient.getClient().sendToServer(msg);
                 } else {
                     EventBus.getDefault().post(new ErrorMsgEvent("No course is selected!"));
-                    System.out.println("No course selected.");
                 }
             }else{
                 EventBus.getDefault().post(new ErrorMsgEvent("Time is not set correctly!"));
-                System.out.print("Time is not set correctly");
             }
         }
     }
     @Subscribe
     public void onReceivingExam(CreateExamEvent message){
-        if(message.getMessage().getRequest().equals("#ExamCreationDone")){
-            EventBus.getDefault().post(new ErrorMsgEvent("Exam Created Successfully!"));
+        if(message.getMessage().getRequest().equals("#ExamUpdatingDone")){
+            EventBus.getDefault().post(new ErrorMsgEvent("Exam Updated Successfully!"));
             Platform.runLater(() -> {
                 // Get the window or stage that contains the exam creation UI
                 Exam exam = message.getMessage().getExam();
                 teacher.addExam(exam);
                 exam.getCourse().addExam(exam);
                 Stage stage = (Stage) rootPane.getScene().getWindow();
-
+                PreviousController.updateLIST();
                 // Close the window
                 stage.close();
             });
@@ -280,12 +272,15 @@ public class CreateExamController implements Initializable{
                 }
             };
         });
-
-
-        questionTable.getColumns().addAll(selectCol, pointsColumn);
-        questionTable.getColumns().addAll(
-                questionNumCol, questionCol, aCol, bCol, cCol, dCol, answerCol
-        );
+        questionTable.getColumns().addAll(selectCol, pointsColumn,questionNumCol, questionCol, aCol, bCol, cCol, dCol, answerCol);
         EventBus.getDefault().register(this);
+    }
+
+    public void setExam(Exam exam) {
+        this.exam = exam;
+    }
+
+    public void setPreviousController(ShowExamsController previousController) {
+        PreviousController = previousController;
     }
 }

@@ -40,6 +40,8 @@ public class ShowExamsController implements Initializable {
     @FXML
     private TableView<Exam> ExamsTable;
     public void updateLIST() {
+        List<Exam> teacherExams = teacher.getExams();
+        ExamsTable.setItems(FXCollections.observableArrayList(teacherExams));
         ExamsTable.refresh();
     }
 
@@ -56,6 +58,7 @@ public class ShowExamsController implements Initializable {
         TableColumn<Exam, String> TeacherIDCol = new TableColumn<>("Teacher ID");
         TableColumn<Exam, Integer> TimeCol = new TableColumn<>("Time");
         TableColumn<Exam, Exam> ShowButtonCol = new TableColumn<>("Show");
+        TableColumn<Exam, Exam> EditButtonCol = new TableColumn<>("Edit");
 
         ExamIDCol.setCellValueFactory(new PropertyValueFactory<>("id_num"));
         CourseIDCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getCourse().getId()));
@@ -87,7 +90,32 @@ public class ShowExamsController implements Initializable {
             }
         });
 
-        ExamsTable.getColumns().addAll(ExamIDCol, CourseIDCol, TeacherIDCol, TimeCol, ShowButtonCol);
+        EditButtonCol.setCellValueFactory(param -> new SimpleObjectProperty<>(param.getValue()));
+        EditButtonCol.setCellFactory(param -> new TableCell<Exam, Exam>() {
+            private final Button showButton = new Button("Edit");
+
+            {
+                showButton.setOnAction(event -> {
+                    Exam exam = getTableRow().getItem();
+                    if (exam != null) {
+                        // Code to handle the "Show" button action for the specific exam
+                        EditExam(exam);
+                    }
+                });
+            }
+
+            @Override
+            protected void updateItem(Exam exam, boolean empty) {
+                super.updateItem(exam, empty);
+                if (empty || exam == null) {
+                    setGraphic(null);
+                } else {
+                    setGraphic(showButton);
+                }
+            }
+        });
+
+        ExamsTable.getColumns().addAll(ExamIDCol, CourseIDCol, TeacherIDCol, TimeCol, ShowButtonCol, EditButtonCol);
     }
 
     public void ShowExam(Exam exam){
@@ -98,6 +126,25 @@ public class ShowExamsController implements Initializable {
             ShowExamController controller = loader.getController();
             controller.setTeacher(teacher);
             controller.setExam(exam);
+            Stage currentStage = new Stage();
+            currentStage.setTitle("Exam number " + exam.getId_num());
+            currentStage.setScene(scene);
+            currentStage.show();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void EditExam(Exam exam){
+        try{
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("EditExam.fxml"));
+            AnchorPane newScene = loader.load();
+            Scene scene = new Scene(newScene);
+            EditExamController controller = loader.getController();
+            controller.setPreviousController(this);
+            controller.setTeacher(teacher);
+            controller.setExam(exam);
+            controller.initializee();
             Stage currentStage = new Stage();
             currentStage.setTitle("Exam number " + exam.getId_num());
             currentStage.setScene(scene);

@@ -75,4 +75,7 @@ public class Course implements Serializable {
     public void addExam(Exam exam) {
         this.exams.add(exam);
     }
+    public void removeExam(Exam exam){
+        this.exams.remove(exam);
+    }
 }

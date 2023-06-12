@@ -86,6 +86,11 @@ public class SimpleServer extends AbstractServer {
 								System.out.print("\nEMPTY QUESTION\n");
 							}
 							teacher.setTeacherQuestionsList(questions);
+							List<Exam> exams = ConnectToDatabase.getExamsByTeacher(teacher);
+							if(exams.isEmpty()){
+								System.out.print("\nEMPTY EXAMS\n");
+							}
+							teacher.setTeacherExamsList(exams);
 							message.setTeacher(teacher);
 						}
 						// Now you have the User object, you can perform further actions

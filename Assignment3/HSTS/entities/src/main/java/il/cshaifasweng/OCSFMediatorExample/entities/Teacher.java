@@ -60,4 +60,12 @@ public class Teacher extends User implements Serializable {
     public void addExam(Exam exam){
         this.exams.add(exam);
     }
+
+    public void setTeacherExamsList(List<Exam> exams) {
+        this.exams = exams;
+    }
+
+    public void removeExam(Exam exam){
+        this.exams.remove(exam);
+    }
 }

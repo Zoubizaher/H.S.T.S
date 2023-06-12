@@ -89,14 +89,6 @@ public class AddQuestionController implements Initializable{
         dCol.setCellValueFactory(new PropertyValueFactory<>("answerD"));
         answerCol.setCellValueFactory(new PropertyValueFactory<>("correctAnswer"));
 
-       // Make the option columns editable as text fields
-      /*  aCol.setCellFactory(TextFieldTableCell.forTableColumn());
-        bCol.setCellFactory(TextFieldTableCell.forTableColumn());
-        cCol.setCellFactory(TextFieldTableCell.forTableColumn());
-        dCol.setCellFactory(TextFieldTableCell.forTableColumn()); */ //=> NO need for this !
-
-        // Add the columns to the table
-
         questionTable.getColumns().addAll(
                 questionNumCol, questionCol, aCol, bCol, cCol, dCol, answerCol
         );
@@ -174,17 +166,8 @@ public class AddQuestionController implements Initializable{
     public void AddQuestion(ActionEvent actionEvent) throws IOException {
         ObservableList<CheckBox> selectedCheckboxes = FXCollections.observableArrayList();
         String QuestionTxt;
-       // List<Course> choosenCourses = new ArrayList<>();
         List<String> answers = new ArrayList<>();
         String correctAnswer;
-      /*  for (Node node : coursesVBox.getChildren()) {//==> Also no need
-            if (node instanceof CheckBox) {
-                CheckBox checkBox = (CheckBox) node;
-                if (checkBox.isSelected()) {
-                    selectedCheckboxes.add(checkBox);
-                }
-            }
-        }*/
         System.out.print("\n SYSTEM CHECK A LABEL "+A.getText());// todo remove
         answers.add(A.getText());
         answers.add(B.getText());
@@ -193,19 +176,6 @@ public class AddQuestionController implements Initializable{
         QuestionTxt = QuestionText.getText();
         correctAnswer = AnswerChar.getText();
         Question question = new Question(QuestionTxt, answers, correctAnswer,teacher);
-       // System.out.print("\n SYSTEM CHECK questionNUM from add controller "+question.getIdNum());// todo remove
-      //  teacher.getTeacherQuestionsList().add(question);// added the course for teacher
-     /*   for (CheckBox checkBox : selectedCheckboxes) {
-            String courseName = checkBox.getText();
-            for(Course course : teacher.getCourses()){
-                if(course.getCourse_name().equals(courseName)){
-                    choosenCourses.add(course);
-                    course.addQuestion(question);
-                    question.AddCourse(course);
-                }
-            }
-        }*/
-//        teacher.addQuestion(question);
         QuestionMsg msg1 = new QuestionMsg("#AddQuestion", question, teacher);
         SimpleClient.getClient().sendToServer(msg1);
     }

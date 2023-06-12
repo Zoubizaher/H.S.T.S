@@ -38,8 +38,9 @@ public class SimpleClient extends AbstractClient {
 			studentList = (List<Student>) msg;
 			EventBus.getDefault().post(studentList);
 		}else if (msg instanceof MsgExamCreation) {
+			System.out.print("\nGot the message");
 			MsgExamCreation message = (MsgExamCreation) msg;
-			if(message.getRequest().equals("#NewExam")){
+			if(message.getRequest().equals("#ExamCreationDone")){
 				EventBus.getDefault().post(new CreateExamEvent(message));
 			}
 		}else {

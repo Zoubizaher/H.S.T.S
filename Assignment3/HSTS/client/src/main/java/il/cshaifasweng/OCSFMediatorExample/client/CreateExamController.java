@@ -1,5 +1,4 @@
 package il.cshaifasweng.OCSFMediatorExample.client;
-
 import il.cshaifasweng.OCSFMediatorExample.entities.*;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -35,7 +34,8 @@ import java.util.stream.Collectors;
 public class CreateExamController implements Initializable{
     private Teacher teacher;
 
-
+    @FXML
+    private AnchorPane rootPane;
     @FXML
     private TableView<Question> questionTable;
     @FXML
@@ -211,52 +211,72 @@ public class CreateExamController implements Initializable{
         int sum=0;
         int points;
         boolean flag = true;
-        for(Question question : selectedQuestions){
-            System.out.print("Selected Questions: ");
-            if(question.isSelected()){
-                System.out.print(question.getQuestionText() + ",");
-                points = question.getPoints();
-                if(points == 0){
-                    flag = false;
-                }else{
-                    sum += question.getPoints();
-                }
-            }
-            System.out.print("\n");
-        }
-        if(flag){
-            if(sum!=100){
-                System.out.print("POINTS SUM IS NOT 100, ERROR!\n");
-                flag = false;
-            }else{
-                System.out.print("Points are good!\n");
-            }
+        if(selectedQuestions.isEmpty()){
+            EventBus.getDefault().post(new ErrorMsgEvent("No Courses were selected!"));
+            flag = false;
         }else{
-            System.out.print("Selected Questions with points of 0!\n");
+            for(Question question : selectedQuestions){
+                System.out.print("Selected Questions: ");
+                if(question.isSelected()){
+                    System.out.print(question.getQuestionText() + ",");
+                    points = question.getPoints();
+                    if(points == 0){
+                        flag = false;
+                    }else{
+                        sum += question.getPoints();
+                    }
+                }
+                System.out.print("\n");
+            }
+            if(flag){
+                if(sum!=100){
+                    EventBus.getDefault().post(new ErrorMsgEvent("POINTS SUM IS NOT 100!"));
+                    flag = false;
+                }
+            }else{
+                EventBus.getDefault().post(new ErrorMsgEvent("Selected Questions with points of 0!"));
+            }
         }
         if(flag){
             int time = Integer.parseInt(time_minutes.getText());
             if(time > 0){
-                System.out.print("Time of exam = " + time + "\n");
                 Course selectedCourse = courseChoiceBox.getValue();
                 if (selectedCourse != null) {
-                    // Handle the selected course as needed
-                    System.out.println("Selected Course: " + selectedCourse.getCourse_name());
                     //Create the exam and send it to the server.
-                    Exam exam = new Exam(teacher,selectedCourse,questions, time);
+                    Map<Question, Integer> questionPoints = new HashMap<>();
+                    for(Question question : selectedQuestions){
+                        questionPoints.put(question, question.getPoints());
+                    }
+                    Exam exam = new Exam(teacher,selectedCourse,selectedQuestions, time, questionPoints);
+                    teacher.removeExam(exam);
+                    selectedCourse.removeExam(exam);
                     MsgExamCreation msg = new MsgExamCreation("#NewExam", exam);
                     SimpleClient.getClient().sendToServer(msg);
                 } else {
+                    EventBus.getDefault().post(new ErrorMsgEvent("No course is selected!"));
                     System.out.println("No course selected.");
                 }
             }else{
+                EventBus.getDefault().post(new ErrorMsgEvent("Time is not set correctly!"));
                 System.out.print("Time is not set correctly");
             }
         }
     }
     @Subscribe
     public void onReceivingExam(CreateExamEvent message){
+        EventBus.getDefault().post(new ErrorMsgEvent("Exam Created Successfully!"));
         System.out.print("\nGot the exam, the exam id = " + message.getMessage().getExam().getId_num());
+
+        Platform.runLater(() -> {
+            // Get the window or stage that contains the exam creation UI
+            Exam exam = message.getMessage().getExam();
+            teacher.addExam(exam);
+            exam.getCourse().addExam(exam);
+            Stage stage = (Stage) rootPane.getScene().getWindow();
+
+            // Close the window
+            stage.close();
+        });
     }
     public void setTeacher(Teacher teacher) {
         this.teacher = teacher;

@@ -134,26 +134,28 @@ public class EditExamController implements Initializable {
                     MsgUpdateExam msg = new MsgUpdateExam("#EditExam", exam);
                     SimpleClient.getClient().sendToServer(msg);
                 } else {
-                    EventBus.getDefault().post(new ErrorMsgEvent("No course is selected!"));
+                    EventBus.getDefault().post(new ExamErrorMsgEvent("No course is selected!"));
                 }
             }else{
-                EventBus.getDefault().post(new ErrorMsgEvent("Time is not set correctly!"));
+                EventBus.getDefault().post(new ExamErrorMsgEvent("Time is not set correctly!"));
             }
         }
     }
     @Subscribe
     public void onReceivingExamUpdate(UpdateExamEvent message){
-        EventBus.getDefault().post(new ErrorMsgEvent("Exam Updated Successfully!"));
+        EventBus.getDefault().post(new ExamErrorMsgEvent("Exam Updated Successfully!"));
         Platform.runLater(() -> {
             // Get the window or stage that contains the exam creation UI
             Exam exam = message.getMessage().getExam();
-            teacher.addExam(exam);
-            exam.getCourse().addExam(exam);
+           // teacher.addExam(exam);
+           // exam.getCourse().addExam(exam);
             Stage stage = (Stage) rootPane.getScene().getWindow();
+            PreviousController.setTeacher(message.getMessage().getExam().getTeacher());
             PreviousController.updateLIST();
+
             // Close the window
             stage.close();
-            EventBus.getDefault().unregister(this);
+           // EventBus.getDefault().unregister(this);
         });
     }
     public void setTeacher(Teacher teacher) {

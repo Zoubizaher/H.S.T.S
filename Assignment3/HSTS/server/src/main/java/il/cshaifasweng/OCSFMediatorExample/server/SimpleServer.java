@@ -85,7 +85,7 @@ public class SimpleServer extends AbstractServer {
 							if(questions.isEmpty()){
 								System.out.print("\nEMPTY QUESTION\n");
 							}
-							teacher.setTeacherQuestionsList(questions);
+							teacher.setTeacherQuestionsList(questions);// we add this to update exam list
 							List<Exam> exams = ConnectToDatabase.getExamsByTeacher(teacher);
 							if(exams.isEmpty()){
 								System.out.print("\nEMPTY EXAMS\n");

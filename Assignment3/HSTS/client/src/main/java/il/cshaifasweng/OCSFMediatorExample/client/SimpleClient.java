@@ -33,13 +33,14 @@ public class SimpleClient extends AbstractClient {
 			}
 		} else if (msg instanceof List<?>) {
 			studentList = (List<Student>) msg;
-			EventBus.getDefault().post(studentList);
-		}else if (msg instanceof MsgExamCreation) {
+			EventBus.getDefault().post(studentList);}
+
+		else if (msg instanceof MsgExamCreation) {
 			MsgExamCreation message = (MsgExamCreation) msg;
 			if(message.getRequest().equals("#ExamCreationDone")){
-				EventBus.getDefault().post(new CreateExamEvent(message));
-			}
-		}else if(msg instanceof MsgUpdateExam){
+				EventBus.getDefault().post(new CreateExamEvent(message));}}
+
+		else if(msg instanceof MsgUpdateExam){
 			MsgUpdateExam message = (MsgUpdateExam) msg;
 			if(message.getRequest().equals("#ExamUpdatingDone")){
 				EventBus.getDefault().post(new UpdateExamEvent(message));

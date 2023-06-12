@@ -7,11 +7,13 @@ import il.cshaifasweng.OCSFMediatorExample.entities.User;
 
 
 import java.net.URL;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.ResourceBundle;
 
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.event.ActionEvent;
@@ -51,11 +53,34 @@ public class TeacherHomePageController {
         EventBus.getDefault().register(this);
         welcomeLabel.setText("Welcome "+ user.getFullName());
     }
-
+        // both three functions below ensure for us that teacher is updated when we still online
     @Subscribe
     public void onReceivingQuestionEvent(ReceivingQuestionEvent message){
         setUser(message.getMessage().getTeacherWhoCreate());
     }
+    @Subscribe
+    public void onReceivingExam(CreateExamEvent message){
+        setTeacher(message.getMessage().getExam().getTeacher());
+    }
+    @Subscribe
+    public void onReceivingExamUpdate(UpdateExamEvent message){
+        setTeacher(message.getMessage().getExam().getTeacher());
+    }
+
+    @Subscribe
+    public void onExamErrorEvent(ExamErrorMsgEvent event) {
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm:ss");
+            Platform.runLater(() -> { // there is a possible that event can sent by another thread, here we ensure it sent by javafx thrad
+                Alert alert = new Alert(Alert.AlertType.INFORMATION,
+                        String.format("Message: \nData: %s\nTimestamp: %s\n",
+                                event.getErrorMsg(),
+                                event.getTimeStamp().format(dtf))
+                );
+                alert.setTitle("Alert!");
+                alert.setHeaderText("Message:");
+                alert.show();
+            }); }
+
 
 
     public void AddQuestion (ActionEvent actionEvent ){

@@ -74,6 +74,7 @@ public class CreateExamController implements Initializable{
         TextFormatter<Integer> formatter = new TextFormatter<>(new IntegerStringConverter(), 0,
                 c -> c.getControlNewText().matches("\\d*") ? c : null);
         time_minutes.setTextFormatter(formatter);
+
         ObservableList<Question> questionsForTeacher = FXCollections.observableArrayList();
 
         List<Question> questionList = teacher.getTeacherQuestionsList();
@@ -140,11 +141,11 @@ public class CreateExamController implements Initializable{
                     MsgExamCreation msg = new MsgExamCreation("#NewExam", exam);
                     SimpleClient.getClient().sendToServer(msg);
                 } else {
-                    EventBus.getDefault().post(new ErrorMsgEvent("No course is selected!"));
+                    EventBus.getDefault().post(new ExamErrorMsgEvent("No course is selected!"));
                     System.out.println("No course selected.");
                 }
             }else{
-                EventBus.getDefault().post(new ErrorMsgEvent("Time is not set correctly!"));
+                EventBus.getDefault().post(new ExamErrorMsgEvent("Time is not set correctly!"));
                 System.out.print("Time is not set correctly");
             }
         }
@@ -152,12 +153,12 @@ public class CreateExamController implements Initializable{
     @Subscribe
     public void onReceivingExam(CreateExamEvent message){
         if(message.getMessage().getRequest().equals("#ExamCreationDone")){
-            EventBus.getDefault().post(new ErrorMsgEvent("Exam Created Successfully!"));
+            EventBus.getDefault().post(new ExamErrorMsgEvent("Exam Created Successfully!"));
             Platform.runLater(() -> {
                 // Get the window or stage that contains the exam creation UI
                 Exam exam = message.getMessage().getExam();
-                teacher.addExam(exam);
-                exam.getCourse().addExam(exam);
+                //teacher.addExam(exam);
+                //exam.getCourse().addExam(exam);
                 Stage stage = (Stage) rootPane.getScene().getWindow();
 
                 // Close the window

@@ -130,6 +130,10 @@ public class SimpleServer extends AbstractServer {
 				Exam exam = ConnectToDatabase.addExam(message.getExam());
 				MsgExamCreation msg1 = new MsgExamCreation("#ExamCreationDone", exam);
 				client.sendToClient(msg1);
+			}else if(message.getRequest().equals("#EditExam")){
+				Exam exam = ConnectToDatabase.addExam(message.getExam());
+				MsgExamCreation msg1 = new MsgExamCreation("#ExamUpdatingDone", exam);
+				client.sendToClient(msg1);
 			}
 
 		}

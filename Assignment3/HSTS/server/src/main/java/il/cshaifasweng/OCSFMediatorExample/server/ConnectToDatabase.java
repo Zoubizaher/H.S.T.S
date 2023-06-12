@@ -312,7 +312,7 @@ public class ConnectToDatabase {
     public static Exam addExam(Exam exam) throws Exception {
         System.out.print("\nADDING Exam\n");
         session.beginTransaction();
-        Exam ExamToADD = new Exam(exam.getTeacher(), exam.getCourse(), exam.getQuestions(), exam.getTime(), exam.getQuestionPoints());
+        Exam ExamToADD = new Exam(exam.getTeacher(), exam.getCourse(), exam.getQuestions(), exam.getTime(), exam.getQuestionPoints(), exam.getDescription_Teacher(), exam.getDescription_Student());
         session.save(ExamToADD);
         session.flush();
         session.getTransaction().commit();

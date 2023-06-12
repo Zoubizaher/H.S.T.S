@@ -48,7 +48,7 @@ public class App extends Application {
     @Subscribe
     public void onErrorEvent(ErrorMsgEvent event) {
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm:ss");
-        if(event.getErrorMsg().equals("Exam Created Successfully!")){
+        if(event.getErrorMsg().equals("Exam Created Successfully!") || event.getErrorMsg().equals("Exam Updated Successfully!")){
             Platform.runLater(() -> { // there is a possible that event can sent by another thread, here we ensure it sent by javafx thrad
                 Alert alert = new Alert(Alert.AlertType.INFORMATION,
                         String.format("Message: \nData: %s\nTimestamp: %s\n",

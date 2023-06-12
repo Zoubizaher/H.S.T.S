@@ -1,9 +1,6 @@
 package il.cshaifasweng.OCSFMediatorExample.client;
 
-import il.cshaifasweng.OCSFMediatorExample.entities.MsgExamCreation;
-import il.cshaifasweng.OCSFMediatorExample.entities.MsgToLogIn;
-import il.cshaifasweng.OCSFMediatorExample.entities.QuestionMsg;
-import il.cshaifasweng.OCSFMediatorExample.entities.Student;
+import il.cshaifasweng.OCSFMediatorExample.entities.*;
 import org.greenrobot.eventbus.EventBus;
 
 import il.cshaifasweng.OCSFMediatorExample.client.ocsf.AbstractClient;
@@ -41,8 +38,11 @@ public class SimpleClient extends AbstractClient {
 			MsgExamCreation message = (MsgExamCreation) msg;
 			if(message.getRequest().equals("#ExamCreationDone")){
 				EventBus.getDefault().post(new CreateExamEvent(message));
-			}else if(message.getRequest().equals("#ExamUpdatingDone")){
-				EventBus.getDefault().post(new CreateExamEvent(message));
+			}
+		}else if(msg instanceof MsgUpdateExam){
+			MsgUpdateExam message = (MsgUpdateExam) msg;
+			if(message.getRequest().equals("#ExamUpdatingDone")){
+				EventBus.getDefault().post(new UpdateExamEvent(message));
 			}
 		}else {
 			System.out.print("UNKOWN MESSAGE TYPE");

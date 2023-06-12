@@ -58,8 +58,8 @@ public class Exam implements Serializable {
         this.questions = questions;
         this.time = time;
         this.questionPoints = questionPoints;
-        course.addExam(this);
-        teacher.addExam(this);
+//        course.addExam(this);
+//        teacher.addExam(this);
         for(Question question:questions){
             question.addExam(this);
         }
@@ -78,6 +78,7 @@ public class Exam implements Serializable {
             question.addExam(this);
         }
     }
+
     public Teacher getTeacher() {
         return teacher;
     }

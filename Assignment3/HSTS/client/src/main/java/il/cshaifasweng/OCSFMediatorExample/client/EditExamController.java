@@ -131,7 +131,7 @@ public class EditExamController implements Initializable {
                     Exam exam = new Exam(teacher,selectedCourse,selectedQuestions, time, questionPoints,dis1,dis2);
                     teacher.removeExam(exam);
                     selectedCourse.removeExam(exam);
-                    MsgExamCreation msg = new MsgExamCreation("#EditExam", exam);
+                    MsgUpdateExam msg = new MsgUpdateExam("#EditExam", exam);
                     SimpleClient.getClient().sendToServer(msg);
                 } else {
                     EventBus.getDefault().post(new ErrorMsgEvent("No course is selected!"));
@@ -142,20 +142,19 @@ public class EditExamController implements Initializable {
         }
     }
     @Subscribe
-    public void onReceivingExam(CreateExamEvent message){
-        if(message.getMessage().getRequest().equals("#ExamUpdatingDone")){
-            EventBus.getDefault().post(new ErrorMsgEvent("Exam Updated Successfully!"));
-            Platform.runLater(() -> {
-                // Get the window or stage that contains the exam creation UI
-                Exam exam = message.getMessage().getExam();
-                teacher.addExam(exam);
-                exam.getCourse().addExam(exam);
-                Stage stage = (Stage) rootPane.getScene().getWindow();
-                PreviousController.updateLIST();
-                // Close the window
-                stage.close();
-            });
-        }
+    public void onReceivingExamUpdate(UpdateExamEvent message){
+        EventBus.getDefault().post(new ErrorMsgEvent("Exam Updated Successfully!"));
+        Platform.runLater(() -> {
+            // Get the window or stage that contains the exam creation UI
+            Exam exam = message.getMessage().getExam();
+            teacher.addExam(exam);
+            exam.getCourse().addExam(exam);
+            Stage stage = (Stage) rootPane.getScene().getWindow();
+            PreviousController.updateLIST();
+            // Close the window
+            stage.close();
+            EventBus.getDefault().unregister(this);
+        });
     }
     public void setTeacher(Teacher teacher) {
         this.teacher = teacher;

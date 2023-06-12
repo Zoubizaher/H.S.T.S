@@ -94,6 +94,22 @@ public class TeacherHomePageController {
             throw new RuntimeException(e);
         }
     }
+
+    public void Show_Exams(ActionEvent actionEvent) {
+        try{
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("ShowExams.fxml"));
+            AnchorPane newScene = loader.load();
+            Scene scene = new Scene(newScene);
+            ShowExamsController controller = loader.getController();
+            controller.setTeacher(teacher);
+            Stage currentStage = new Stage();
+            currentStage.setTitle("Created Exams");
+            currentStage.setScene(scene);
+            currentStage.show();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
 
 

@@ -117,7 +117,6 @@ public class HomePageController {
 		} else if (message.getMessage().getLogInFlag().equals("WrongPassword")){ // here i think we need to show alert!
 			System.out.print("Wrong Password");
 			EventBus.getDefault().post(new ErrorMsgEvent("Wrong Password"));
-
 		}
 		else if(message.getMessage().getLogInFlag().equals("WrongUsername")){
 			System.out.print("Wrong Username");

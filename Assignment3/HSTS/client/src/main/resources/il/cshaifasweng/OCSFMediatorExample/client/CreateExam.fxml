@@ -11,7 +11,7 @@
 
 <?import javafx.scene.control.TextFormatter?>
 <?import javafx.scene.control.ChoiceBox?>
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.cshaifasweng.OCSFMediatorExample.client.CreateExamController">
+<AnchorPane fx:id="rootPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.cshaifasweng.OCSFMediatorExample.client.CreateExamController">
     <children>
         <HBox layoutX="-1.0" prefHeight="331.0" prefWidth="806.0">
             <children>

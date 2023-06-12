@@ -99,6 +99,20 @@ public class ConnectToDatabase {
         TypedQuery<Question> questionTypedQuery = session.createQuery(questionQuery);
         return questionTypedQuery.getResultList();
     }
+    public static List<Exam> getExamsByTeacher(Teacher teacher) {
+        CriteriaBuilder builder = session.getCriteriaBuilder();
+        CriteriaQuery<Exam> ExamQuery = builder.createQuery(Exam.class);
+        Root<Exam> ExamRoot = ExamQuery.from(Exam.class);
+
+        // Join the Teacher entity to filter by teacher_id
+        Join<Exam, Teacher> teacherJoin = ExamRoot.join("teacher");
+
+        ExamQuery.select(ExamRoot)
+                .where(builder.equal(teacherJoin.get("id"), teacher.getId()));
+
+        TypedQuery<Exam> ExamTypedQuery = session.createQuery(ExamQuery);
+        return ExamTypedQuery.getResultList();
+    }
     public static void save_all(Session session) throws Exception {
         for(Student student : getAllStudents()){
             session.save(student);
@@ -298,12 +312,10 @@ public class ConnectToDatabase {
     public static Exam addExam(Exam exam) throws Exception {
         System.out.print("\nADDING Exam\n");
         session.beginTransaction();
-        Exam ExamToADD = new Exam(exam.getTeacher(), exam.getCourse(), exam.getQuestions(), exam.getTime());
+        Exam ExamToADD = new Exam(exam.getTeacher(), exam.getCourse(), exam.getQuestions(), exam.getTime(), exam.getQuestionPoints());
         session.save(ExamToADD);
-//        save_all(session);
         session.flush();
         session.getTransaction().commit();
-        System.out.print("Returning");
         return ExamToADD;
     }
 
@@ -343,6 +355,8 @@ public class ConnectToDatabase {
         session.getTransaction().commit(); // Save everything.
         session.close();
     }
+
+
 
   /*  public static void updateQuestion(Question question) {
         session.beginTransaction();

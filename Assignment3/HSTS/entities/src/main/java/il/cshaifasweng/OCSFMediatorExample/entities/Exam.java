@@ -6,7 +6,9 @@ import org.hibernate.annotations.FetchMode;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Entity
 @Table(name = "Exams")
@@ -17,16 +19,16 @@ public class Exam implements Serializable {
 
     @Column(name = "Time")
     int time;
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "teacher_id")
     private Teacher teacher;
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER)
 
     @JoinColumn(name = "course_id")
     private Course course;
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER)
     @Fetch(FetchMode.SUBSELECT)
     @JoinTable(
             name = "Exam_Question",
@@ -36,11 +38,22 @@ public class Exam implements Serializable {
     private List<Question> questions = new ArrayList<>();
 
 
-    public Exam(Teacher teacher, Course course, List<Question> questions, int time){
+    @ElementCollection
+    @CollectionTable(name = "Question_Points",
+            joinColumns = {@JoinColumn(name = "exam_id", referencedColumnName = "id_num")})
+    @MapKeyJoinColumn(name = "question_id")
+    @Column(name = "points")
+    private Map<Question, Integer> questionPoints = new HashMap<>();
+
+    public Exam() {
+        // Default constructor
+    }
+    public Exam(Teacher teacher, Course course, List<Question> questions, int time, Map<Question, Integer> questionPoints){
         this.course = course;
         this.teacher = teacher;
         this.questions = questions;
         this.time = time;
+        this.questionPoints = questionPoints;
         course.addExam(this);
         teacher.addExam(this);
         for(Question question:questions){
@@ -78,5 +91,9 @@ public class Exam implements Serializable {
 
     public int getTime() {
         return time;
+    }
+
+    public Map<Question, Integer> getQuestionPoints() {
+        return questionPoints;
     }
 }

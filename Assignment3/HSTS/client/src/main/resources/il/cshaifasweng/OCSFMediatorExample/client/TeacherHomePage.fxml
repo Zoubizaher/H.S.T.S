@@ -12,7 +12,7 @@
          <children>
             <Button fx:id="addQuestionButton" mnemonicParsing="false" onAction="#AddQuestion" prefHeight="26.0" prefWidth="103.0" text="addQuestion" />
             <Button fx:id="create_exam" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#create_exam" prefHeight="26.0" prefWidth="127.0" text="Create Exam" />
-            <Button layoutX="90.0" layoutY="10.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="79.0" text="Button" />
+            <Button fx:id="ShowExamsButton" layoutX="90.0" layoutY="10.0" mnemonicParsing="false" onAction="#Show_Exams" prefHeight="26.0" prefWidth="115.0" text="Show Exams" />
             <Button layoutX="170.0" layoutY="10.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="79.0" text="Button" />
          </children>
       </HBox>

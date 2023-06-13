@@ -9,10 +9,7 @@ import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableCell;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import org.greenrobot.eventbus.EventBus;
@@ -29,6 +26,8 @@ public class ShowExamController implements Initializable{
 
     @FXML
     private AnchorPane rootPane;
+    @FXML
+    private TextField TeacherDescription;
 
     @FXML
     private TableView<Question> QuestionsTable;
@@ -74,6 +73,7 @@ public class ShowExamController implements Initializable{
             Question question = cellData.getValue();
             Map<Question, Integer> questionPointsMap = exam.getQuestionPoints();
             Integer points = questionPointsMap.get(question);
+            TeacherDescription.setText(exam.getDescription_Teacher());
             return new SimpleObjectProperty<>(points);
         });
 
@@ -83,11 +83,12 @@ public class ShowExamController implements Initializable{
         EventBus.getDefault().register(this);
     }
 
-    public void ManualExam(ActionEvent actionEvent) {
 
-    }
 
     public void AutoExam(ActionEvent actionEvent) {
+
+        // todo tomorrow start from here
+
 
     }
 }

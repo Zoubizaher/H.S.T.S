@@ -24,7 +24,6 @@ public class Exam implements Serializable {
     private Teacher teacher;
 
     @ManyToOne(fetch = FetchType.EAGER)
-
     @JoinColumn(name = "course_id")
     private Course course;
 
@@ -49,6 +48,10 @@ public class Exam implements Serializable {
     private String Description_Teacher = "";
     @Column(name = "Description_Student")
     private String Description_Student = "";
+
+  /*  @Column(name="password",length = 4)
+    private String password=""; */
+
     public Exam() {
         // Default constructor
     }
@@ -64,6 +67,15 @@ public class Exam implements Serializable {
             question.addExam(this);
         }
     }
+    /*
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    } */
+
     public Exam(Teacher teacher, Course course, List<Question> questions, int time, Map<Question, Integer> questionPoints, String Description_Teacher, String Description_Student){
         this.course = course;
         this.teacher = teacher;
@@ -72,6 +84,7 @@ public class Exam implements Serializable {
         this.questionPoints = questionPoints;
         this.Description_Teacher = Description_Teacher;
         this.Description_Student = Description_Student;
+      //  this.password="";
         course.addExam(this);
         teacher.addExam(this);
         for(Question question:questions){

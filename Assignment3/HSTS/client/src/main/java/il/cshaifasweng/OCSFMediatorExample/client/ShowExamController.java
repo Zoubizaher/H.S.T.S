@@ -110,6 +110,7 @@ public class ShowExamController implements Initializable{
             AnchorPane newScene = loader.load();
             Scene scene = new Scene(newScene);
             ShareExamController controller = loader.getController();
+              //  ShareExamController controller = loader.getController();
             controller.setTeacher(teacher);
             controller.setExam(exam);
             controller.setPreviousLoader(this);

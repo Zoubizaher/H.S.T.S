@@ -34,8 +34,8 @@ public class StudentHomePageController { //pay attention, till now you didnt reg
     public void showStats(ActionEvent actionEvent) {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("StudentStats.fxml"));
         try {
+            Stage currentStage = new Stage();
             AnchorPane newScene = loader.load();
-            Stage currentStage = App.getStage();
             Scene scene = new Scene(newScene);  // Set the loaded AnchorPane as the root of the scene
             currentStage.setTitle(user.getFullName() + " Stats");
             currentStage.setScene(scene);
@@ -48,8 +48,8 @@ public class StudentHomePageController { //pay attention, till now you didnt reg
     public void showGrades(ActionEvent actionEvent) {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("StudentGrades.fxml"));
         try {
+            Stage currentStage = new Stage();
             AnchorPane newScene = loader.load();
-            Stage currentStage = App.getStage();
             Scene scene = new Scene(newScene);  // Set the loaded AnchorPane as the root of the scene
             currentStage.setTitle(user.getFullName() + " Grades");
             currentStage.setScene(scene);
@@ -62,4 +62,20 @@ public class StudentHomePageController { //pay attention, till now you didnt reg
     }
 
     public void setUser(User user){this.user=user;}
+
+    public void TakeExam(ActionEvent actionEvent) {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("StudentTakeExam.fxml"));
+        try {
+            Stage currentStage = new Stage();
+            AnchorPane newScene = loader.load();
+            Scene scene = new Scene(newScene);  // Set the loaded AnchorPane as the root of the scene
+            currentStage.setTitle("Take Exam");
+            currentStage.setScene(scene);
+            StudentTakeExamController controller = loader.getController();
+            controller.setStudent((Student) user);
+            currentStage.show();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

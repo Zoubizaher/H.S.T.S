@@ -312,11 +312,35 @@ public class ConnectToDatabase {
     public static Exam addExam(Exam exam) throws Exception {
         System.out.print("\nADDING Exam\n");
         session.beginTransaction();
-        Exam ExamToADD = new Exam(exam.getTeacher(), exam.getCourse(), exam.getQuestions(), exam.getTime(), exam.getQuestionPoints(), exam.getDescription_Teacher(), exam.getDescription_Student());
+        Exam ExamToADD = new Exam(exam.getTeacher(), exam.getCourse(), exam.getQuestions(), exam.getTime(),
+                exam.getQuestionPoints(), exam.getDescription_Teacher(), exam.getDescription_Student());
         session.save(ExamToADD);
         session.flush();
         session.getTransaction().commit();
         return ExamToADD;
+    }
+
+    public static Exam ShareExam ( Exam exam, String Password ){
+        session.beginTransaction();
+        // Load or get the entity you want to update
+        Exam ExamToShare = session.load(Exam.class,exam.getId_num() );
+        if (ExamToShare != null) {
+            // Modify the desired property
+            ExamToShare.setPassword(Password);
+            ExamToShare.setShared(true);
+            // Commit the transaction to persist the changes
+            session.save(ExamToShare);
+            session.flush();
+            session.getTransaction().commit();
+
+            // Changes successfully saved
+            System.out.println("Exam shared: " + exam.getId_num());
+        } else {
+            // Exam not found
+            System.out.println("Exam not found. ERROR sharing exam ");
+        }
+
+        return ExamToShare;
     }
 
     public static List<Student> getStudents() {

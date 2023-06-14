@@ -138,6 +138,14 @@ public class SimpleServer extends AbstractServer {
 			client.sendToClient(msg1);
 		}
 
+		else if(msg instanceof ShareExamMsg){
+			ShareExamMsg message =(ShareExamMsg) msg;
+		Exam exam=ConnectToDatabase.ShareExam(message.getExamToShare(), message.getPasswordToSet());
+			client.sendToClient(new ShareExamMsg("#ExamSharingDone",exam));
+
+
+		}
+
 
 
 

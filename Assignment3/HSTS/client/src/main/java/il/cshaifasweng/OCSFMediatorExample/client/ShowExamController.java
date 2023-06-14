@@ -3,18 +3,23 @@ package il.cshaifasweng.OCSFMediatorExample.client;
 import il.cshaifasweng.OCSFMediatorExample.entities.Exam;
 import il.cshaifasweng.OCSFMediatorExample.entities.Question;
 import il.cshaifasweng.OCSFMediatorExample.entities.Teacher;
+import javafx.application.Platform;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 import java.util.Map;
@@ -86,9 +91,40 @@ public class ShowExamController implements Initializable{
 
 
     public void AutoExam(ActionEvent actionEvent) {
+        // now if we try to share exam that already shared , alert will show and scene will close
+        // else we jump to shareExam controller to set the password for the exam
+            if (exam.getShared())
+            { Platform.runLater(() -> { // there is a possible that event can sent by another thread, here we ensure it sent by javafx thrad
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION,
+                            String.format("Message: \nData: %s",
+                                    "This Exam Already Shared In DataBase"));
+                    alert.setTitle("Alert!");
+                    alert.setHeaderText("Message:");
+                    alert.show();
+                }); }
 
-        // todo tomorrow start from here
-
-
+            else {
+            // we enter here so the exam not shared
+            try{
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("ShareExam.fxml"));
+            AnchorPane newScene = loader.load();
+            Scene scene = new Scene(newScene);
+            ShareExamController controller = loader.getController();
+            controller.setTeacher(teacher);
+            controller.setExam(exam);
+            controller.setPreviousLoader(this);
+            Stage currentStage = new Stage();
+            currentStage.setTitle("Sharing Exam id: " + exam.getId_num());
+            currentStage.setScene(scene);
+            currentStage.show();
+             }   catch (IOException e) {
+            throw new RuntimeException(e);
+                                        }
+                }
     }
+
+
+
+
+
 }

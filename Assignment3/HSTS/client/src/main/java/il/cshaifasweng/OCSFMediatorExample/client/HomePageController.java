@@ -30,7 +30,7 @@ public class HomePageController {
 	@FXML
 	private ImageView eye;
 
-
+	private App app;
 
 	@FXML
 	void sendWarning(ActionEvent event) {
@@ -70,6 +70,7 @@ public class HomePageController {
 		System.out.print("LOG IN Recieved\n");
 		if(message.getMessage().getLogInFlag().equals("Successfully")){
 			User user = message.getMessage().getUser();
+			app.setUser(user);
 			System.out.print("Login successfully to: "+message.getMessage().getUser().getUsername()+ "\n");
 			if(user.getRole().equals("student")){ // PART OF FAISAL
 				System.out.print("\nStudent!!\n");
@@ -121,6 +122,9 @@ public class HomePageController {
 		else if(message.getMessage().getLogInFlag().equals("WrongUsername")){
 			System.out.print("Wrong Username");
 			EventBus.getDefault().post(new ErrorMsgEvent("Wrong Username"));
+		} else if(message.getMessage().getLogInFlag().equals("UserOnline")){
+			System.out.print("User is Online");
+			EventBus.getDefault().post(new ErrorMsgEvent("User is Online!"));
 		} else {
 			System.out.print(message.getMessage().getLogInFlag());
 		}
@@ -149,4 +153,7 @@ public class HomePageController {
 	}
 
 
+	public void setApp(App app) {
+		this.app = app;
+	}
 }

@@ -9,7 +9,6 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="480.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.cshaifasweng.OCSFMediatorExample.client.HomePageController">
    <children>
-      <TextField layoutX="201.0" layoutY="251.0" prefHeight="47.0" prefWidth="237.0" />
       <Text fill="RED" layoutX="36.0" layoutY="114.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Welcome to Al-Shafi'i school!" wrappingWidth="620.9367446899414">
          <font>
             <Font size="45.0" />

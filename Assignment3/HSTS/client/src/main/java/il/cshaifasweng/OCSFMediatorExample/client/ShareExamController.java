@@ -31,6 +31,7 @@ public class ShareExamController implements Initializable {
     @FXML
     private TextField DigitsText;
     private ShowExamController showExamController;
+    //private ShowExamController showExamsController;
 
     private String Password;
 
@@ -86,6 +87,9 @@ public class ShareExamController implements Initializable {
 
     public void setPreviousLoader(ShowExamController showExamController){
         this.showExamController =showExamController;}
+
+    /*public void setShowExamsLoader(ShowExamsController showExamController){
+        this.showExamsController =showExamsController;}*/
 
     public Teacher getTeacher() {
         return teacher;

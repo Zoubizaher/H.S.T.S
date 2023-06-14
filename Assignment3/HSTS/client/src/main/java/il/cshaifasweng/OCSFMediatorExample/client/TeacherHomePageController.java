@@ -68,6 +68,11 @@ public class TeacherHomePageController {
     }
 
     @Subscribe
+    public void onShareExamEvent(ShareExamEvent shareExamEvent){
+        setTeacher(shareExamEvent.getShareExamMsg().getExamToShare().getTeacher());
+    }
+
+    @Subscribe
     public void onExamErrorEvent(ExamErrorMsgEvent event) {
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm:ss");
             Platform.runLater(() -> { // there is a possible that event can sent by another thread, here we ensure it sent by javafx thrad

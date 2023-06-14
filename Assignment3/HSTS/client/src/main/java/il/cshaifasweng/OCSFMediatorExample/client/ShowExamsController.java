@@ -53,6 +53,7 @@ public class ShowExamsController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        EventBus.getDefault().register(this);
         TableColumn<Exam, Integer> ExamIDCol = new TableColumn<>("ID");
         TableColumn<Exam, String> CourseIDCol = new TableColumn<>("Course ID");
         TableColumn<Exam, String> TeacherIDCol = new TableColumn<>("Teacher ID");
@@ -153,4 +154,10 @@ public class ShowExamsController implements Initializable {
             throw new RuntimeException(e);
         }
     }
+    @Subscribe
+    public void onShareExamEvent(ShareExamEvent shareExamEvent){
+        setTeacher(shareExamEvent.getShareExamMsg().getExamToShare().getTeacher());
+    }
+
+
 }

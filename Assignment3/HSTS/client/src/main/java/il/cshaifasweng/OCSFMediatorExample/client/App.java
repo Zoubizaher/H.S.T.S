@@ -1,5 +1,8 @@
 package il.cshaifasweng.OCSFMediatorExample.client;
 
+import il.cshaifasweng.OCSFMediatorExample.entities.MsgToLogIn;
+import il.cshaifasweng.OCSFMediatorExample.entities.MsgToLogOut;
+import il.cshaifasweng.OCSFMediatorExample.entities.User;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -24,15 +27,19 @@ public class App extends Application {
 
     private static Stage HomePageStage;
 
+    private static User user;
     @Override
     public void start(Stage stage) throws IOException {
         HomePageStage = stage;
         EventBus.getDefault().register(this);
     	client = SimpleClient.getClient();
     	client.openConnection();
-        scene = new Scene(loadFXML("HomePage"));
+        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("HomePage.fxml"));
+        scene = new Scene(fxmlLoader.load());
         stage.setTitle("High School Test System, Welcome!");
         stage.setScene(scene);
+        HomePageController controller = fxmlLoader.getController();
+        controller.setApp(this);
         stage.show();
     }
 
@@ -71,6 +78,8 @@ public class App extends Application {
     @Override
 	public void stop() throws Exception {
 		// TODO Auto-generated method stub
+        MsgToLogOut msg = new MsgToLogOut("#LogOut", user) ;
+        SimpleClient.getClient().sendToServer(msg);
         EventBus.getDefault().unregister(this);
         Platform.exit();
 		super.stop();
@@ -85,7 +94,11 @@ public class App extends Application {
         return HomePageStage;
     }
 
-	public static void main(String[] args) {
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public static void main(String[] args) {
         launch();
     }
 }

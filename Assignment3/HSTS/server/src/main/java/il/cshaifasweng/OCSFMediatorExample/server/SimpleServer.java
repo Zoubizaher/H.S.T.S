@@ -6,6 +6,7 @@ import il.cshaifasweng.OCSFMediatorExample.server.ocsf.AbstractServer;
 import il.cshaifasweng.OCSFMediatorExample.server.ocsf.ConnectionToClient;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.Session;
@@ -18,6 +19,8 @@ import javax.persistence.criteria.Root;
 
 public class SimpleServer extends AbstractServer {
 	private Session session;
+
+	private List<User> OnlineUsers = new ArrayList<>();
 
 	public SimpleServer(int port, Session session) {
 		super(port);
@@ -78,27 +81,34 @@ public class SimpleServer extends AbstractServer {
 
 						TypedQuery<User> userTypedQuery = session.createQuery(userQuery);
 						User user = userTypedQuery.getSingleResult();
-						if(user.getRole().equals("teacher")){ // we add this to update  question list
-							String id = user.getId();
-							Teacher teacher = (Teacher) user;
-							List<Question> questions = ConnectToDatabase.getQuestionsByTeacher(teacher);
-							if(questions.isEmpty()){
-								System.out.print("\nEMPTY QUESTION\n");
+						if(OnlineUsers.contains(user)){
+							System.out.print("User is online, can't login twice!");
+							message.setLogInFlag("UserOnline");
+							client.sendToClient(message);
+						}else{
+							OnlineUsers.add(user);
+							if(user.getRole().equals("teacher")){ // we add this to update  question list
+								String id = user.getId();
+								Teacher teacher = (Teacher) user;
+								List<Question> questions = ConnectToDatabase.getQuestionsByTeacher(teacher);
+								if(questions.isEmpty()){
+									System.out.print("\nEMPTY QUESTION\n");
+								}
+								teacher.setTeacherQuestionsList(questions);// we add this to update exam list
+								List<Exam> exams = ConnectToDatabase.getExamsByTeacher(teacher);
+								if(exams.isEmpty()){
+									System.out.print("\nEMPTY EXAMS\n");
+								}
+								teacher.setTeacherExamsList(exams);
+								message.setTeacher(teacher);
 							}
-							teacher.setTeacherQuestionsList(questions);// we add this to update exam list
-							List<Exam> exams = ConnectToDatabase.getExamsByTeacher(teacher);
-							if(exams.isEmpty()){
-								System.out.print("\nEMPTY EXAMS\n");
-							}
-							teacher.setTeacherExamsList(exams);
-							message.setTeacher(teacher);
+							// Now you have the User object, you can perform further actions
+							System.out.println("Logged in user: " + user.getFirst() + " " + user.getLast() + "\n");
+							message.setUser(user);
+							message.setLogInFlag("Successfully");
+							LogInEvent logInEvent = new LogInEvent(message);
+							client.sendToClient(message);
 						}
-						// Now you have the User object, you can perform further actions
-						System.out.println("Logged in user: " + user.getFirst() + " " + user.getLast() + "\n");
-						message.setUser(user);
-						message.setLogInFlag("Successfully");
-						LogInEvent logInEvent = new LogInEvent(message);
-						client.sendToClient(message);
 					} else {
 						// Password is not identical
 						message.setLogInFlag("WrongPassword");
@@ -136,14 +146,19 @@ public class SimpleServer extends AbstractServer {
 			Exam exam = ConnectToDatabase.addExam(message.getExam());
 			MsgUpdateExam msg1 = new MsgUpdateExam("#ExamUpdatingDone", exam);
 			client.sendToClient(msg1);
-		}
-
-		else if(msg instanceof ShareExamMsg){
+		} else if(msg instanceof ShareExamMsg){
 			ShareExamMsg message =(ShareExamMsg) msg;
-		Exam exam=ConnectToDatabase.ShareExam(message.getExamToShare(), message.getPasswordToSet());
+			Exam exam=ConnectToDatabase.ShareExam(message.getExamToShare(), message.getPasswordToSet());
 			client.sendToClient(new ShareExamMsg("#ExamSharingDone",exam));
-
-
+		} else if(msg instanceof MsgToLogOut){
+			MsgToLogOut message =(MsgToLogOut) msg;
+			System.out.print("Logging out: " + message.getUser());
+			for(User user: OnlineUsers){
+				if (user.getId().equals(message.getUser().getId())){
+					OnlineUsers.remove(user);
+					break;
+				}
+			}
 		}
 
 

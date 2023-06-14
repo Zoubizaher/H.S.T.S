@@ -152,17 +152,17 @@ public class SimpleServer extends AbstractServer {
 			client.sendToClient(new ShareExamMsg("#ExamSharingDone",exam));
 		} else if(msg instanceof MsgToLogOut){
 			MsgToLogOut message =(MsgToLogOut) msg;
-			System.out.print("Logging out: " + message.getUser());
+			System.out.print("\nLogging out: " + message.getUser());
 			for(User user: OnlineUsers){
 				if (user.getId().equals(message.getUser().getId())){
 					OnlineUsers.remove(user);
 					break;
 				}
 			}
+		}else if(msg instanceof TakeExamMsg){
+			TakeExamMsg message =(TakeExamMsg) msg;
+			System.out.print("\nTry to execute exam!, password = " + message.getPasswordToSet() + "  student= " +  message.getStudent().getFullName() + "  cvourse = " + message.getCourse().getCourse_name());
+
 		}
-
-
-
-
 	}
 }

@@ -7,7 +7,7 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="480.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.cshaifasweng.OCSFMediatorExample.client.StudentHomePageController">
    <children>
-      <Button fx:id="details" layoutX="184.0" layoutY="102.0" mnemonicParsing="false" prefHeight="62.0" onAction="#showDetails" prefWidth="260.0" text="Details">
+      <Button fx:id="details" layoutX="184.0" layoutY="53.0" mnemonicParsing="false" onAction="#showDetails" prefHeight="62.0" prefWidth="260.0" text="Details">
          <font>
             <Font size="29.0" />
          </font>
@@ -17,12 +17,17 @@
             <Font size="29.0" />
          </font>
       </Text>
-      <Button fx:id="stats" layoutX="184.0" layoutY="216.0" mnemonicParsing="false" prefHeight="62.0" onAction="#showStats" prefWidth="260.0" text="Stats">
+      <Button fx:id="stats" layoutX="184.0" layoutY="152.0" mnemonicParsing="false" onAction="#showStats" prefHeight="62.0" prefWidth="260.0" text="Stats">
          <font>
             <Font size="29.0" />
          </font>
       </Button>
-      <Button fx:id="courses_grades" layoutX="184.0" layoutY="320.0" mnemonicParsing="false" onAction="#showGrades" prefHeight="62.0" prefWidth="260.0" text="Courses &amp; Grades">
+      <Button fx:id="courses_grades" layoutX="184.0" layoutY="240.0" mnemonicParsing="false" onAction="#showGrades" prefHeight="62.0" prefWidth="260.0" text="Courses &amp; Grades">
+         <font>
+            <Font size="28.0" />
+         </font>
+      </Button>
+      <Button fx:id="takeExams" layoutX="184.0" layoutY="338.0" mnemonicParsing="false" onAction="#TakeExam" prefHeight="62.0" prefWidth="260.0" text="Take Exam">
          <font>
             <Font size="28.0" />
          </font>

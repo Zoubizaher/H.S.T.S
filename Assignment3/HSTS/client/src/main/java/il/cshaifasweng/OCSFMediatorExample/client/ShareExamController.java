@@ -39,22 +39,20 @@ public class ShareExamController implements Initializable {
 
 
     public void OnSetButton(ActionEvent actionEvent){
-        if (DigitsText.getText().length()!=4)
-        {   Platform.runLater(() -> { // there is a possible that event can sent by another thread, here we ensure it sent by javafx thrad
+        if (DigitsText.getText().length()!=4) {
+            Platform.runLater(() -> { // there is a possible that event can sent by another thread, here we ensure it sent by javafx thrad
             Alert alert = new Alert(Alert.AlertType.INFORMATION,
                     String.format("Message: \nData: %s",
                             "Set 4 digits for the Password "));
             alert.setTitle("Alert!");
             alert.setHeaderText("Message:");
             alert.show();
-        }); }
-
-        else
-        {   Password=DigitsText.getText();
+            });
+        } else {
+            Password=DigitsText.getText();
             InformationToShare.setText("Exam id :"+String.valueOf(exam.getId_num())+"\n"+
                     "Password: "+Password );
         }
-
     }
 
 
@@ -69,8 +67,6 @@ public class ShareExamController implements Initializable {
         Node sourceNode = (Node) actionEvent.getSource();
         Stage currentStage = (Stage) sourceNode.getScene().getWindow();
         currentStage.close();
-
-
     }
 
 
@@ -88,25 +84,8 @@ public class ShareExamController implements Initializable {
 
     }
 
-
     public void setPreviousLoader(ShowExamController showExamController){
         this.showExamController =showExamController;}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     public Teacher getTeacher() {
         return teacher;

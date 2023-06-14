@@ -45,7 +45,12 @@ public class SimpleClient extends AbstractClient {
 			if(message.getRequest().equals("#ExamUpdatingDone")){
 				EventBus.getDefault().post(new UpdateExamEvent(message));
 			}
-		}else {
+		} else if(msg instanceof ShareExamMsg){
+			ShareExamMsg message =(ShareExamMsg) msg;
+			if(message.getRequest().equals("#ExamSharingDone"))
+			{  EventBus.getDefault().post(new ShareExamEvent(message));                                          }
+		}
+		else {
 			System.out.print("UNKOWN MESSAGE TYPE");
 		}
 	}

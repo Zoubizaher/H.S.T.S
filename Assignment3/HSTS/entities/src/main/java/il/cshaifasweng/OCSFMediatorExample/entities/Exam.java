@@ -49,8 +49,17 @@ public class Exam implements Serializable {
     @Column(name = "Description_Student")
     private String Description_Student = "";
 
-  /*  @Column(name="password",length = 4)
-    private String password=""; */
+   @Column(name="password",length = 4)
+    private String password="";
+
+    @Column(name="IsShared",length = 4)
+    private Boolean IsShared= false;
+
+
+
+
+
+
 
     public Exam() {
         // Default constructor
@@ -67,14 +76,9 @@ public class Exam implements Serializable {
             question.addExam(this);
         }
     }
-    /*
-    public String getPassword() {
-        return password;
-    }
 
-    public void setPassword(String password) {
-        this.password = password;
-    } */
+
+
 
     public Exam(Teacher teacher, Course course, List<Question> questions, int time, Map<Question, Integer> questionPoints, String Description_Teacher, String Description_Student){
         this.course = course;
@@ -84,12 +88,31 @@ public class Exam implements Serializable {
         this.questionPoints = questionPoints;
         this.Description_Teacher = Description_Teacher;
         this.Description_Student = Description_Student;
-      //  this.password="";
+        this.password="";
+        this.IsShared=false;
         course.addExam(this);
         teacher.addExam(this);
         for(Question question:questions){
             question.addExam(this);
         }
+    }
+
+
+    public Boolean getShared() {
+        return IsShared;
+    }
+
+
+    public void setShared(Boolean IsShared) {
+        this.IsShared = IsShared;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public Teacher getTeacher() {

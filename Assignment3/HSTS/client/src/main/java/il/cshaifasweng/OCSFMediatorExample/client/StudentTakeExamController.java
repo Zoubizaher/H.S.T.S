@@ -28,6 +28,8 @@ public class StudentTakeExamController implements Initializable {
 
     @FXML
     private TextField DigitsText;
+    @FXML
+    private TextField IdNumText;
 
     public void setExam(Exam exam) {
         this.exam = exam;
@@ -66,6 +68,7 @@ public class StudentTakeExamController implements Initializable {
     private ChoiceBox<Course> courseChoiceBox;
     public void TakeExam(ActionEvent actionEvent) {
         String password = DigitsText.getText();
+        String ExamIdNum=IdNumText.getText();
         if(password.length()!=4){
             Platform.runLater(() -> { // there is a possible that event can sent by another thread, here we ensure it sent by javafx thrad
                 Alert alert = new Alert(Alert.AlertType.INFORMATION,
@@ -78,7 +81,7 @@ public class StudentTakeExamController implements Initializable {
         }else{
             Course selectedCourse = courseChoiceBox.getValue();
             Platform.runLater(() -> { // there is a possible that event can sent by another thread, here we ensure it sent by javafx thrad
-                TakeExamMsg msg = new TakeExamMsg("TakeExamRequest", password, selectedCourse, student);
+                TakeExamMsg msg = new TakeExamMsg("TakeExamRequest",ExamIdNum ,password, selectedCourse, student);
                 try {
                     SimpleClient.getClient().sendToServer(msg);
                 } catch (IOException e) {
@@ -89,7 +92,7 @@ public class StudentTakeExamController implements Initializable {
         }
     }
     @Subscribe
-    public void onShareExamEvent(ShareExamEvent shareExamEvent){
+    public void onTakeExamEvent(TakeExamEvent shareExamEvent){
 
     }
     @Override

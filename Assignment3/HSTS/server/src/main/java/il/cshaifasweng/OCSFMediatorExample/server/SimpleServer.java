@@ -9,7 +9,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
+import org.hibernate.query.Query;
 
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -161,8 +163,33 @@ public class SimpleServer extends AbstractServer {
 			}
 		}else if(msg instanceof TakeExamMsg){
 			TakeExamMsg message =(TakeExamMsg) msg;
-			System.out.print("\nTry to execute exam!, password = " + message.getPasswordToSet() + "  student= " +  message.getStudent().getFullName() + "  cvourse = " + message.getCourse().getCourse_name());
+			System.out.print("\nTry to execute exam!, password = " + message.getPasswordToSet() +
+					"  student= " +  message.getStudent().getFullName() );
 
+			String idNum = message.getExamIdNum();  // The id_num value of the Exam you want to load
+			String password = message.getPasswordToSet();  // The password value of the Exam you want to load
+
+				session.beginTransaction();
+				CriteriaBuilder builder = session.getCriteriaBuilder();
+				CriteriaQuery<Exam> criteriaQuery = builder.createQuery(Exam.class);
+				Root<Exam> root = criteriaQuery.from(Exam.class);
+
+				criteriaQuery.select(root)
+						.where(builder.equal(root.get("id_num"), idNum),
+								builder.equal(root.get("password"), password));
+
+				Query<Exam> query = session.createQuery(criteriaQuery);
+
+				Exam exam = query.uniqueResult();
+				if (exam != null) {
+					// The exam with the provided id_num and password is found
+					// You can work with the exam object here
+					System.out.print(" from server - exam found. id: "+exam.getId_num());
+				} else {
+					// No exam with the provided id_num and password is found
+					System.out.print(" exam not found  ");
+				}
+				session.getTransaction().commit();
 		}
 	}
 }

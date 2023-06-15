@@ -63,12 +63,6 @@ public class AddQuestionController implements Initializable{
     public void updateLIST() {
         questionTable.refresh();
     }
-    /*@FXML
-    void initialize(){
-        EventBus.getDefault().register(this);
-        //System.out.print("\n CHECK REF: "+ teacher.getFullName());
-
-    }*/
     public void initializee() {
        System.out.print("INITIALIZING");
         ObservableList<Question> QuestionsForTeacher = FXCollections.observableArrayList();
@@ -206,36 +200,5 @@ public class AddQuestionController implements Initializable{
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         EventBus.getDefault().register(this);
-      //  System.out.print("\n CHECK REF: "+ teacher.getFullName());
-     /*   System.out.print("INITIALIZING");
-        TableColumn<Question, Integer> questionNumCol = new TableColumn<>("Question_num");
-        TableColumn<Question, String> questionCol = new TableColumn<>("Question");
-        TableColumn<Question, String> aCol = new TableColumn<>("A");//manual set-> the header label is set to "A",
-        TableColumn<Question, String> bCol = new TableColumn<>("B");
-        TableColumn<Question, String> cCol = new TableColumn<>("C");
-        TableColumn<Question, String> dCol = new TableColumn<>("D");
-        TableColumn<Question, String> answerCol = new TableColumn<>("Answer");
-
-        // Define property value factories for each column
-        questionNumCol.setCellValueFactory(new PropertyValueFactory<>("IdNum"));
-        questionCol.setCellValueFactory(new PropertyValueFactory<>("questionText"));
-        aCol.setCellValueFactory(new PropertyValueFactory<>("answerA"));
-        bCol.setCellValueFactory(new PropertyValueFactory<>("answerB"));
-        cCol.setCellValueFactory(new PropertyValueFactory<>("answerC"));
-        dCol.setCellValueFactory(new PropertyValueFactory<>("answerD"));
-        answerCol.setCellValueFactory(new PropertyValueFactory<>("correctAnswer"));
-
-        // Make the option columns editable as text fields
-        aCol.setCellFactory(TextFieldTableCell.forTableColumn());
-        bCol.setCellFactory(TextFieldTableCell.forTableColumn());
-        cCol.setCellFactory(TextFieldTableCell.forTableColumn());
-        dCol.setCellFactory(TextFieldTableCell.forTableColumn());
-
-        // Add the columns to the table
-
-        questionTable.getColumns().addAll(
-                questionNumCol, questionCol, aCol, bCol, cCol, dCol, answerCol
-        );
-        questionTable.refresh();*/
     }
 }

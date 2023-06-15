@@ -27,12 +27,13 @@ public class Student extends User implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "student", fetch = FetchType.EAGER)
     @MapKeyJoinColumn(name = "Course_ID")
     private Map<Course, Grade> gradesMap = new HashMap<>();
+
+    @OneToMany(mappedBy = "student", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @Fetch(FetchMode.SUBSELECT)
+    private List<ExamSubmittion> submitted_exams = new ArrayList<>();
     public Student(String id, String first, String last, String username, String role, String mail, String password){
         super(id, first, last, username, role, mail, password);
     }
-
-    /*public Student() {
-        super();}*/
 
     public Student() {
         super("Unknown", "Unknown", "Unknown", "Unknown", "Unknown", "Unknown", "Unknown");

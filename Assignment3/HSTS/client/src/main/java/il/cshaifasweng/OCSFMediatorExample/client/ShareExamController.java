@@ -68,6 +68,7 @@ public class ShareExamController implements Initializable {
         Node sourceNode = (Node) actionEvent.getSource();
         Stage currentStage = (Stage) sourceNode.getScene().getWindow();
         currentStage.close();
+        EventBus.getDefault().unregister(this);
     }
 
 

@@ -55,10 +55,9 @@ public class Exam implements Serializable {
     @Column(name="IsShared",length = 4)
     private Boolean IsShared= false;
 
-
-
-
-
+    @OneToMany(mappedBy = "exam", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @Fetch(FetchMode.SUBSELECT)
+    private List<ExamSubmittion> submitted_exams = new ArrayList<>();
 
 
     public Exam() {

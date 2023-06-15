@@ -21,12 +21,9 @@ import org.greenrobot.eventbus.Subscribe;
  * JavaFX App
  */
 public class App extends Application {
-
     private static Scene scene;
     private SimpleClient client;
-
     private static Stage HomePageStage;
-
     private static User user;
     @Override
     public void start(Stage stage) throws IOException {
@@ -42,16 +39,13 @@ public class App extends Application {
         controller.setApp(this);
         stage.show();
     }
-
     static void setRoot(String fxml) throws IOException {
         scene.setRoot(loadFXML(fxml));
     }
-
     private static Parent loadFXML(String fxml) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource(fxml + ".fxml"));
         return fxmlLoader.load();
     }
-
     @Subscribe
     public void onErrorEvent(ErrorMsgEvent event) {
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm:ss");
@@ -68,13 +62,6 @@ public class App extends Application {
             });
 
     }
-
-
-
-
-
-    
-
     @Override
 	public void stop() throws Exception {
 		// TODO Auto-generated method stub
@@ -84,20 +71,15 @@ public class App extends Application {
         Platform.exit();
 		super.stop();
 	}
-
-
     public static Scene getScene(){
         return scene;
     }
-
     public static Stage getStage(){
         return HomePageStage;
     }
-
     public void setUser(User user) {
         this.user = user;
     }
-
     public static void main(String[] args) {
         launch();
     }

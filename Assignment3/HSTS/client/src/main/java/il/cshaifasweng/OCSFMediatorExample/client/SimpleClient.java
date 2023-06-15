@@ -33,24 +33,29 @@ public class SimpleClient extends AbstractClient {
 			}
 		} else if (msg instanceof List<?>) {
 			studentList = (List<Student>) msg;
-			EventBus.getDefault().post(studentList);}
-
-		else if (msg instanceof MsgExamCreation) {
+			EventBus.getDefault().post(studentList);
+		} else if (msg instanceof MsgExamCreation) {
 			MsgExamCreation message = (MsgExamCreation) msg;
 			if(message.getRequest().equals("#ExamCreationDone")){
-				EventBus.getDefault().post(new CreateExamEvent(message));}}
-
-		else if(msg instanceof MsgUpdateExam){
+				EventBus.getDefault().post(new CreateExamEvent(message));
+			}
+		} else if(msg instanceof MsgUpdateExam){
 			MsgUpdateExam message = (MsgUpdateExam) msg;
 			if(message.getRequest().equals("#ExamUpdatingDone")){
 				EventBus.getDefault().post(new UpdateExamEvent(message));
 			}
 		} else if(msg instanceof ShareExamMsg){
 			ShareExamMsg message =(ShareExamMsg) msg;
-			if(message.getRequest().equals("#ExamSharingDone"))
-			{  EventBus.getDefault().post(new ShareExamEvent(message));                                          }
-		}
-		else {
+			if(message.getRequest().equals("#ExamSharingDone")) {
+				EventBus.getDefault().post(new ShareExamEvent(message));
+			}
+		} else if(msg instanceof TakeExamMsg){
+			TakeExamMsg message =(TakeExamMsg) msg;
+			EventBus.getDefault().post(new StartExamEvent(message));
+		} else if(msg instanceof MsgExamSubmittion){
+			MsgExamSubmittion message =(MsgExamSubmittion) msg;
+			EventBus.getDefault().post(new ExamSubmitEvent(message));
+		} else {
 			System.out.print("UNKOWN MESSAGE TYPE");
 		}
 	}

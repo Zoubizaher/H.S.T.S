@@ -55,4 +55,8 @@ public class User  implements Serializable {
     public String getPassword(){return this.password;}
 
     public String getFullName() {return (this.first + " " + this.last);}
+
+    public int getId_num() {
+        return id_num;
+    }
 }

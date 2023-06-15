@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 public class TakeExamMsg implements Serializable {
     private static final long serialVersionUID = 1L;
-    private String request="";
+    private String request = "";
 
     private String ExamIdNum;
     private Exam ExamToShare;
@@ -12,17 +12,19 @@ public class TakeExamMsg implements Serializable {
 
     private Course course;
     private Student student;
-    public TakeExamMsg(String request,String ExamIdNum ,String PasswordToSet, Course course, Student student) {
+
+    public TakeExamMsg(String request, String ExamIdNum, String PasswordToSet, Course course, Student student) {
         this.request = request;
-        this.ExamIdNum=ExamIdNum;
+        this.ExamIdNum = ExamIdNum;
         this.PasswordToSet = PasswordToSet;
         this.course = course;
         this.student = student;
     }
 
-   public TakeExamMsg(String request, Exam examToShare) {
+    public TakeExamMsg(String request, Exam examToShare) {
         this.request = request;
-        this.ExamToShare = examToShare;}
+        this.ExamToShare = examToShare;
+    }
 
 
     public String getExamIdNum() {
@@ -42,11 +44,13 @@ public class TakeExamMsg implements Serializable {
     }
 
     public Exam getExamToShare() {
-        return ExamToShare;}
+        return ExamToShare;
+    }
 
 
     public void setExamToShare(Exam examToShare) {
-        ExamToShare = examToShare;}
+        ExamToShare = examToShare;
+    }
 
 
     public String getPasswordToSet() {

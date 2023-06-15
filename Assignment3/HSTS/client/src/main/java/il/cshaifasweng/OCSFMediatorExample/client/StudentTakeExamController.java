@@ -9,10 +9,14 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
 import javafx.util.StringConverter;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -92,8 +96,43 @@ public class StudentTakeExamController implements Initializable {
         }
     }
     @Subscribe
-    public void onTakeExamEvent(TakeExamEvent shareExamEvent){
-
+    public void onTakeStartEvent(StartExamEvent startExamEvent){
+        TakeExamMsg msg = startExamEvent.getTakeExamMsg();
+        if(msg.getRequest().equals("#ExamReturnedSuccessfully")){//Exam is returned successfully, The student canstart taking it now
+            Platform.runLater(() -> {
+                try {
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("StudentExamPage.fxml"));
+                    AnchorPane newScene = loader.load();
+                    Scene scene = new Scene(newScene);  // Set the loaded AnchorPane as the root of the scene
+                    Stage currentStage = (Stage) IdNumText.getScene().getWindow();
+                    currentStage.setTitle("Exam");
+                    currentStage.setScene(scene);
+                    StudentExamPageController controller = loader.getController();
+                    controller.setParameters(student, msg.getExamToShare());
+                    currentStage.show();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            });
+        }else if(msg.getRequest().equals("#ExamReturnedUnsuccessfully")){////Exam is returned unsuccessfully
+            Platform.runLater(() -> { // there is a possible that event can sent by another thread, here we ensure it sent by javafx thrad
+                Alert alert = new Alert(Alert.AlertType.INFORMATION,
+                        String.format("Message: \nData: %s",
+                                "Wrong Exam Details!"));
+                alert.setTitle("Alert!");
+                alert.setHeaderText("Message:");
+                alert.show();
+            });
+        }else if(msg.getRequest().equals("#StudentAlreadyTookExam")){
+            Platform.runLater(() -> { // there is a possible that event can sent by another thread, here we ensure it sent by javafx thrad
+                Alert alert = new Alert(Alert.AlertType.INFORMATION,
+                        String.format("Message: \nData: %s",
+                                "Exam Already Executed!"));
+                alert.setTitle("Alert!");
+                alert.setHeaderText("Message:");
+                alert.show();
+            });
+        }
     }
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {

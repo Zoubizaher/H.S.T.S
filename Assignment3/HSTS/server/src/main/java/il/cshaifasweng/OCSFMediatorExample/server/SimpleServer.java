@@ -169,27 +169,57 @@ public class SimpleServer extends AbstractServer {
 			String idNum = message.getExamIdNum();  // The id_num value of the Exam you want to load
 			String password = message.getPasswordToSet();  // The password value of the Exam you want to load
 
-				session.beginTransaction();
-				CriteriaBuilder builder = session.getCriteriaBuilder();
-				CriteriaQuery<Exam> criteriaQuery = builder.createQuery(Exam.class);
-				Root<Exam> root = criteriaQuery.from(Exam.class);
+			session.beginTransaction();
+			CriteriaBuilder builder = session.getCriteriaBuilder();
+			CriteriaQuery<Exam> criteriaQuery = builder.createQuery(Exam.class);
+			Root<Exam> root = criteriaQuery.from(Exam.class);
 
-				criteriaQuery.select(root)
-						.where(builder.equal(root.get("id_num"), idNum),
-								builder.equal(root.get("password"), password));
+			criteriaQuery.select(root)
+					.where(builder.equal(root.get("id_num"), idNum),
+							builder.equal(root.get("password"), password));
 
-				Query<Exam> query = session.createQuery(criteriaQuery);
+			Query<Exam> query = session.createQuery(criteriaQuery);
 
-				Exam exam = query.uniqueResult();
-				if (exam != null) {
-					// The exam with the provided id_num and password is found
-					// You can work with the exam object here
-					System.out.print(" from server - exam found. id: "+exam.getId_num());
+			Exam exam = query.uniqueResult();
+			if (exam != null) {
+				// The exam with the provided id_num and password is found
+				// You can work with the exam object here
+				System.out.print("  --  from server - exam found. id: "+exam.getId_num());
+				Student student = message.getStudent();
+				CriteriaBuilder builder1 = session.getCriteriaBuilder();
+				CriteriaQuery<Long> criteriaQuery1 = builder1.createQuery(Long.class);
+				Root<ExamSubmittion> root1 = criteriaQuery1.from(ExamSubmittion.class);
+
+				criteriaQuery1.select(builder1.count(root1));
+				criteriaQuery1.where(
+						builder1.equal(root1.get("exam"), exam),
+						builder1.equal(root1.get("student"), student)
+				);
+
+				Long count = session.createQuery(criteriaQuery1).getSingleResult();
+
+				if (count > 0) {
+					System.out.println("Yes, there is a saved ExamSubmission with the given exam and student.");
+					System.out.print("\nStudent already took the exam!\n");
+					client.sendToClient(new TakeExamMsg("#StudentAlreadyTookExam", exam));
 				} else {
-					// No exam with the provided id_num and password is found
-					System.out.print(" exam not found  ");
+					System.out.println("No, there is no saved ExamSubmission with the given exam and student.");
+					System.out.print("\nStudent didn't take the exam!\n");
+					client.sendToClient(new TakeExamMsg("#ExamReturnedSuccessfully", exam));
 				}
-				session.getTransaction().commit();
+			} else {
+				client.sendToClient(new TakeExamMsg("#ExamReturnedUnsuccessfully", null));
+				// No exam with the provided id_num and password is found
+				System.out.print(" exam not found  ");
+			}
+			session.getTransaction().commit();
+		}else if(msg instanceof MsgExamSubmittion){
+			MsgExamSubmittion message =(MsgExamSubmittion) msg;
+			if(message.getRequest().equals("#ExamSubmitted")){
+				ExamSubmittion exam = ConnectToDatabase.AddExamSubmittin(message.getExam());
+				System.out.print("Exam saved");
+				client.sendToClient(new MsgExamSubmittion("#ExamSubmittedSuccessfully", null));
+			}
 		}
 	}
 }

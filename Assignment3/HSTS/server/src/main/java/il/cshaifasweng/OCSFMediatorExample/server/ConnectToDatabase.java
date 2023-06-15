@@ -38,6 +38,7 @@ public class ConnectToDatabase {
         configuration.addAnnotatedClass(Manager.class);
         configuration.addAnnotatedClass(Exam.class);
         configuration.addAnnotatedClass(Question.class);
+        configuration.addAnnotatedClass(ExamSubmittion.class);
         ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder().applySettings(configuration.getProperties()).build();
         return configuration.buildSessionFactory(serviceRegistry);
     }
@@ -319,6 +320,15 @@ public class ConnectToDatabase {
         session.getTransaction().commit();
         return ExamToADD;
     }
+    public static ExamSubmittion AddExamSubmittin(ExamSubmittion exam) {
+        System.out.print("\nADDING Exam\n");
+        session.beginTransaction();
+        ExamSubmittion ExamSubmittionToADD = new ExamSubmittion(exam.getStudent(), exam.getExam(), exam.getAnswers());
+        session.save(ExamSubmittionToADD);
+        session.flush();
+        session.getTransaction().commit();
+        return ExamSubmittionToADD;
+    }
 
     public static Exam ShareExam ( Exam exam, String Password ){
         session.beginTransaction();
@@ -379,8 +389,6 @@ public class ConnectToDatabase {
         session.getTransaction().commit(); // Save everything.
         session.close();
     }
-
-
 
   /*  public static void updateQuestion(Question question) {
         session.beginTransaction();

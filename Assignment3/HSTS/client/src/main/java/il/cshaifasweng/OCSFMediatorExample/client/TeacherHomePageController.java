@@ -84,7 +84,8 @@ public class TeacherHomePageController {
                 alert.setTitle("Alert!");
                 alert.setHeaderText("Message:");
                 alert.show();
-            }); }
+            });
+    }
 
 
 

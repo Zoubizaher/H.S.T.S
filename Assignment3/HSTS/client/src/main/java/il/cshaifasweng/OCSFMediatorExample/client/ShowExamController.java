@@ -25,7 +25,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 
-public class ShowExamController implements Initializable{
+public class ShowExamController implements Initializable {
     private Teacher teacher;
     private Exam exam;
 
@@ -36,14 +36,11 @@ public class ShowExamController implements Initializable{
 
     @FXML
     private TableView<Question> QuestionsTable;
+
     public void updateLIST() {
         QuestionsTable.refresh();
     }
 
-    @Subscribe
-    public void onReceivingExam(CreateExamEvent message){
-
-    }
     public void setTeacher(Teacher teacher) {
         this.teacher = teacher;
     }
@@ -85,47 +82,39 @@ public class ShowExamController implements Initializable{
         QuestionsTable.getColumns().addAll(
                 questionNumCol, questionCol, aCol, bCol, cCol, dCol, answerCol, pointsCol
         );
-        EventBus.getDefault().register(this);
     }
-
 
 
     public void AutoExam(ActionEvent actionEvent) {
         // now if we try to share exam that already shared , alert will show and scene will close
         // else we jump to shareExam controller to set the password for the exam
-            if (exam.getShared())
-            { Platform.runLater(() -> { // there is a possible that event can sent by another thread, here we ensure it sent by javafx thrad
-                    Alert alert = new Alert(Alert.AlertType.INFORMATION,
-                            String.format("Message: \nData: %s",
-                                    "This Exam Already Shared In DataBase"));
-                    alert.setTitle("Alert!");
-                    alert.setHeaderText("Message:");
-                    alert.show();
-                }); }
-
-            else {
+        if (exam.getShared()) {
+            Platform.runLater(() -> { // there is a possible that event can sent by another thread, here we ensure it sent by javafx thrad
+                Alert alert = new Alert(Alert.AlertType.INFORMATION,
+                        String.format("Message: \nData: %s",
+                                "This Exam Already Shared In DataBase"));
+                alert.setTitle("Alert!");
+                alert.setHeaderText("Message:");
+                alert.show();
+            });
+        } else {
             // we enter here so the exam not shared
-            try{
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("ShareExam.fxml"));
-            AnchorPane newScene = loader.load();
-            Scene scene = new Scene(newScene);
-            ShareExamController controller = loader.getController();
-              //  ShareExamController controller = loader.getController();
-            controller.setTeacher(teacher);
-            controller.setExam(exam);
-            controller.setPreviousLoader(this);
-            Stage currentStage = new Stage();
-            currentStage.setTitle("Sharing Exam id: " + exam.getId_num());
-            currentStage.setScene(scene);
-            currentStage.show();
-             }   catch (IOException e) {
-            throw new RuntimeException(e);
-                                        }
-                }
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("ShareExam.fxml"));
+                AnchorPane newScene = loader.load();
+                Scene scene = new Scene(newScene);
+                ShareExamController controller = loader.getController();
+                //  ShareExamController controller = loader.getController();
+                controller.setTeacher(teacher);
+                controller.setExam(exam);
+                controller.setPreviousLoader(this);
+                Stage currentStage = new Stage();
+                currentStage.setTitle("Sharing Exam id: " + exam.getId_num());
+                currentStage.setScene(scene);
+                currentStage.show();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
     }
-
-
-
-
-
 }

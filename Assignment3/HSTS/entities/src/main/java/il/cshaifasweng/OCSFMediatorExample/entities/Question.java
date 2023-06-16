@@ -49,6 +49,10 @@ public class Question implements Serializable {
 
     @Transient
     private int points;
+    @Transient
+    private String chosenAnswer;
+    @Transient
+    private int received_points;
     public Question(String questionText, List<String> answers, String correctAnswer,Teacher teacher) {
         this.questionText = questionText;
         this.answers = answers;
@@ -155,5 +159,20 @@ public class Question implements Serializable {
 
     public void addExam(Exam exam){this.exams.add(exam);}
 
+    public void setChosenAnswer(String chosenAnswer) {
+        this.chosenAnswer = chosenAnswer;
+    }
+
+    public String getChosenAnswer() {
+        return chosenAnswer;
+    }
+
+    public int getReceived_points() {
+        return received_points;
+    }
+
+    public void setReceived_points(int received_points) {
+        this.received_points = received_points;
+    }
 }
 

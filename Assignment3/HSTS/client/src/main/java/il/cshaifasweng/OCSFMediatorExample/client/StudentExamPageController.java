@@ -7,7 +7,6 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
@@ -16,11 +15,13 @@ import org.greenrobot.eventbus.Subscribe;
 
 import java.io.IOException;
 import java.net.URL;
+import java.time.Duration;
+import java.time.LocalTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
-import java.time.LocalTime;
+
 public class StudentExamPageController implements Initializable {
     private Student student;
     private Exam exam;
@@ -29,26 +30,36 @@ public class StudentExamPageController implements Initializable {
     private TableView<Question> questionTable;
     @FXML
     private Button submitButton;
+    @FXML
+    private Label remainingTimeLabel; // Add this label to your FXML file
 
+    private LocalTime startTime = null;
+    private Duration duration;
+    private boolean isExamSubmitted1 = false;
+    private boolean isExamSubmitted2 = false;
     @Subscribe
-    public void onExamSubmitEvent(ExamSubmitEvent examSubmitEvent){
-        MsgExamSubmittion msg = examSubmitEvent.getMessage();
-        if(msg.getRequest().equals("#ExamSubmittedSuccessfully")){
-            Platform.runLater(() -> {
-                Stage currentStage = (Stage) questionTable.getScene().getWindow();
-                currentStage.close();
-                Alert alert = new Alert(Alert.AlertType.INFORMATION,
-                        String.format("Message: \nData: %s\nTimestamp: %s\n",
-                                "Exam Submitted Successfully",
-                                LocalTime.now())
-                );
-                alert.setTitle("Alert!");
-                alert.setHeaderText("Message:");
-                alert.show();
-                EventBus.getDefault().unregister(this);
-            });
+    public void onExamSubmitEvent(ExamSubmitEvent examSubmitEvent) {
+        if (!isExamSubmitted2) {
+            isExamSubmitted2 = true;
+            MsgExamSubmittion msg = examSubmitEvent.getMessage();
+            if (msg.getRequest().equals("#ExamSubmittedSuccessfully")) {
+                Platform.runLater(() -> {
+                    Stage currentStage = (Stage) questionTable.getScene().getWindow();
+                    currentStage.close();
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION,
+                            String.format("Message: \nData: %s\nTimestamp: %s\n",
+                                    "Exam Submitted Successfully",
+                                    LocalTime.now())
+                    );
+                    alert.setTitle("Alert!");
+                    alert.setHeaderText("Message:");
+                    alert.show();
+                    EventBus.getDefault().unregister(this);
+                });
+            }
         }
     }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         EventBus.getDefault().register(this);
@@ -103,28 +114,74 @@ public class StudentExamPageController implements Initializable {
     }
 
     public void SubmitExam(ActionEvent actionEvent) throws IOException {
-        for(Question question : exam.getQuestions()){
-            System.out.print("\nthe chosen answer for: "+ question.getQuestionText() +", is "+answersMap.get(question));
+        if (!isExamSubmitted1) {
+            isExamSubmitted1 = true;
+            System.out.print("HIHI");
+            for (Question question : exam.getQuestions()) {
+                System.out.print("\nThe chosen answer for: " + question.getQuestionText() + ", is " + answersMap.get(question));
+            }
+            ExamSubmittion examSubmittion = new ExamSubmittion(student, exam, answersMap);
+            MsgExamSubmittion msg = new MsgExamSubmittion("#ExamSubmitted", examSubmittion);
+            SimpleClient.getClient().sendToServer(msg);
         }
-        ExamSubmittion examSubmittion = new ExamSubmittion(student,exam,answersMap);
-        MsgExamSubmittion msg = new MsgExamSubmittion("#ExamSubmitted", examSubmittion);
-        SimpleClient.getClient().sendToServer(msg);
     }
 
     public void setParameters(Student student, Exam examToShare) {
         this.student = student;
         this.exam = examToShare;
+        // Calculate exam start time and duration based on examToShare
+        startTime = LocalTime.now();
+        System.out.print(startTime);
+        int examDurationMinutes = exam.getTime();
+        duration = Duration.ofMinutes(examDurationMinutes);
+        // Start a background task to update the remaining time label
+        Thread remainingTimeThread = new Thread(() -> {
+            while (true) {
+                try {
+                    Duration remainingTime = getRemainingTime();
+                    Platform.runLater(() -> {
+                        // Update the remaining time label here
+                        long minutes = remainingTime.toMinutes();
+                        long seconds = remainingTime.minusMinutes(minutes).getSeconds();
+                        remainingTimeLabel.setText(String.format("Remaining Time: %02d:%02d", minutes, seconds));
+                    });
+                    Thread.sleep(1000); // Wait for 1 second before updating again
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        remainingTimeThread.setDaemon(true); // Set the thread as daemon to stop it when the application exits
+        remainingTimeThread.start();
         ObservableList<Question> questions = FXCollections.observableArrayList();
         List<Question> questionList = exam.getQuestions();
 
-        if(questionList.isEmpty()){
+        if (questionList.isEmpty()) {
             System.out.print("\nSystem check Q.list is empty : ");
-        }else {
-            for(Question question : questionList){
-                {System.out.print("\nSystem check for Q.list: " + question.getQuestionText() + "\n");}
+        } else {
+            for (Question question : questionList) {
+                System.out.print("\nSystem check for Q.list: " + question.getQuestionText() + "\n");
                 questions.add(question);
             }
         }
-        questionTable.setItems(questions);// this should show the questions
+        questionTable.setItems(questions); // this should show the questions
+    }
+    private Duration getRemainingTime() {
+        LocalTime currentTime = LocalTime.now();
+        LocalTime endTime = startTime.plus(duration);
+        Duration remainingTime = Duration.between(currentTime, endTime);
+
+        // Check if remaining time is 0 and trigger button press
+        if (remainingTime.isZero() || remainingTime.isNegative()) {
+            Platform.runLater(() -> {
+                try {
+                    SubmitExam(null); // Trigger button press
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            });
+        }
+
+        return remainingTime;
     }
 }

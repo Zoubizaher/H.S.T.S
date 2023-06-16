@@ -43,22 +43,22 @@ public class StudentTakeExamController implements Initializable {
         this.student = student;
         List<Course> studentCourses = student.getCourses();
         ObservableList<Course> courseList = FXCollections.observableArrayList(studentCourses);
-        courseChoiceBox.setItems(courseList);
-        courseChoiceBox.setConverter(new StringConverter<Course>() {
-            @Override
-            public String toString(Course course) {
-                if (course == null) {
-                    return "";
-                }
-                return course.getCourse_name();
-            }
-
-            @Override
-            public Course fromString(String string) {
-                // Not used in this case
-                return null;
-            }
-        });
+//        courseChoiceBox.setItems(courseList);
+//        courseChoiceBox.setConverter(new StringConverter<Course>() {
+//            @Override
+//            public String toString(Course course) {
+//                if (course == null) {
+//                    return "";
+//                }
+//                return course.getCourse_name();
+//            }
+//
+//            @Override
+//            public Course fromString(String string) {
+//                // Not used in this case
+//                return null;
+//            }
+//        });
     }
 
     public Exam getExam() {
@@ -68,8 +68,8 @@ public class StudentTakeExamController implements Initializable {
     public Student getStudent() {
         return student;
     }
-    @FXML
-    private ChoiceBox<Course> courseChoiceBox;
+//    @FXML
+//    private ChoiceBox<Course> courseChoiceBox;
     public void TakeExam(ActionEvent actionEvent) {
         String password = DigitsText.getText();
         String ExamIdNum=IdNumText.getText();
@@ -83,9 +83,9 @@ public class StudentTakeExamController implements Initializable {
                 alert.show();
             });
         }else{
-            Course selectedCourse = courseChoiceBox.getValue();
+//            Course selectedCourse = courseChoiceBox.getValue();
             Platform.runLater(() -> { // there is a possible that event can sent by another thread, here we ensure it sent by javafx thrad
-                TakeExamMsg msg = new TakeExamMsg("TakeExamRequest",ExamIdNum ,password, selectedCourse, student);
+                TakeExamMsg msg = new TakeExamMsg("TakeExamRequest",ExamIdNum ,password, null, student);
                 try {
                     SimpleClient.getClient().sendToServer(msg);
                 } catch (IOException e) {

@@ -8,16 +8,15 @@ import il.cshaifasweng.OCSFMediatorExample.server.ocsf.ConnectionToClient;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 
 import javax.persistence.TypedQuery;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
+import javax.persistence.criteria.*;
 
 public class SimpleServer extends AbstractServer {
 	private Session session;
@@ -219,6 +218,62 @@ public class SimpleServer extends AbstractServer {
 				ExamSubmittion exam = ConnectToDatabase.AddExamSubmittin(message.getExam());
 				System.out.print("Exam saved");
 				client.sendToClient(new MsgExamSubmittion("#ExamSubmittedSuccessfully", null));
+			}else if(message.getRequest().equals("#UpdateSubmittedExam")){
+				session.beginTransaction();
+				ExamSubmittion examSubmittion = message.getExam();
+				int idNum = examSubmittion.getId_num();
+				CriteriaBuilder builder = session.getCriteriaBuilder();
+				CriteriaQuery<ExamSubmittion> criteriaQuery = builder.createQuery(ExamSubmittion.class);
+				Root<ExamSubmittion> root = criteriaQuery.from(ExamSubmittion.class);
+
+				criteriaQuery.select(root).where(builder.equal(root.get("id_num"), idNum));
+
+				Query<ExamSubmittion> query = session.createQuery(criteriaQuery);
+
+				ExamSubmittion exam = query.uniqueResult();
+				Map<Question, Integer> map = examSubmittion.getQuestionPoints();
+				Set<Question> questionsset = map.keySet();
+				Set<Question> questions = exam.getQuestionPoints().keySet();
+				for(Question question : questions){
+					for(Question question1 : questionsset){
+						if(question.getIdNum() == question1.getIdNum()){
+							exam.addPoints(question, map.get(question1));
+						}
+					}
+				}
+//				exam.setQuestionPoints(map);
+				exam.setChecked(true);
+				session.save(exam);
+				System.out.print("\nexam id = " + exam.getId_num() + "\n");
+				System.out.print("Exam saved");
+//				client.sendToClient(new MsgExamSubmittion("#ExamSubmittedSuccessfully", null));
+				session.getTransaction().commit();
+			}
+		}else if(msg instanceof MsgBringExecutedExams){
+			MsgBringExecutedExams message =(MsgBringExecutedExams) msg;
+			if(message.getRequest().equals("#FetchExecutedExams")){
+				System.out.print("Message\n");
+				session.beginTransaction();
+				List<ExamSubmittion> exams = new ArrayList<>();
+				Teacher teacher = message.getTeacher();
+				for (Exam exam : teacher.getExams()) {
+					if (exam.getShared()) {
+						CriteriaBuilder builder = session.getCriteriaBuilder();
+						CriteriaQuery<ExamSubmittion> query = builder.createQuery(ExamSubmittion.class);
+						Root<ExamSubmittion> root = query.from(ExamSubmittion.class);
+						Join<ExamSubmittion, Exam> examJoin = root.join("exam");
+						Predicate examIdPredicate = builder.equal(examJoin.get("id_num"), exam.getId_num());
+						query.select(root).where(examIdPredicate);
+						List<ExamSubmittion> exams1 = session.createQuery(query).getResultList();
+						exams.addAll(exams1);
+					}
+				}
+				for(ExamSubmittion examSubmittion : exams){
+					System.out.print("\nExam = "+ examSubmittion.getStudent().getFullName());
+				}
+				System.out.print("\nOUT");
+				client.sendToClient(new MsgBringExecutedExams("#FetchedSuccessfully", exams));
+				session.getTransaction().commit();
 			}
 		}
 	}

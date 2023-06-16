@@ -1,14 +1,10 @@
 package il.cshaifasweng.OCSFMediatorExample.client;
 
-import il.cshaifasweng.OCSFMediatorExample.entities.Course;
-import il.cshaifasweng.OCSFMediatorExample.entities.Question;
-import il.cshaifasweng.OCSFMediatorExample.entities.Teacher;
-import il.cshaifasweng.OCSFMediatorExample.entities.User;
+import il.cshaifasweng.OCSFMediatorExample.entities.*;
 
 
 import java.net.URL;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
 import java.util.ResourceBundle;
 
 import javafx.application.Platform;
@@ -40,9 +36,13 @@ public class TeacherHomePageController {
     @FXML
     private Label welcomeLabel;
 
+    @FXML
+    private Button ExecutedExamsButton;
+
     private User user =new User();
 
     private Teacher teacher;
+    private ShowExecutedExamsController TempController;
     public void setUser(User user){this.user=user;}
 
     public void setTeacher(Teacher teacher){this.teacher=teacher;}
@@ -139,6 +139,32 @@ public class TeacherHomePageController {
             currentStage.show();
         } catch (IOException e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    public void ShowExecutedExams(ActionEvent actionEvent) {
+        try{
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("ShowExecutedExams.fxml"));
+            AnchorPane newScene = loader.load();
+            Scene scene = new Scene(newScene);
+            ShowExecutedExamsController controller = loader.getController();
+            TempController = controller;
+            Stage currentStage = new Stage();
+            currentStage.setTitle("Executed Exams");
+            currentStage.setScene(scene);
+            currentStage.show();
+            MsgBringExecutedExams msg = new MsgBringExecutedExams("#FetchExecutedExams",teacher);
+            SimpleClient.getClient().sendToServer(msg);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    @Subscribe
+    public void onReceivingExecutedExams(ReceivingExecutedExamsEvent event){
+        if(event.getMessage().getRequest().equals("#FetchedSuccessfully")){
+            System.out.print("\nSetting exams\n");
+            TempController.setTeacher(teacher);
+            TempController.setExecutedExams(event.getMessage().getExamSubmittionList());
         }
     }
 }

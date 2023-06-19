@@ -33,16 +33,26 @@ public class StudentGradesController  implements Initializable {
 
     private void initializeTable() {
         // Set up the table columns
-        TableColumn<Grade, Integer> courseIdColumn = new TableColumn<>("Grade ID");
-        courseIdColumn.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getId()).asObject());
-
+        TableColumn<Grade, Integer> GradeNumColumn = new TableColumn<>("Grade Num");
+//        GradeNumColumn.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getId()).asObject());
+        GradeNumColumn.setCellFactory(column -> new TableCell<>() {
+            @Override
+            protected void updateItem(Integer item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty) {
+                    setText(null);
+                } else {
+                    setText(String.valueOf(getIndex() + 1));
+                }
+            }
+        });
         TableColumn<Grade, String> courseNameColumn = new TableColumn<>("Course Name");
         courseNameColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getCourse_name()));
 
         TableColumn<Grade, Integer> gradeColumn = new TableColumn<>("Grade");
         gradeColumn.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getGrade()).asObject());
 
-        studentTable.getColumns().addAll(courseIdColumn, courseNameColumn, gradeColumn);
+        studentTable.getColumns().addAll(GradeNumColumn, courseNameColumn, gradeColumn);
     }
 
     private void populateTable() {

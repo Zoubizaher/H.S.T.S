@@ -154,6 +154,7 @@ public class CreateExamController implements Initializable{
     public void onReceivingExam(CreateExamEvent message){
         if(message.getMessage().getRequest().equals("#ExamCreationDone")){
             EventBus.getDefault().post(new ExamErrorMsgEvent("Exam Created Successfully!"));
+            EventBus.getDefault().unregister(this);
             Platform.runLater(() -> {
                 // Get the window or stage that contains the exam creation UI
                 Exam exam = message.getMessage().getExam();

@@ -48,4 +48,12 @@ public class Grade implements Serializable {
     public String getCourse_name(){return this.course_name;}
 
     public int getId(){return this.id;}
+
+    public Course getCourse() {
+        return course;
+    }
+
+    public void setGrade(int grade) {
+        this.grade = grade;
+    }
 }

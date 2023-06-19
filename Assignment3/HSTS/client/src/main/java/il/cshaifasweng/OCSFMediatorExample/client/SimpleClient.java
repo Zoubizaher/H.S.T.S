@@ -58,6 +58,9 @@ public class SimpleClient extends AbstractClient {
 		} else if(msg instanceof MsgBringExecutedExams){
 			MsgBringExecutedExams message =(MsgBringExecutedExams) msg;
 			EventBus.getDefault().post(new ReceivingExecutedExamsEvent(message));
+		} else if(msg instanceof MsgGetGrades){
+			MsgGetGrades message =(MsgGetGrades) msg;
+			EventBus.getDefault().post(new GradesRecievedEvent(message));
 		} else {
 			System.out.print("UNKOWN MESSAGE TYPE");
 		}

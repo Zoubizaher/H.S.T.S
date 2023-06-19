@@ -103,6 +103,8 @@ public class TeacherHomePageController {
             Stage currentStage = new Stage();
             currentStage.setTitle("Add Question SharedPlatform");
             currentStage.setScene(scene);
+            controller.setStage(currentStage);
+            controller.setupWindowCloseHandler();
             currentStage.show();
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -165,6 +167,23 @@ public class TeacherHomePageController {
             System.out.print("\nSetting exams\n");
             TempController.setTeacher(teacher);
             TempController.setExecutedExams(event.getMessage().getExamSubmittionList());
+        }
+    }
+
+    public void showDetails(ActionEvent actionEvent) {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("StudentDetails.fxml"));
+        try {
+            AnchorPane newScene = loader.load();
+            Stage currentStage = new Stage();
+            Scene scene = new Scene(newScene);  // Set the loaded AnchorPane as the root of the scene
+            currentStage.setTitle(user.getFullName() + " Details");
+            currentStage.setScene(scene);
+            StudentDetails controller = loader.getController();
+            controller.setUser(user);
+            controller.initializee();
+            currentStage.show();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 }

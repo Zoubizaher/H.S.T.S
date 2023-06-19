@@ -32,6 +32,7 @@ public class StudentExamPageController implements Initializable {
     private Button submitButton;
     @FXML
     private Label remainingTimeLabel; // Add this label to your FXML file
+    @FXML TextArea teacherNotesField;
 
     private LocalTime startTime = null;
     private Duration duration;
@@ -111,6 +112,7 @@ public class StudentExamPageController implements Initializable {
         questionTable.getColumns().addAll(
                 questionNumCol, questionCol, aCol, bCol, cCol, dCol, answerChoiceCol
         );
+        teacherNotesField.setEditable(false);
     }
 
     public void SubmitExam(ActionEvent actionEvent) throws IOException {
@@ -129,6 +131,8 @@ public class StudentExamPageController implements Initializable {
     public void setParameters(Student student, Exam examToShare) {
         this.student = student;
         this.exam = examToShare;
+
+        teacherNotesField.setText(examToShare.getDescription_Student());
         // Calculate exam start time and duration based on examToShare
         startTime = LocalTime.now();
         System.out.print(startTime);

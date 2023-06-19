@@ -86,4 +86,8 @@ public class Student extends User implements Serializable {
 //    public String getFirstName(){return this.first;}
 //    public String getLastName(){return this.last;}
     public List<Course> getCourses(){return this.courses;}
+
+    public void setGrades(List<Grade> grades) {
+        this.grades = grades;
+    }
 }

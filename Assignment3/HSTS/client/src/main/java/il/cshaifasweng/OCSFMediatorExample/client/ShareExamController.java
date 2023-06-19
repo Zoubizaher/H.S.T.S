@@ -10,6 +10,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import org.greenrobot.eventbus.EventBus;
@@ -24,7 +25,7 @@ public class ShareExamController implements Initializable {
     private Button DoneButton;
 
     @FXML
-    private TextField InformationToShare;
+    private TextArea InformationToShare;
 
     @FXML
     private Button SetButton;
@@ -111,5 +112,6 @@ public class ShareExamController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         EventBus.getDefault().register(this);
+        InformationToShare.setEditable(false);
     }
 }

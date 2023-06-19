@@ -10,10 +10,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
@@ -22,8 +19,6 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.*;
 
-import javafx.scene.control.Button;
-import javafx.scene.control.TableCell;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import org.greenrobot.eventbus.EventBus;
@@ -32,6 +27,7 @@ import org.greenrobot.eventbus.Subscribe;
 import java.util.ArrayList;
 import java.util.List;
 public class AddQuestionController implements Initializable{
+    private Stage stage;
     private Teacher teacher;
     @FXML
     private TextField QuestionText;
@@ -48,8 +44,10 @@ public class AddQuestionController implements Initializable{
     @FXML
     private TextField D;
 
+//    @FXML
+//    private TextField AnswerChar; // todo remove
     @FXML
-    private TextField AnswerChar;
+    private ChoiceBox<String> answerChoiceBox;
 
     @FXML
     private VBox coursesVBox = new VBox();
@@ -168,7 +166,7 @@ public class AddQuestionController implements Initializable{
         answers.add(C.getText());
         answers.add(D.getText());
         QuestionTxt = QuestionText.getText();
-        correctAnswer = AnswerChar.getText();
+        correctAnswer = answerChoiceBox.getValue();
         Question question = new Question(QuestionTxt, answers, correctAnswer,teacher);
         QuestionMsg msg1 = new QuestionMsg("#AddQuestion", question, teacher);
         SimpleClient.getClient().sendToServer(msg1);
@@ -181,7 +179,7 @@ public class AddQuestionController implements Initializable{
         C.setText("");
         D.setText("");
         QuestionText.setText("");
-        AnswerChar.setText("");
+        Platform.runLater(() -> answerChoiceBox.setValue(null));
         Question q = message.getMessage().getQuestion();
         teacher.addQuestion(q);
         System.out.print(q.getQuestionText());
@@ -200,5 +198,18 @@ public class AddQuestionController implements Initializable{
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         EventBus.getDefault().register(this);
+    }
+    public void onCloseWindow() {
+        EventBus.getDefault().unregister(this);
+    }
+
+    public void setupWindowCloseHandler() {
+        stage.setOnCloseRequest(event -> {
+            onCloseWindow();
+        });
+    }
+
+    public void setStage(Stage stage) {
+        this.stage = stage;
     }
 }

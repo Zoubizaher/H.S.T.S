@@ -244,9 +244,15 @@ public class SimpleServer extends AbstractServer {
 //				exam.setQuestionPoints(map);
 				exam.setChecked(true);
 				session.save(exam);
+				Map<Question, Integer> questionPoints = exam.getQuestionPoints();
+				int sum = 0;
+				for (Integer points : questionPoints.values()) {
+					System.out.println("Points: " + points);
+					sum +=points;
+				}
+				ConnectToDatabase.set_courseGrade2(exam.getStudent(), exam.getExam().getCourse(), sum);
 				System.out.print("\nexam id = " + exam.getId_num() + "\n");
 				System.out.print("Exam saved");
-//				client.sendToClient(new MsgExamSubmittion("#ExamSubmittedSuccessfully", null));
 				session.getTransaction().commit();
 			}
 		}else if(msg instanceof MsgBringExecutedExams){
@@ -274,6 +280,22 @@ public class SimpleServer extends AbstractServer {
 				System.out.print("\nOUT");
 				client.sendToClient(new MsgBringExecutedExams("#FetchedSuccessfully", exams));
 				session.getTransaction().commit();
+			}
+		}else if(msg instanceof MsgGetGrades){
+			MsgGetGrades message =(MsgGetGrades) msg;
+			if(message.getRequest().equals("#GetGrades")){
+				session.beginTransaction();
+				Student student = message.getStudent();
+				int idNum = student.getId_num();
+				CriteriaBuilder builder = session.getCriteriaBuilder();
+				CriteriaQuery<Student> criteriaQuery = builder.createQuery(Student.class);
+				Root<Student> root = criteriaQuery.from(Student.class);
+				criteriaQuery.select(root).where(builder.equal(root.get("id_num"), idNum));
+				Query<Student> query = session.createQuery(criteriaQuery);
+				Student student1 = query.uniqueResult();
+				client.sendToClient(new MsgGetGrades("#GradesReturned", student1.getGrades()));
+				session.getTransaction().commit();
+				System.out.print("\nGrades returned\n");
 			}
 		}
 	}

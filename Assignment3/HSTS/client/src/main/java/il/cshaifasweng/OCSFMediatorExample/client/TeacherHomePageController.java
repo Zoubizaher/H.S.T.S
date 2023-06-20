@@ -87,17 +87,12 @@ public class TeacherHomePageController {
             });
     }
 
-
-
     public void AddQuestion (ActionEvent actionEvent ){
         try{
             FXMLLoader loader = new FXMLLoader(getClass().getResource("AddQuestion.fxml"));
             AnchorPane newScene = loader.load();
             Scene scene = new Scene(newScene);
             AddQuestionController controller = loader.getController();
-            for(Question question : teacher.getTeacherQuestionsList()){
-                System.out.print(question.getQuestionText());
-            }
             controller.setTeacher(teacher);
             controller.initializee();
             Stage currentStage = new Stage();
@@ -164,7 +159,6 @@ public class TeacherHomePageController {
     @Subscribe
     public void onReceivingExecutedExams(ReceivingExecutedExamsEvent event){
         if(event.getMessage().getRequest().equals("#FetchedSuccessfully")){
-            System.out.print("\nSetting exams\n");
             TempController.setTeacher(teacher);
             TempController.setExecutedExams(event.getMessage().getExamSubmittionList());
         }

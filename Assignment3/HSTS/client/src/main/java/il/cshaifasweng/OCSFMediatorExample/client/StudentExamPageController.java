@@ -38,9 +38,16 @@ public class StudentExamPageController implements Initializable {
     private Duration duration;
     private boolean isExamSubmitted1 = false;
     private boolean isExamSubmitted2 = false;
+    private StudentHomePageController PPcontrolelr;
+
+    public void setPPcontrolelr(StudentHomePageController PPcontrolelr) {
+        this.PPcontrolelr = PPcontrolelr;
+    }
+
     @Subscribe
     public void onExamSubmitEvent(ExamSubmitEvent examSubmitEvent) {
         if (!isExamSubmitted2) {
+            PPcontrolelr.setTake_exam(false);
             isExamSubmitted2 = true;
             MsgExamSubmittion msg = examSubmitEvent.getMessage();
             if (msg.getRequest().equals("#ExamSubmittedSuccessfully")) {
@@ -118,10 +125,6 @@ public class StudentExamPageController implements Initializable {
     public void SubmitExam(ActionEvent actionEvent) throws IOException {
         if (!isExamSubmitted1) {
             isExamSubmitted1 = true;
-            System.out.print("HIHI");
-            for (Question question : exam.getQuestions()) {
-                System.out.print("\nThe chosen answer for: " + question.getQuestionText() + ", is " + answersMap.get(question));
-            }
             ExamSubmittion examSubmittion = new ExamSubmittion(student, exam, answersMap);
             MsgExamSubmittion msg = new MsgExamSubmittion("#ExamSubmitted", examSubmittion);
             SimpleClient.getClient().sendToServer(msg);
@@ -135,7 +138,6 @@ public class StudentExamPageController implements Initializable {
         teacherNotesField.setText(examToShare.getDescription_Student());
         // Calculate exam start time and duration based on examToShare
         startTime = LocalTime.now();
-        System.out.print(startTime);
         int examDurationMinutes = exam.getTime();
         duration = Duration.ofMinutes(examDurationMinutes);
         // Start a background task to update the remaining time label
@@ -161,10 +163,10 @@ public class StudentExamPageController implements Initializable {
         List<Question> questionList = exam.getQuestions();
 
         if (questionList.isEmpty()) {
-            System.out.print("\nSystem check Q.list is empty : ");
+//            System.out.print("\nSystem check Q.list is empty : ");
         } else {
             for (Question question : questionList) {
-                System.out.print("\nSystem check for Q.list: " + question.getQuestionText() + "\n");
+//                System.out.print("\nSystem check for Q.list: " + question.getQuestionText() + "\n");
                 questions.add(question);
             }
         }

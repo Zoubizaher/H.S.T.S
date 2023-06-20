@@ -67,13 +67,10 @@ public class HomePageController {
 	@Subscribe
 	public void onLogInEvent(LogInEvent message) throws IOException {
 		User UserToSend =message.getMessage().getUser();
-		System.out.print("LOG IN Recieved\n");
 		if(message.getMessage().getLogInFlag().equals("Successfully")){
 			User user = message.getMessage().getUser();
 			app.setUser(user);
-			System.out.print("Login successfully to: "+message.getMessage().getUser().getUsername()+ "\n");
-			if(user.getRole().equals("student")){ // PART OF FAISAL
-				System.out.print("\nStudent!!\n");
+			if(user.getRole().equals("student")){
 				Platform.runLater(() -> {
 					FXMLLoader loader = new FXMLLoader(getClass().getResource("StudentHomePage.fxml"));
 					try {
@@ -89,14 +86,12 @@ public class HomePageController {
 						throw new RuntimeException(e);
 					}
 				});
-			} else if (user.getRole().equals("teacher")) {// PART OF ZAHER
-				System.out.print("\nteacher!!\n");
+			} else if (user.getRole().equals("teacher")) {
 				Platform.runLater(() -> {
 					FXMLLoader loader = new FXMLLoader(getClass().getResource("TeacherHomePage.fxml"));
 					try {
 						AnchorPane newScene = loader.load();
 						TeacherHomePageController controller = loader.getController();
-						System.out.println("UserToSend: " + UserToSend.getFullName());
 						controller.setUser(UserToSend);
 						controller.setTeacher(message.getMessage().getTeacher());
 						controller.initializee();
@@ -116,14 +111,11 @@ public class HomePageController {
 			}
 
 		} else if (message.getMessage().getLogInFlag().equals("WrongPassword")){ // here i think we need to show alert!
-			System.out.print("Wrong Password");
 			EventBus.getDefault().post(new ErrorMsgEvent("Wrong Password"));
 		}
 		else if(message.getMessage().getLogInFlag().equals("WrongUsername")){
-			System.out.print("Wrong Username");
 			EventBus.getDefault().post(new ErrorMsgEvent("Wrong Username"));
 		} else if(message.getMessage().getLogInFlag().equals("UserOnline")){
-			System.out.print("User is Online");
 			EventBus.getDefault().post(new ErrorMsgEvent("User is Online!"));
 		} else {
 			System.out.print(message.getMessage().getLogInFlag());

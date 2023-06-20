@@ -95,9 +95,7 @@ public class EditExamController implements Initializable {
             flag = false;
         }else{
             for(Question question : selectedQuestions){
-                System.out.print("Selected Questions: ");
                 if(question.isSelected()){
-                    System.out.print(question.getQuestionText() + ",");
                     points = question.getPoints();
                     if(points == 0){
                         flag = false;
@@ -105,7 +103,6 @@ public class EditExamController implements Initializable {
                         sum += question.getPoints();
                     }
                 }
-                System.out.print("\n");
             }
             if(flag){
                 if(sum!=100){

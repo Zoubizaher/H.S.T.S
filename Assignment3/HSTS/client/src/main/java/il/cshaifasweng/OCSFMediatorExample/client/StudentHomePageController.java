@@ -27,6 +27,7 @@ public class StudentHomePageController implements Initializable{ //pay attention
     private StudentGradesController NextController;
     @FXML
     private Label nameLabel;
+    private boolean take_exam = false;
 
     public void showDetails(ActionEvent actionEvent) {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("StudentDetails.fxml"));
@@ -84,25 +85,28 @@ public class StudentHomePageController implements Initializable{ //pay attention
     }
 
     public void TakeExam(ActionEvent actionEvent) {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("StudentTakeExam.fxml"));
-        try {
-            Stage currentStage = new Stage();
-            AnchorPane newScene = loader.load();
-            Scene scene = new Scene(newScene);  // Set the loaded AnchorPane as the root of the scene
-            currentStage.setTitle("Take Exam");
-            currentStage.setScene(scene);
-            StudentTakeExamController controller = loader.getController();
-            controller.setStudent((Student) user);
-            currentStage.show();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        if(!take_exam){
+            take_exam = true;
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("StudentTakeExam.fxml"));
+            try {
+                Stage currentStage = new Stage();
+                AnchorPane newScene = loader.load();
+                Scene scene = new Scene(newScene);  // Set the loaded AnchorPane as the root of the scene
+                currentStage.setTitle("Take Exam");
+                currentStage.setScene(scene);
+                StudentTakeExamController controller = loader.getController();
+                controller.setStudent((Student) user);
+                controller.setPcontroller(this);
+                currentStage.show();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
     @Subscribe
     public void onReceivingGrades(GradesRecievedEvent message){
         if(message.getMessage().getRequest().equals("#GradesReturned")){
             Platform.runLater(() -> {
-                System.out.print("\nHearing Back\n");
                 Student student = (Student) user;
                 student.setGrades(message.getMessage().getGradeList());
                 NextController.setStudent(student);
@@ -112,5 +116,9 @@ public class StudentHomePageController implements Initializable{ //pay attention
     @Override
     public void initialize(URL location, ResourceBundle resources){
         EventBus.getDefault().register(this);
+    }
+
+    public void setTake_exam(boolean take_exam) {
+        this.take_exam = take_exam;
     }
 }

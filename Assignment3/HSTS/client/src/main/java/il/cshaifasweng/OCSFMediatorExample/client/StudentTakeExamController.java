@@ -36,6 +36,20 @@ public class StudentTakeExamController implements Initializable {
     private TextField IdNumText;
 
     private boolean takeExamFlag = true;
+    private StudentHomePageController Pcontroller;
+
+    public void setPcontroller(StudentHomePageController pcontroller) {
+        this.Pcontroller = pcontroller;
+        Stage stage = (Stage) IdNumText.getScene().getWindow();
+        stage.setOnCloseRequest(event -> {
+            unregisterFromEventBus();
+            TurnFlagOff();
+        });
+    }
+
+    private void TurnFlagOff() {
+        Pcontroller.setTake_exam(false);
+    }
 
     public void setExam(Exam exam) {
         this.exam = exam;
@@ -100,6 +114,7 @@ public class StudentTakeExamController implements Initializable {
     @Subscribe
     public void onTakeStartEvent(StartExamEvent startExamEvent){
         if(takeExamFlag){
+//            Pcontroller.setTake_exam(false);
             TakeExamMsg msg = startExamEvent.getTakeExamMsg();
             if(msg.getRequest().equals("#ExamReturnedSuccessfully")){//Exam is returned successfully, The student canstart taking it now
                 Platform.runLater(() -> {
@@ -112,6 +127,7 @@ public class StudentTakeExamController implements Initializable {
                         currentStage.setTitle("Exam");
                         currentStage.setScene(scene);
                         StudentExamPageController controller = loader.getController();
+                        controller.setPPcontrolelr(Pcontroller);
                         controller.setParameters(student, msg.getExamToShare());
                         currentStage.show();
                     } catch (IOException e) {
@@ -142,5 +158,9 @@ public class StudentTakeExamController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         EventBus.getDefault().register(this);
+    }
+    public void unregisterFromEventBus() {
+        System.out.print("Unregistering");
+        EventBus.getDefault().unregister(this);
     }
 }

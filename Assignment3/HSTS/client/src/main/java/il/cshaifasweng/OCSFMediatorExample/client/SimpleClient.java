@@ -26,9 +26,7 @@ public class SimpleClient extends AbstractClient {
 			}
 		} else if (msg instanceof QuestionMsg) {
 			QuestionMsg message2 = (QuestionMsg) msg;
-			System.out.print("POSTING QUESTION1");
 			if (message2.getRequest().equals("#ReturningQuestion")) {
-				System.out.print("POSTING QUESTION2");
 				EventBus.getDefault().post(new ReceivingQuestionEvent(message2));
 			}
 		} else if (msg instanceof List<?>) {

@@ -62,7 +62,6 @@ public class AddQuestionController implements Initializable{
         questionTable.refresh();
     }
     public void initializee() {
-       System.out.print("INITIALIZING");
         ObservableList<Question> QuestionsForTeacher = FXCollections.observableArrayList();
         TableColumn<Question, Integer> questionNumCol = new TableColumn<>("Question_num");
         TableColumn<Question, String> questionCol = new TableColumn<>("Question");
@@ -87,10 +86,10 @@ public class AddQuestionController implements Initializable{
 
         List<Question> questionList=teacher.getTeacherQuestionsList();// todo check
         if(questionList.isEmpty()){
-            System.out.print("\nSystem check Q.list is empty : ");
+//            System.out.print("\nSystem check Q.list is empty : ");
         }else {
             for(Question question : questionList){
-                {System.out.print("\nSystem check for Q.list: " + question.getQuestionText() + "\n");}
+//                {System.out.print("\nSystem check for Q.list: " + question.getQuestionText() + "\n");}
                 QuestionsForTeacher.add(question);
             }
         }
@@ -137,7 +136,6 @@ public class AddQuestionController implements Initializable{
     }
     private void handleEditQuestion(Question question) {
         Platform.runLater(() -> {
-            System.out.print("Question ID0: " + question.getIdNum());
             FXMLLoader loader = new FXMLLoader(getClass().getResource("EditQuestion.fxml"));
             try {
                 AnchorPane newScene = loader.load();
@@ -160,7 +158,6 @@ public class AddQuestionController implements Initializable{
         String QuestionTxt;
         List<String> answers = new ArrayList<>();
         String correctAnswer;
-        System.out.print("\n SYSTEM CHECK A LABEL "+A.getText());// todo remove
         answers.add(A.getText());
         answers.add(B.getText());
         answers.add(C.getText());
@@ -173,7 +170,6 @@ public class AddQuestionController implements Initializable{
     }
     @Subscribe
     public void onReceivingQuestionEvent(ReceivingQuestionEvent message){
-        System.out.print("message returning question");
         A.setText("");
         B.setText("");
         C.setText("");
@@ -182,7 +178,6 @@ public class AddQuestionController implements Initializable{
         Platform.runLater(() -> answerChoiceBox.setValue(null));
         Question q = message.getMessage().getQuestion();
         teacher.addQuestion(q);
-        System.out.print(q.getQuestionText());
         questionTable.getItems().add(q);
         questionTable.refresh();
        // setTeacher(message.getMessage().getTeacherWhoCreate());

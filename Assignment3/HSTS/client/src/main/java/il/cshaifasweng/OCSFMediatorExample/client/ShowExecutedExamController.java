@@ -46,14 +46,11 @@ public class ShowExecutedExamController implements Initializable {
     }
     public void setExecutedExam(ExamSubmittion examSubmittion) {
         this.SubmittedExam = examSubmittion;
-        System.out.print("\n1");
         List<Question> questions = examSubmittion.getExam().getQuestions();
         Map<Question, String> chosenAnswers = examSubmittion.getAnswers();
         Map<Question, Integer> questionPoints = examSubmittion.getExam().getQuestionPoints();
-        System.out.print("\n2");
         // Clear previous data
         QuestionsTable.getItems().clear();
-        System.out.print("\n3");
         // Add submitted exam data to the table
         if(SubmittedExam.getChecked()){
             Map<Question,Integer> pointsmap = SubmittedExam.getQuestionPoints();
@@ -72,7 +69,6 @@ public class ShowExecutedExamController implements Initializable {
             }
         }else{
             for (Question question : questions) {
-                System.out.print("\n3.5");
                 String chosenAnswer = chosenAnswers.get(question);
                 int points = questionPoints.getOrDefault(question, 0);
 
@@ -86,8 +82,6 @@ public class ShowExecutedExamController implements Initializable {
                 QuestionsTable.getItems().add(question);
             }
         }
-
-        System.out.print("\n4");
         QuestionsTable.refresh();
     }
 
@@ -158,8 +152,6 @@ public class ShowExecutedExamController implements Initializable {
         for (Question question : QuestionsTable.getItems()) {
             int receivedPoints = question.getReceived_points();
             SubmittedExam.addPoints(question,receivedPoints);
-            // Do something with the updated received points value
-            System.out.println("Question ID: " + question.getIdNum() + ", Received Points: " + receivedPoints);
         }
         MsgExamSubmittion msg = new MsgExamSubmittion("#UpdateSubmittedExam", SubmittedExam);
         SimpleClient.getClient().sendToServer(msg);
@@ -167,7 +159,7 @@ public class ShowExecutedExamController implements Initializable {
         Node sourceNode = (Node) actionEvent.getSource();
         Stage currentStage = (Stage) sourceNode.getScene().getWindow();
         currentStage.close();
-        EventBus.getDefault().unregister(this);
+//        EventBus.getDefault().unregister(this);
         Platform.runLater(() -> { // there is a possible that event can sent by another thread, here we ensure it sent by javafx thrad
             Alert alert = new Alert(Alert.AlertType.INFORMATION,
                     String.format("Message: \nData: %s",

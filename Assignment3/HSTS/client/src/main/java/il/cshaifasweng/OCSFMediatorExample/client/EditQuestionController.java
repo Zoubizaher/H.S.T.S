@@ -7,6 +7,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
@@ -35,7 +36,7 @@ public class EditQuestionController {
     private TextField optionD;
 
     @FXML
-    private TextField optionCorrect;
+    private ChoiceBox correctAnsChoicebox;
     public void UpdateQuestion(ActionEvent actionEvent) throws IOException {
         String QuestionTxt;
         List<String> answers = new ArrayList<>();
@@ -45,7 +46,7 @@ public class EditQuestionController {
         answers.add(optionB.getText());
         answers.add(optionC.getText());
         answers.add(optionD.getText());
-        correctAnswer=optionCorrect.getText();
+        correctAnswer= (String) correctAnsChoicebox.getValue();
         Question questionToEdit = new Question (QuestionTxt,answers,correctAnswer,addQuestionController.getTeacher());
         QuestionMsg msg = new QuestionMsg("#AddQuestion", questionToEdit,addQuestionController.getTeacher());
         SimpleClient.getClient().sendToServer(msg);
@@ -64,7 +65,7 @@ public class EditQuestionController {
         optionB.setText(question.getAnswerB());
         optionC.setText(question.getAnswerC());
         optionD.setText(question.getAnswerD());
-        optionCorrect.setText(question.getCorrectAnswer());
+        correctAnsChoicebox.setValue(question.getCorrectAnswer());
     }
 
     public void setPreviousLoader(AddQuestionController addQuestionController){this.addQuestionController =addQuestionController;}

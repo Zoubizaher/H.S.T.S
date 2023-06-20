@@ -102,9 +102,7 @@ public class CreateExamController implements Initializable{
             flag = false;
         }else{
             for(Question question : selectedQuestions){
-                System.out.print("Selected Questions: ");
                 if(question.isSelected()){
-                    System.out.print(question.getQuestionText() + ",");
                     points = question.getPoints();
                     if(points == 0){
                         flag = false;
@@ -112,7 +110,6 @@ public class CreateExamController implements Initializable{
                         sum += question.getPoints();
                     }
                 }
-                System.out.print("\n");
             }
             if(flag){
                 if(sum!=100){
@@ -142,11 +139,9 @@ public class CreateExamController implements Initializable{
                     SimpleClient.getClient().sendToServer(msg);
                 } else {
                     EventBus.getDefault().post(new ExamErrorMsgEvent("No course is selected!"));
-                    System.out.println("No course selected.");
                 }
             }else{
                 EventBus.getDefault().post(new ExamErrorMsgEvent("Time is not set correctly!"));
-                System.out.print("Time is not set correctly");
             }
         }
     }

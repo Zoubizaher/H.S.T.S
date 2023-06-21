@@ -75,5 +75,3 @@
   <li>Faisal Omari - faisalomari321@gmail.com</li>
   <li>Zaher Zoabu - zoubizaher@gmail.com</li>
 </ol>
-
-<p>Feel free to update and customize this README file according to your project's specific details and requirements.</p>

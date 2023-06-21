@@ -76,7 +76,7 @@
   <li>Zaher Zoabu - zoubizaher@gmail.com</li>
 </ol>
 ## Login interface:
-![LoginInterface](https://github.com/faisalomari/HSTS/assets/75030682/5b15a00e-9ce7-4fcc-8051-2f9eb20de375)
+![LoginInterface](https://github.com/faisalomari/HSTS/assets/75030682/82f0c865-e90b-4e59-ac1b-9f3969f5daeb)
 
 ## Student interface:
 ![Student](https://github.com/faisalomari/HSTS/assets/75030682/b22782c8-c635-489a-ad3b-4c28697eeb6b)

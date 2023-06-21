@@ -36,7 +36,7 @@
 
 <ol start="2">
   <li>Set up the MySQL database by executing the SQL scripts provided in the database directory. Make sure to create the necessary database schema and tables.</li>
-  <li>Update the MySQL database connection configuration in the <code>db.properties</code> file located in the <code>src/main/resources</code> directory. Provide the appropriate values for the MySQL server host, port, database name, username, and password.</li>
+  <li>Update the MySQL database connection configuration in the <code>hibernate.properties</code> file located in the <code>src/main/resources</code> directory. Provide the appropriate values for the MySQL server host, port, database name, username, and password.</li>
   <li>Import the project into your preferred Java IDE (e.g., Eclipse, IntelliJ IDEA).</li>
   <li>Resolve any missing dependencies by adding the required JAR files to the project's classpath. Include the OCSF, EventBus, and MySQL Connector/J libraries.</li>
   <li>Build and run the project.</li>

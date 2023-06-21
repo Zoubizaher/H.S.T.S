@@ -75,3 +75,11 @@
   <li>Faisal Omari - faisalomari321@gmail.com</li>
   <li>Zaher Zoabu - zoubizaher@gmail.com</li>
 </ol>
+<ol>
+  <h2>Login interface:</h2>
+  ![LoginInterface](https://github.com/faisalomari/HSTS/assets/75030682/5b15a00e-9ce7-4fcc-8051-2f9eb20de375)
+  <h2>Student interface:</h2>
+  ![Student](https://github.com/faisalomari/HSTS/assets/75030682/b22782c8-c635-489a-ad3b-4c28697eeb6b)
+  <h2>Teacher interface:</h2>
+  ![Teacher](https://github.com/faisalomari/HSTS/assets/75030682/4842655f-8d1d-4baf-bc91-03fad98309a2)
+</ol>

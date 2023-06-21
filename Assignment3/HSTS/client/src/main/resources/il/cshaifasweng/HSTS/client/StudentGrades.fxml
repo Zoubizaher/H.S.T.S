@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="il.cshaifasweng.HSTS.client.StudentGradesController"
+            prefHeight="400.0" prefWidth="600.0">
+    <Label fx:id="studentNameLabel" layoutX="50.0" layoutY="20.0" style="-fx-font-size: 20px; -fx-text-fill: red; -fx-font-weight: bold;" />
+    <TableView fx:id="studentTable" layoutX="50.0" layoutY="50.0" prefHeight="300.0" prefWidth="500.0">
+        <columns>
+        </columns>
+    </TableView>
+</AnchorPane>
